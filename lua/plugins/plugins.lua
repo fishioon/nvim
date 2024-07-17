@@ -107,41 +107,6 @@ return {
     end
   },
   {
-    'nvim-lualine/lualine.nvim',
-    enabled = false,
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('lualine').setup({
-        sections = {
-          lualine_a = { 'branch', { 'filename', path = 1 } },
-          lualine_b = { 'diff', 'diagnostics' },
-          lualine_c = {},
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' }
-        },
-      })
-    end
-  },
-  {
-    "ibhagwan/fzf-lua",
-    enabled = false,
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      { '<space>p', _G.fn('fzf-lua', 'resume') },
-      { '<space>f', _G.fn('fzf-lua', 'files') },
-      { '<space>/', _G.fn('fzf-lua', 'live_grep') },
-      { '<space>w', _G.fn('fzf-lua', 'grep_cword'),                   desc = 'search under word' },
-      { '<space>a', _G.fn('fzf-lua', 'buffers'),                      desc = 'all buffers' },
-      { '<space>b', _G.fn('fzf-lua', 'buffers', { cwd_only = true }), desc = 'cwd buffers' },
-    },
-    config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
-    end
-  },
-  {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
