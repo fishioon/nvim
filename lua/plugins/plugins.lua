@@ -26,23 +26,21 @@ return {
   },
   {
     'fishioon/term.nvim',
-    dev = true,
-    dependencies = { 'fishioon/cmd.nvim', dev = true },
-    event = 'VeryLazy',
-    config = function()
-      require('term').setup({})
-      local function run_cmd(cmd)
-        cmd = cmd or require('cmd').cmd()
+    dependencies = { 'fishioon/cmd.nvim' },
+    keys = {
+      { '<space>e', function()
+        local cmd = require('cmd').cmd()
         require('term').send(cmd .. '\n', false)
-      end
-
-      local function copy_cmd()
+      end },
+      { '<space>y', function()
         local cmd = require('cmd').cmd()
         vim.fn.setreg('+', cmd)
-      end
-
-      vim.keymap.set("n", "<space>e", run_cmd, { silent = true })
-      vim.keymap.set("n", "<space>y", copy_cmd, { silent = false })
+      end },
+      { '<M-j>', function()
+        require('term').toggle()
+      end },
+    },
+    config = function()
       vim.keymap.set({ 'n', 't' }, "<M-j>", require('term').toggle, { silent = true })
     end
   },
