@@ -1,10 +1,5 @@
 return {
   {
-    "williamboman/mason.nvim",
-    config = true,
-    event = "VeryLazy",
-  },
-  {
     'neovim/nvim-lspconfig',
     event = "VeryLazy",
     opts = {
@@ -81,7 +76,7 @@ return {
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+            vim.snippet.expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
