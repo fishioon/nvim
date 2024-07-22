@@ -1,5 +1,10 @@
 return {
   {
+    "williamboman/mason.nvim",
+    config = true,
+    event = "VeryLazy",
+  },
+  {
     'neovim/nvim-lspconfig',
     event = "VeryLazy",
     opts = {
@@ -8,6 +13,7 @@ return {
         bashls = {},
         clangd = {},
         tsserver = {},
+        jsonls = {},
         gopls = {
           settings = {
             hints = {

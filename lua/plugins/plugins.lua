@@ -1,29 +1,46 @@
 return {
   {
-    'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    enabled = true,
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-      { '<space>p', _G.fn('telescope.builtin', 'resume') },
-      { '<space>f', _G.fn('telescope.builtin', 'find_files') },
-      { '<space>/', _G.fn('telescope.builtin', 'live_grep') },
-      { '<space>w', _G.fn('telescope.builtin', 'grep_string'),                  desc = 'search under word' },
-      { '<space>a', _G.fn('telescope.builtin', 'buffers'),                      desc = 'all buffers' },
-      { '<space>b', _G.fn('telescope.builtin', 'buffers', { cwd_only = true }), desc = 'cwd buffers' },
+      { '<space>p', '<cmd>FzfLua resume<cr>',                desc = 'Resume last command' },
+      { '<space>f', '<cmd>FzfLua files<cr>',                 desc = 'files' },
+      { '<space>/', '<cmd>FzfLua live_grep<cr>',             desc = 'live grep' },
+      { '<space>w', '<cmd>FzfLua grep_cword<cr>',            desc = 'live grep' },
+      { '<space>a', '<cmd>FzfLua buffers<cr>',               desc = 'buffers' },
+      { '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'buffers' },
     },
     config = function()
-      local actions = require("telescope.actions")
-      require("telescope").setup {
-        defaults = {
-          mappings = {
-            i = {
-              ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
-            },
-          },
-        }
-      }
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
     end
   },
+  -- {
+  --   'nvim-telescope/telescope.nvim',
+  --   dependencies = { 'nvim-lua/plenary.nvim' },
+  --   enabled = false,
+  --   keys = {
+  --     { '<space>p', _G.fn('telescope.builtin', 'resume'),                       'resume' },
+  --     { '<space>f', _G.fn('telescope.builtin', 'find_files'),                   'find files' },
+  --     { '<space>/', _G.fn('telescope.builtin', 'live_grep'),                    desc = 'live grep' },
+  --     { '<space>w', _G.fn('telescope.builtin', 'grep_string'),                  desc = 'search under word' },
+  --     { '<space>a', _G.fn('telescope.builtin', 'buffers'),                      desc = 'all buffers' },
+  --     { '<space>b', _G.fn('telescope.builtin', 'buffers', { cwd_only = true }), desc = 'cwd buffers' },
+  --   },
+  --   config = function()
+  --     local actions = require("telescope.actions")
+  --     require("telescope").setup {
+  --       defaults = {
+  --         mappings = {
+  --           i = {
+  --             ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+  --           },
+  --         },
+  --       }
+  --     }
+  --   end
+  -- },
   {
     'fishioon/term.nvim',
     dependencies = { 'fishioon/cmd.nvim' },
@@ -111,4 +128,23 @@ return {
     event = 'VeryLazy',
     build = function() vim.fn["mkdp#util#install"]() end,
   },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      delay = 400,
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  }
 }

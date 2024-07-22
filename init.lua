@@ -40,8 +40,6 @@ vim.keymap.set('t', '<C-j>', '<C-\\><C-N><C-w>w')
 vim.keymap.set('t', '<C-k>', '<C-\\><C-N><C-w>W')
 vim.keymap.set('n', '<C-j>', '<C-w>w')
 vim.keymap.set('n', '<C-k>', '<C-w>W')
-vim.keymap.set('n', '<space>j', ':cn<cr>')
-vim.keymap.set('n', '<space>k', ':cp<cr>')
 vim.keymap.set('v', '<space>y', '"+y')
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! /tmp/session.vim<cr>')
@@ -60,11 +58,11 @@ vim.keymap.set('n', '<space>gg', function()
   })
 end)
 
-_G.fn = function(modname, name, opt)
-  return function()
-    require(modname)[name](opt)
-  end
-end
+-- _G.fn = function(modname, name, opt)
+--   return function()
+--     require(modname)[name](opt)
+--   end
+-- end
 
 -- plugins
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -82,8 +80,21 @@ require('lazy').setup("plugins", {
     path = '~/git',
   },
   change_detection = {
-    enabled = false,
     notify = false,
+  },
+  performance = {
+    rtp = {
+      -- Stuff I don't use.
+      disabled_plugins = {
+        'gzip',
+        'netrwPlugin',
+        'rplugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+      },
+    },
   },
 })
 
