@@ -1,11 +1,15 @@
-vim.g.mapleader = '<space>'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
+  local repo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+end
+vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = '<space>'
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
-
------------------------
 vim.opt.background = 'dark'
 vim.opt.number = true
 vim.opt.signcolumn = 'number'
@@ -40,16 +44,20 @@ vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>w')
 vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>W')
 vim.keymap.set('n', '<M-j>', '<C-w>w')
 vim.keymap.set('n', '<M-k>', '<C-w>W')
+vim.keymap.set('n', '<M-]>', 'gt')
+vim.keymap.set('n', '<M-[>', 'gT')
+vim.keymap.set('t', '<M-]>', '<C-\\><C-N>gt')
+vim.keymap.set('t', '<M-[>', '<C-\\><C-N>gT')
 vim.keymap.set('v', '<space>y', '"+y')
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<space>0', ':tablast|pwd<cr>')
-vim.keymap.set('n', '<space>1', '1gt:pwd<cr>')
-vim.keymap.set('n', '<space>2', '2gt:pwd<cr>')
-vim.keymap.set('n', '<space>3', '3gt:pwd<cr>')
-vim.keymap.set('n', '<space>4', '4gt:pwd<cr>')
+vim.keymap.set('n', '<M-0>', ':tablast|pwd<cr>')
+vim.keymap.set('n', '<M-1>', '1gt:pwd<cr>')
+vim.keymap.set('n', '<M-2>', '2gt:pwd<cr>')
+vim.keymap.set('n', '<M-3>', '3gt:pwd<cr>')
+vim.keymap.set('n', '<M-4>', '4gt:pwd<cr>')
 vim.keymap.set('n', '<space>d', ':lcd %:h<cr>')
 
 vim.keymap.set('n', '<space>gg', function()
@@ -58,19 +66,6 @@ vim.keymap.set('n', '<space>gg', function()
   })
 end)
 
--- _G.fn = function(modname, name, opt)
---   return function()
---     require(modname)[name](opt)
---   end
--- end
-
--- plugins
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-end
-vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup("plugins", {
   rocks = {
