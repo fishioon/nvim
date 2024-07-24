@@ -69,6 +69,7 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
     },
     event = 'InsertEnter',
     config = function()
@@ -90,6 +91,7 @@ return {
           { name = 'snippets' },
         }, {
           { name = 'buffer' },
+          { name = 'path' },
         })
       })
     end
