@@ -12,8 +12,20 @@ return {
       { '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'buffers' },
     },
     config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
+      local fzf = require("fzf-lua")
+      local actions = fzf.actions
+      fzf.setup({
+        actions = {
+          buffers = {
+            true,
+            ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
+          },
+          files = {
+            true,
+            ["ctrl-j"] = function(_, opts) fzf.buffers({ query = opts.last_query, cwd = opts.cwd }) end,
+          },
+        }
+      })
     end
   },
   -- {
@@ -43,7 +55,7 @@ return {
   -- },
   {
     'fishioon/term.nvim',
-    dependencies = { 'fishioon/cmd.nvim' },
+    dependencies = { 'fishioon/cmd.nvim', dev = true },
     keys = {
       { '<space>e', function()
         local cmd = require('cmd').cmd()
@@ -53,13 +65,15 @@ return {
         local cmd = require('cmd').cmd()
         vim.fn.setreg('+', cmd)
       end },
-      { '<M-j>', function()
-        require('term').toggle()
-      end },
+      {
+        '<M-m>',
+        function()
+          require('term').toggle()
+        end,
+        mode = { 'n', 't' }
+      },
     },
-    config = function()
-      vim.keymap.set({ 'n', 't' }, "<M-j>", require('term').toggle, { silent = true })
-    end
+    config = true,
   },
   {
     'nvim-treesitter/nvim-treesitter',
@@ -132,7 +146,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      delay = 400,
+      delay = 800,
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
