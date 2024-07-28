@@ -4,12 +4,12 @@ return {
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-      { '<space>p', '<cmd>FzfLua resume<cr>',                desc = 'Resume last command' },
-      { '<space>f', '<cmd>FzfLua files<cr>',                 desc = 'files' },
-      { '<space>/', '<cmd>FzfLua live_grep<cr>',             desc = 'live grep' },
-      { '<space>w', '<cmd>FzfLua grep_cword<cr>',            desc = 'live grep' },
-      { '<space>a', '<cmd>FzfLua buffers<cr>',               desc = 'buffers' },
-      { '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'buffers' },
+      { '<space>p', '<cmd>FzfLua resume<cr>',                desc = 'fzf Resume last command' },
+      { '<space>f', '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
+      { '<space>/', '<cmd>FzfLua live_grep<cr>',             desc = 'fzf live grep' },
+      { '<space>w', '<cmd>FzfLua grep_cword<cr>',            desc = 'fzf live grep' },
+      { '<space>a', '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
+      { '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf buffers' },
     },
     config = function()
       local fzf = require("fzf-lua")
@@ -18,6 +18,8 @@ return {
         actions = {
           buffers = {
             true,
+            ["default"] = function(selected, opts) actions.buf_switch_or_edit(selected, opts) end,
+            -- ["ctrl-j"] = function(selected, opts) actions.buf_switch(selected, opts) end,
             ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
           },
           files = {
