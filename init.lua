@@ -12,6 +12,7 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 vim.opt.background = 'dark'
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.signcolumn = 'number'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -42,6 +43,8 @@ vim.keymap.set('n', ']q', ':cn<cr>')
 vim.keymap.set('t', '<M-n>', '<C-\\><C-N>')
 vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>w')
 vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>W')
+vim.keymap.set('t', '<M-;>', '<C-\\><C-N>:')
+vim.keymap.set('t', '<M-/>', '<C-\\><C-N>/')
 vim.keymap.set('n', '<M-j>', '<C-w>w')
 vim.keymap.set('n', '<M-k>', '<C-w>W')
 vim.keymap.set('n', '<M-]>', 'gt')
@@ -55,11 +58,6 @@ vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<M-0>', ':tablast|pwd<cr>')
-vim.keymap.set('n', '<M-1>', '1gt:pwd<cr>')
-vim.keymap.set('n', '<M-2>', '2gt:pwd<cr>')
-vim.keymap.set('n', '<M-3>', '3gt:pwd<cr>')
-vim.keymap.set('n', '<M-4>', '4gt:pwd<cr>')
 vim.keymap.set('n', '<space>d', ':lcd %:h<cr>')
 
 vim.keymap.set('n', '<space>gg', function()

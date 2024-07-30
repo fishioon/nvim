@@ -13,13 +13,11 @@ return {
     },
     config = function()
       local fzf = require("fzf-lua")
-      local actions = fzf.actions
+      -- local actions = require "fzf-lua.actions"
       fzf.setup({
         actions = {
           buffers = {
             true,
-            ["default"] = function(selected, opts) actions.buf_switch_or_edit(selected, opts) end,
-            -- ["ctrl-j"] = function(selected, opts) actions.buf_switch(selected, opts) end,
             ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
           },
           files = {
@@ -153,14 +151,13 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    },
+  },
+  {
+    "leath-dub/snipe.nvim",
+    config = function()
+      local snipe = require("snipe")
+      snipe.setup()
+      vim.keymap.set("n", "gb", snipe.create_buffer_menu_toggler())
+    end,
   }
 }
