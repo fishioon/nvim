@@ -123,16 +123,11 @@ return {
             -- Content for inactive window(s)
             inactive = nil,
           },
-
-          -- Whether to use icons by default
           use_icons = true,
-
-          -- Whether to set Vim's settings for statusline (make it always shown with
-          -- 'laststatus' set to 2).
-          -- To use global statusline, set this to `false` and 'laststatus' to 3.
           set_vim_settings = false,
         }
       )
+      -- require('mini.completion').setup()
     end
   },
   {

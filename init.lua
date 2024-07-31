@@ -66,7 +66,6 @@ vim.keymap.set('n', '<space>gg', function()
   })
 end)
 
-
 require('lazy').setup("plugins", {
   rocks = {
     enabled = false,

@@ -11,16 +11,17 @@ return {
         jsonls = {},
         gopls = {
           settings = {
-            hints = {
-              rangeVariableTypes = true,
-              parameterNames = true,
-              constantValues = true,
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              functionTypeParameters = true,
+            gopls = {
+              analyses = {
+                unreachable = true,
+                unusedvariable = true,
+                unusedparams = true,
+              },
+              matcher = "CaseInsensitive",
+              staticcheck = true,
+              gofumpt = true,
             },
-          }
+          },
         },
         -- golangci_lint_ls = {},
         lua_ls = {
@@ -48,13 +49,14 @@ return {
       },
     },
     config = function(_, opts)
-      opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
+      -- opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
       for server, opt in pairs(opts.servers) do
         require('lspconfig')[server].setup(opt)
       end
     end
   },
   {
+    enabled = true,
     "garymjr/nvim-snippets",
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -65,6 +67,7 @@ return {
     },
   },
   {
+    enabled = true,
     'hrsh7th/nvim-cmp',
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
