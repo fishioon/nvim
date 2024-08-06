@@ -55,6 +55,7 @@ return {
   -- },
   {
     'fishioon/term.nvim',
+    dev = true,
     dependencies = { 'fishioon/cmd.nvim', dev = true },
     keys = {
       { '<space>e', function()
@@ -92,6 +93,7 @@ return {
     },
     event = 'VeryLazy',
     config = function()
+      require('mini.bracketed').setup()
       require('mini.git').setup()
       require('mini.surround').setup()
       require('mini.diff').setup()
@@ -112,12 +114,12 @@ return {
               local search      = m.section_searchcount({ trunc_width = 75 })
               local cwd         = vim.fn.getcwd():match("([^/]+)$")
               return m.combine_groups({
-                { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
+                { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
                 '%<', -- Mark general truncate point
-                { hl = 'MiniStatuslineFilename', strings = { '[' .. cwd .. ']', '%f%m%r' } },
+                { hl = 'MiniStatuslineDevinfo', strings = { '[' .. cwd .. ']', '%f%m%r' } },
                 '%=', -- End left alignment
-                { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-                { hl = mode_hl,                  strings = { search, location } },
+                { hl = 'MiniStatuslineDevinfo',  strings = { fileinfo } },
+                { strings = { search, location } },
               })
             end,
             -- Content for inactive window(s)
@@ -148,6 +150,7 @@ return {
     },
   },
   {
+    enabled = false,
     "leath-dub/snipe.nvim",
     config = function()
       local snipe = require("snipe")
