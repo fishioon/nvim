@@ -28,31 +28,6 @@ return {
       })
     end
   },
-  -- {
-  --   'nvim-telescope/telescope.nvim',
-  --   dependencies = { 'nvim-lua/plenary.nvim' },
-  --   enabled = false,
-  --   keys = {
-  --     { '<space>p', _G.fn('telescope.builtin', 'resume'),                       'resume' },
-  --     { '<space>f', _G.fn('telescope.builtin', 'find_files'),                   'find files' },
-  --     { '<space>/', _G.fn('telescope.builtin', 'live_grep'),                    desc = 'live grep' },
-  --     { '<space>w', _G.fn('telescope.builtin', 'grep_string'),                  desc = 'search under word' },
-  --     { '<space>a', _G.fn('telescope.builtin', 'buffers'),                      desc = 'all buffers' },
-  --     { '<space>b', _G.fn('telescope.builtin', 'buffers', { cwd_only = true }), desc = 'cwd buffers' },
-  --   },
-  --   config = function()
-  --     local actions = require("telescope.actions")
-  --     require("telescope").setup {
-  --       defaults = {
-  --         mappings = {
-  --           i = {
-  --             ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
-  --           },
-  --         },
-  --       }
-  --     }
-  --   end
-  -- },
   {
     'fishioon/term.nvim',
     dev = true,
@@ -104,7 +79,6 @@ return {
           content = {
             active = function()
               local m           = statusline
-              local _, mode_hl  = m.section_mode({ trunc_width = 120 })
               local git         = m.section_git({ trunc_width = 40 })
               local diff        = m.section_diff({ trunc_width = 75 })
               local diagnostics = m.section_diagnostics({ trunc_width = 75 })
@@ -114,22 +88,18 @@ return {
               local search      = m.section_searchcount({ trunc_width = 75 })
               local cwd         = vim.fn.getcwd():match("([^/]+)$")
               return m.combine_groups({
-                { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+                { strings = { '[' .. cwd .. ']', '%f%m%r' } },
                 '%<', -- Mark general truncate point
-                { hl = 'MiniStatuslineDevinfo', strings = { '[' .. cwd .. ']', '%f%m%r' } },
+                { strings = { git, lsp, diff, diagnostics } },
                 '%=', -- End left alignment
-                { hl = 'MiniStatuslineDevinfo',  strings = { fileinfo } },
+                { strings = { fileinfo } },
                 { strings = { search, location } },
               })
             end,
-            -- Content for inactive window(s)
-            inactive = nil,
           },
           use_icons = true,
-          set_vim_settings = false,
         }
       )
-      -- require('mini.completion').setup()
     end
   },
   {

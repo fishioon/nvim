@@ -35,18 +35,18 @@ vim.api.nvim_create_user_command('Gcd', 'silent lcd %:h | silent lcd `git root` 
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |lcd %:h', {})
 
 -- global
-vim.keymap.set('t', '<C-q>', '<C-\\><C-N>')
-vim.keymap.set({ 'i', 'n' }, '<D-s>', '<ESC>:w<cr>')
--- vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>w')
--- vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>W')
+vim.keymap.set('t', '<M-q>', '<C-\\><C-N>')
+-- vim.keymap.set({ 'i', 'n' }, '<D-s>', '<ESC>:w<cr>')
+vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>w')
+vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>W')
+vim.keymap.set('n', '<M-j>', '<C-w>w')
+vim.keymap.set('n', '<M-k>', '<C-w>W')
 -- vim.keymap.set('t', '<M-;>', '<C-\\><C-N>:')
 -- vim.keymap.set('t', '<M-/>', '<C-\\><C-N>/')
--- vim.keymap.set('n', '<M-j>', '<C-w>w')
--- vim.keymap.set('n', '<M-k>', '<C-w>W')
--- vim.keymap.set('n', '<M-]>', 'gt')
--- vim.keymap.set('n', '<M-[>', 'gT')
--- vim.keymap.set('t', '<M-]>', '<C-\\><C-N>gt')
--- vim.keymap.set('t', '<M-[>', '<C-\\><C-N>gT')
+vim.keymap.set('n', '<M-]>', 'gt')
+vim.keymap.set('n', '<M-[>', 'gT')
+vim.keymap.set('t', '<M-]>', '<C-\\><C-N>gt')
+vim.keymap.set('t', '<M-[>', '<C-\\><C-N>gT')
 -- vim.keymap.set('t', '<M-d>', '<C-\\><C-N>:split|terminal<cr>')
 -- vim.keymap.set('t', '<M-D>', '<C-\\><C-N>:vsplit|terminal<cr>')
 vim.keymap.set('v', '<space>y', '"+y')
@@ -56,6 +56,7 @@ vim.keymap.set('n', '<space>ss', ':wa | mksession! /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so /tmp/session.vim<cr>')
 vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
 vim.keymap.set('n', '<space>d', ':lcd %:h<cr>')
+vim.keymap.set('n', '<space>=', ':lua vim.lsp.buf.format({async=true})<cr>')
 
 vim.keymap.set('n', '<space>gg', function()
   require('float_term').float_term('lazygit', {
@@ -75,10 +76,11 @@ require('lazy').setup("plugins", {
   },
 })
 
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   callback = function()
+--     vim.lsp.buf.format({ async = true })
+--   end
+-- })
+
 -- ./lua/plugins/lsp.lua
 -- ./lua/plugins/plugins.lua
-vim.api.nvim_create_autocmd("BufWritePre", {
-  callback = function()
-    vim.lsp.buf.format({ async = true })
-  end
-})
