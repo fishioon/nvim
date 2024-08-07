@@ -96,8 +96,10 @@ return {
                 { strings = { search, location } },
               })
             end,
+            inactive = nil,
           },
           use_icons = true,
+          set_vim_settings = false,
         }
       )
     end
