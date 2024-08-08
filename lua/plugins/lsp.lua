@@ -23,7 +23,11 @@ return {
             },
           },
         },
-        -- golangci_lint_ls = {},
+        golangci_lint_ls = {
+          init_options = {
+            command = { "golangci-lint", "run", "--out-format", "json", "--allow-parallel-runners" }
+          }
+        },
         lua_ls = {
           settings = {
             Lua = {

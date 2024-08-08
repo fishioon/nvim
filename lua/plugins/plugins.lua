@@ -4,12 +4,13 @@ return {
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-      { '<space>p', '<cmd>FzfLua resume<cr>',                desc = 'fzf Resume last command' },
-      { '<space>f', '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
-      { '<space>/', '<cmd>FzfLua live_grep<cr>',             desc = 'fzf live grep' },
-      { '<space>w', '<cmd>FzfLua grep_cword<cr>',            desc = 'fzf live grep' },
-      { '<space>a', '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
-      { '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf buffers' },
+      { '<space>p',  '<cmd>FzfLua resume<cr>',                desc = 'fzf Resume last command' },
+      { '<space>/',  '<cmd>FzfLua live_grep<cr>',             desc = 'fzf live grep' },
+      { '<space>w',  '<cmd>FzfLua grep_cword<cr>',            desc = 'fzf live grep' },
+      { '<space>f',  '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
+      { '<space>gb', '<cmd>FzfLua grep_curbuf<cr>',           desc = 'fzf current buffer' },
+      { '<space>a',  '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
+      { '<space>b',  '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf buffers' },
     },
     config = function()
       local fzf = require("fzf-lua")
@@ -120,6 +121,39 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
+  },
+  -- lazy.nvim
+  {
+    "robitx/gp.nvim",
+    dev = true,
+    keys = {
+      { '<space>gp', '<cmd>GpChatToggle<cr>', desc = 'gp toggle' },
+    },
+    config = function()
+      require("gp").setup({
+        providers = {
+          ollama = {
+            endpoint = "https://gateway.mpi.shopee.io/ufs/v1/internal_openai_v1/chat/completions",
+          },
+        },
+        curl_params = {
+          "--header", "Authorization: HMAC Signature=8e726e7872134f0f052a76faff42392a1e99a3206acc2f996627ea799f75a187",
+          "--header", "X-UFS-AppID: liyi",
+        },
+        agents = {
+          {
+            provider = "ollama",
+            name = "llama3.1",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "llama-3.1-8b-instruct", temperature = 1.1, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = require("gp.defaults").chat_system_prompt,
+          },
+        }
+      })
+    end,
   },
   {
     enabled = false,
