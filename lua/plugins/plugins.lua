@@ -121,6 +121,39 @@ return {
       -- refer to the configuration section below
     },
   },
+  -- lazy.nvim
+  {
+    "robitx/gp.nvim",
+    dev = true,
+    keys = {
+      { '<space>gp', '<cmd>GpChatToggle<cr>',                desc = 'gp toggle' },
+    },
+    config = function()
+      require("gp").setup({
+        providers = {
+          ollama = {
+            endpoint = "https://gateway.mpi.shopee.io/ufs/v1/internal_openai_v1/chat/completions",
+          },
+        },
+        curl_params = {
+          "--header", "Authorization: HMAC Signature=8e726e7872134f0f052a76faff42392a1e99a3206acc2f996627ea799f75a187",
+          "--header", "X-UFS-AppID: liyi",
+        },
+        agents = {
+          {
+            provider = "ollama",
+            name = "llama3.1",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "llama-3.1-8b-instruct", temperature = 1.1, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = require("gp.defaults").chat_system_prompt,
+          },
+        }
+      })
+    end,
+  },
   {
     enabled = false,
     "leath-dub/snipe.nvim",
