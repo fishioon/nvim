@@ -4,7 +4,6 @@ if not vim.uv.fs_stat(lazypath) then
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
 end
 vim.opt.rtp:prepend(lazypath)
-
 vim.g.mapleader = '<space>'
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -23,6 +22,7 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = true
 vim.opt.foldlevel = 3
+vim.opt.list = true
 -- vim.opt.statusline =
 -- "%<%f %{get(b:, 'gitsigns_status', '')} %h%m%r%=%{get(b:,'gitsigns_head','')} %{getcwd()} %-14.(%l,%c%V%) %P"
 
@@ -36,24 +36,32 @@ vim.api.nvim_create_user_command('Gcd', 'silent lcd %:h | silent lcd `git root` 
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |lcd %:h', {})
 
 -- global
-vim.keymap.set('t', '<M-n>', '<C-\\><C-N>')
 vim.keymap.set({ 'i', 'n' }, '<D-s>', '<Esc><Cmd>silent! update<CR>')
-vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>w')
-vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>W')
-vim.keymap.set('n', '<M-j>', '<C-w>w')
-vim.keymap.set('n', '<M-k>', '<C-w>W')
-vim.keymap.set('t', '<M-;>', '<C-\\><C-N>:')
-vim.keymap.set('t', '<M-/>', '<C-\\><C-N>/')
-vim.keymap.set('n', '<M-]>', 'gt')
-vim.keymap.set('n', '<M-[>', 'gT')
-vim.keymap.set('t', '<M-]>', '<C-\\><C-N>gt')
-vim.keymap.set('t', '<M-[>', '<C-\\><C-N>gT')
-vim.keymap.set('t', '<M-d>', '<C-\\><C-N>:split|terminal<cr>')
-vim.keymap.set('t', '<M-D>', '<C-\\><C-N>:vsplit|terminal<cr>')
-vim.keymap.set('n', '<M-d>', ':split|terminal<cr>')
-vim.keymap.set('n', '<M-D>', ':vsplit|terminal<cr>')
-vim.keymap.set('v', '<space>y', '"+y')
-vim.keymap.set('n', '<space>y', '"+Y')
+vim.keymap.set('n', '<D-0>', ':silent tablast<CR>')
+vim.keymap.set('n', '<D-1>', '1gt')
+vim.keymap.set('n', '<D-2>', '2gt')
+vim.keymap.set('n', '<D-3>', '3gt')
+vim.keymap.set('n', '<D-4>', '4gt')
+vim.keymap.set('n', '<D-D>', ':vsplit|terminal<cr>')
+vim.keymap.set('n', '<D-[>', '<C-w>W')
+vim.keymap.set('n', '<D-]>', '<C-w>w')
+vim.keymap.set('n', '<D-d>', ':split|terminal<cr>')
+vim.keymap.set('n', '<S-D-{>', 'gT')
+vim.keymap.set('n', '<S-D-}>', 'gt')
+vim.keymap.set('t', '<D-0>', '<C-\\><C-N>:silent tablast<CR>')
+vim.keymap.set('t', '<D-1>', '<C-\\><C-N>1gt')
+vim.keymap.set('t', '<D-2>', '<C-\\><C-N>2gt')
+vim.keymap.set('t', '<D-3>', '<C-\\><C-N>3gt')
+vim.keymap.set('t', '<D-4>', '<C-\\><C-N>4gt')
+vim.keymap.set('t', '<D-D>', '<C-\\><C-N>:vsplit|terminal<cr>')
+vim.keymap.set('t', '<D-[>', '<C-\\><C-N><C-w>W')
+vim.keymap.set('t', '<D-]>', '<C-\\><C-N><C-w>w')
+vim.keymap.set('t', '<D-d>', '<C-\\><C-N>:split|terminal<cr>')
+vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
+vim.keymap.set('t', '<S-D-{>', '<C-\\><C-N>gT')
+vim.keymap.set('t', '<S-D-}>', '<C-\\><C-N>gt')
+vim.keymap.set('v', '<D-c>', '"+y')
+vim.keymap.set('n', '<D-c>', '"+Y')
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so ~/.config/work.vim<cr>')

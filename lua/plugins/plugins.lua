@@ -43,7 +43,7 @@ return {
         vim.fn.setreg('+', cmd)
       end },
       {
-        '<M-m>',
+        '<D-j>',
         function()
           require('term').toggle()
         end,
