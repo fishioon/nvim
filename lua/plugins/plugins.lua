@@ -34,11 +34,15 @@ return {
     dev = true,
     dependencies = { 'fishioon/cmd.nvim', dev = true },
     keys = {
-      { '<space>e', function()
+      { '<space>ee', function()
         local cmd = require('cmd').cmd()
         require('term').send(cmd .. '\n', false)
       end },
-      { '<space>y', function()
+      { '<space>ec', function()
+        local cmd = require('cmd').cmd()
+        vim.cmd('silent !' .. cmd)
+      end },
+      { '<space>ey', function()
         local cmd = require('cmd').cmd()
         vim.fn.setreg('+', cmd)
       end },
@@ -127,7 +131,7 @@ return {
     "robitx/gp.nvim",
     dev = true,
     keys = {
-      { '<space>gp', '<cmd>GpChatToggle<cr>', desc = 'gp toggle' },
+      { '<D-l>', '<cmd>GpChatToggle<cr>', desc = 'gp toggle' },
     },
     config = function()
       require("gp").setup({
@@ -146,22 +150,11 @@ return {
             name = "llama3.1",
             chat = true,
             command = false,
-            -- string with model name or table with model name and parameters
-            model = { model = "llama-3.1-8b-instruct", temperature = 1.1, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
+            model = { model = "llama-3.1-8b-instruct" },
             system_prompt = require("gp.defaults").chat_system_prompt,
           },
         }
       })
     end,
   },
-  {
-    enabled = false,
-    "leath-dub/snipe.nvim",
-    config = function()
-      local snipe = require("snipe")
-      snipe.setup()
-      vim.keymap.set("n", "gb", snipe.create_buffer_menu_toggler())
-    end,
-  }
 }

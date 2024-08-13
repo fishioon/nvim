@@ -23,6 +23,8 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = true
 vim.opt.foldlevel = 3
 vim.opt.list = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 -- vim.opt.statusline =
 -- "%<%f %{get(b:, 'gitsigns_status', '')} %h%m%r%=%{get(b:,'gitsigns_head','')} %{getcwd()} %-14.(%l,%c%V%) %P"
 
