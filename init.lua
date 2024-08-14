@@ -23,8 +23,8 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = true
 vim.opt.foldlevel = 3
 vim.opt.list = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
 -- vim.opt.statusline =
 -- "%<%f %{get(b:, 'gitsigns_status', '')} %h%m%r%=%{get(b:,'gitsigns_head','')} %{getcwd()} %-14.(%l,%c%V%) %P"
 
@@ -38,32 +38,28 @@ vim.api.nvim_create_user_command('Gcd', 'silent lcd %:h | silent lcd `git root` 
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |lcd %:h', {})
 
 -- global
+local function keymap_nt(lhs, rhs, opt)
+  vim.keymap.set('n', lhs, rhs, opt)
+  vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
+end
+
 vim.keymap.set({ 'i', 'n' }, '<D-s>', '<Esc><Cmd>silent! update<CR>')
-vim.keymap.set('n', '<D-0>', ':silent tablast<CR>')
-vim.keymap.set('n', '<D-1>', '1gt')
-vim.keymap.set('n', '<D-2>', '2gt')
-vim.keymap.set('n', '<D-3>', '3gt')
-vim.keymap.set('n', '<D-4>', '4gt')
-vim.keymap.set('n', '<D-D>', ':vsplit|terminal<cr>')
-vim.keymap.set('n', '<D-[>', '<C-w>W')
-vim.keymap.set('n', '<D-]>', '<C-w>w')
-vim.keymap.set('n', '<D-d>', ':split|terminal<cr>')
-vim.keymap.set('n', '<S-D-{>', 'gT')
-vim.keymap.set('n', '<S-D-}>', 'gt')
-vim.keymap.set('t', '<D-0>', '<C-\\><C-N>:silent tablast<CR>')
-vim.keymap.set('t', '<D-1>', '<C-\\><C-N>1gt')
-vim.keymap.set('t', '<D-2>', '<C-\\><C-N>2gt')
-vim.keymap.set('t', '<D-3>', '<C-\\><C-N>3gt')
-vim.keymap.set('t', '<D-4>', '<C-\\><C-N>4gt')
-vim.keymap.set('t', '<D-D>', '<C-\\><C-N>:vsplit|terminal<cr>')
-vim.keymap.set('t', '<D-[>', '<C-\\><C-N><C-w>W')
-vim.keymap.set('t', '<D-]>', '<C-\\><C-N><C-w>w')
-vim.keymap.set('t', '<D-d>', '<C-\\><C-N>:split|terminal<cr>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
-vim.keymap.set('t', '<S-D-{>', '<C-\\><C-N>gT')
-vim.keymap.set('t', '<S-D-}>', '<C-\\><C-N>gt')
 vim.keymap.set('v', '<D-c>', '"+y')
 vim.keymap.set('n', '<D-c>', '"+Y')
+
+keymap_nt('<D-0>', ':silent tablast<CR>')
+keymap_nt('<D-1>', '1gt')
+keymap_nt('<D-2>', '2gt')
+keymap_nt('<D-3>', '3gt')
+keymap_nt('<D-4>', '4gt')
+keymap_nt('<D-D>', ':vsplit|terminal<cr>')
+keymap_nt('<D-[>', '<C-w>W')
+keymap_nt('<D-]>', '<C-w>w')
+keymap_nt('<D-d>', ':split|terminal<cr>')
+keymap_nt('<S-D-{>', 'gT')
+keymap_nt('<S-D-}>', 'gt')
+
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so ~/.config/work.vim<cr>')
