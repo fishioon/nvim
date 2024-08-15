@@ -4,6 +4,7 @@ if not vim.uv.fs_stat(lazypath) then
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
 end
 vim.opt.rtp:prepend(lazypath)
+
 vim.g.mapleader = '<space>'
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -22,7 +23,7 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = true
 vim.opt.foldlevel = 4
-vim.opt.list = true
+-- vim.opt.list = true
 -- vim.opt.tabstop = 4
 -- vim.opt.shiftwidth = 4
 -- vim.opt.statusline =

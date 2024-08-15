@@ -10,21 +10,19 @@ return {
       { '<space>f',  '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
       { '<space>gb', '<cmd>FzfLua grep_curbuf<cr>',           desc = 'fzf current buffer' },
       { '<space>a',  '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
-      { '<space>b',  '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf buffers' },
+      { '<space>b',  '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf cwd buffers' },
     },
     config = function()
       local fzf = require("fzf-lua")
       -- local actions = require "fzf-lua.actions"
       fzf.setup({
         actions = {
-          buffers = {
-            true,
-            ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
-          },
-          files = {
-            true,
-            ["ctrl-j"] = function(_, opts) fzf.buffers({ query = opts.last_query, cwd = opts.cwd }) end,
-          },
+          -- buffers = {
+          --   ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
+          -- },
+          -- files = {
+          --   ["ctrl-j"] = function(_, opts) fzf.buffers({ query = opts.last_query, cwd = opts.cwd }) end,
+          -- },
         }
       })
     end
@@ -38,9 +36,10 @@ return {
         local cmd = require('cmd').cmd()
         require('term').send(cmd .. '\n', false)
       end },
-      { '<space>ec', function()
+      { '<space>eo', function()
         local cmd = require('cmd').cmd()
-        vim.cmd('silent !' .. cmd)
+        local line = [[put =execute('!]] .. cmd .. [[')]]
+        vim.cmd(line)
       end },
       { '<space>ey', function()
         local cmd = require('cmd').cmd()
@@ -58,6 +57,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    dependencies = {},
     config = function()
       require 'nvim-treesitter.configs'.setup({
         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "json", "go" },
@@ -110,13 +110,7 @@ return {
     end
   },
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    event = 'VeryLazy',
-    build = function() vim.fn["mkdp#util#install"]() end,
-  },
-  {
+    -- enabled = false,
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
@@ -126,35 +120,11 @@ return {
       -- refer to the configuration section below
     },
   },
-  -- lazy.nvim
   {
-    "robitx/gp.nvim",
-    dev = true,
-    keys = {
-      { '<D-l>', '<cmd>GpChatToggle<cr>', desc = 'gp toggle' },
-    },
-    config = function()
-      require("gp").setup({
-        providers = {
-          ollama = {
-            endpoint = "https://gateway.mpi.shopee.io/ufs/v1/internal_openai_v1/chat/completions",
-          },
-        },
-        curl_params = {
-          "--header", "Authorization: HMAC Signature=8e726e7872134f0f052a76faff42392a1e99a3206acc2f996627ea799f75a187",
-          "--header", "X-UFS-AppID: liyi",
-        },
-        agents = {
-          {
-            provider = "ollama",
-            name = "llama3.1",
-            chat = true,
-            command = false,
-            model = { model = "llama-3.1-8b-instruct" },
-            system_prompt = require("gp.defaults").chat_system_prompt,
-          },
-        }
-      })
-    end,
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
 }
