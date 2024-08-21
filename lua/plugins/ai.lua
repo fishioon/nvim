@@ -1,6 +1,6 @@
 return {
   {
-    enabled = true,
+    enabled = false,
     "yetone/avante.nvim",
     opts = {},
     build = "make",
@@ -25,27 +25,11 @@ return {
           temperature = 0,
           max_tokens = 4096,
         },
-        azure = {
-          endpoint = "",   -- Example: "https://<your-resource-name>.openai.azure.com"
-          deployment = "", -- Azure deployment name (e.g., "gpt-4o", "my-gpt-4o-deployment")
-          api_version = "2024-06-01",
-          temperature = 0,
-          max_tokens = 4096,
-        },
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-3-5-sonnet-20240620",
-          temperature = 0,
-          max_tokens = 4096,
-        },
-        highlights = {
-          diff = {
-            current = "DiffText", -- need have background color
-            incoming = "DiffAdd", -- need have background color
-          },
-        },
         mappings = {
-          show_sidebar = "<D-l>",
+          ask = "<space>aa",
+          edit = "<space>ae",
+          refresh = "<space>ar",
+          --- @class AvanteConflictMappings
           diff = {
             ours = "co",
             theirs = "ct",
@@ -54,9 +38,12 @@ return {
             next = "]x",
             prev = "[x",
           },
+          jump = {
+            next = "]]",
+            prev = "[[",
+          },
         },
-      }
-      )
+      })
     end
   },
   -- lazy.nvim

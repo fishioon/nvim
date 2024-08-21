@@ -9,7 +9,7 @@ return {
       { '<space>w',  '<cmd>FzfLua grep_cword<cr>',            desc = 'fzf live grep' },
       { '<space>f',  '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
       { '<space>gb', '<cmd>FzfLua grep_curbuf<cr>',           desc = 'fzf current buffer' },
-      { '<space>a',  '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
+      -- { '<space>a',  '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
       { '<space>b',  '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf cwd buffers' },
     },
     config = function()
