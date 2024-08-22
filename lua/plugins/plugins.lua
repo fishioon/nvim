@@ -38,8 +38,7 @@ return {
       end },
       { '<space>eo', function()
         local cmd = require('cmd').cmd()
-        local line = [[put =execute('!]] .. cmd .. [[')]]
-        vim.cmd(line)
+        vim.cmd('read !' .. cmd)
       end },
       { '<space>ey', function()
         local cmd = require('cmd').cmd()

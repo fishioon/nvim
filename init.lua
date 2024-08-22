@@ -75,8 +75,8 @@ vim.keymap.set('n', '<space>y', '"+Y')
 vim.keymap.set('v', '<D-c>', '"+y')
 vim.keymap.set('n', '<D-c>', '"+Y')
 
-vim.keymap.set('n', '<C-j>', '<C-w>w', { desc = 'Focus on below window' })
-vim.keymap.set('n', '<C-k>', '<C-w>W', { desc = 'Focus on above window' })
+-- vim.keymap.set('n', '<C-j>', '<C-w>w', { desc = 'Focus on below window' })
+-- vim.keymap.set('n', '<C-k>', '<C-w>W', { desc = 'Focus on above window' })
 
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
