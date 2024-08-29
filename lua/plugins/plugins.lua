@@ -1,5 +1,17 @@
 return {
   {
+    enabled = false,
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    enabled = false,
+    "projekt0n/github-nvim-theme",
+    lazy = false,
+    priority = 1000,
+  },
+  {
     "ibhagwan/fzf-lua",
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -77,7 +89,10 @@ return {
       require('mini.surround').setup()
       require('mini.diff').setup()
       require('mini.pairs').setup()
+      -- require('mini.tabline').setup()
       local statusline = require('mini.statusline')
+
+      -- Set the tabline to the custom function
       statusline.setup(
         {
           content = {
@@ -90,9 +105,9 @@ return {
               local fileinfo    = m.section_fileinfo({ trunc_width = 120 })
               local location    = m.section_location({ trunc_width = 75 })
               local search      = m.section_searchcount({ trunc_width = 75 })
-              local cwd         = vim.fn.getcwd():match("([^/]+)$")
+              -- local cwd         = vim.fn.getcwd():match("([^/]+)$")
               return m.combine_groups({
-                { strings = { '[' .. cwd .. ']', '%f%m%r' } },
+                { strings = { '%f%m%r' } },
                 '%<', -- Mark general truncate point
                 { strings = { git, lsp, diff, diagnostics } },
                 '%=', -- End left alignment
