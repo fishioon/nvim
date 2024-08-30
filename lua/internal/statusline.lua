@@ -33,7 +33,7 @@ function _G.CustomTabline()
       hl = '%#TabLineSel#'
       win = vim.api.nvim_get_current_win()
     end
-    local tcd   = vim.fn.getcwd(-1, tab)
+    local tcd   = vim.fn.getcwd(-1, index)
     local label = tcd:match("([^/]+)$")
     local buf   = vim.api.nvim_win_get_buf(win)
     local name  = trim_prefix(vim.api.nvim_buf_get_name(buf), tcd .. '/')

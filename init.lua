@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
+vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |tcd %:h', {})
 
 -- global
