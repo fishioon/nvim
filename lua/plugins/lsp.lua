@@ -60,7 +60,7 @@ return {
     end
   },
   {
-    enabled = false,
+    enabled = true,
     "garymjr/nvim-snippets",
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -71,7 +71,7 @@ return {
     },
   },
   {
-    enabled = false,
+    enabled = true,
     'hrsh7th/nvim-cmp',
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",

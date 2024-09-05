@@ -81,6 +81,7 @@ return {
       require('mini.diff').setup()
       require('mini.pairs').setup()
       require('mini.files').setup()
+      -- require('mini.completion').setup()
       -- require('mini.tabline').setup()
       local statusline = require('mini.statusline')
 

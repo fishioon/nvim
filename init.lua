@@ -1,11 +1,11 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = '<space>'
+vim.g.mapleader = ' '
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -26,7 +26,7 @@ vim.opt.foldenable = false
 vim.opt.completeopt = 'menu,menuone,noinsert,fuzzy,popup'
 
 -- command
-_G.code_ft = { 'go', 'c', 'c++', 'javascript', 'lua', 'typescript', 'yaml', 'html', 'vim', 'json', 'sh', 'markdown', 'markdown_inline' }
+_G.code_ft = { 'go', 'c', 'c++', 'javascript', 'lua', 'typescript', 'yaml', 'html', 'vim', 'json', 'sh' }
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'c', 'lua' },
   callback = function()
@@ -64,13 +64,13 @@ keymap_nt('<S-D-}>', 'gt')
 -- vim.keymap.set({ 'i', 't' }, '<M-k>', '<Up>')
 -- vim.keymap.set({ 'i', 't', 'c' }, '<M-l>', '<Right>')
 
-vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
-vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
-vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
-vim.keymap.set('v', '<space>y', '"+y')
-vim.keymap.set('n', '<space>y', '"+Y')
-vim.keymap.set('v', '<D-c>', '"+y')
-vim.keymap.set('n', '<D-c>', '"+Y')
+vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
+vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
+vim.keymap.set('t', '<D-s>', '<C-\\><C-N>', { desc = "Exit terminal mode" })
+vim.keymap.set('v', '<space>y', '"+y', { desc = "Yank to system clipboard" })
+vim.keymap.set('n', '<space>y', '"+Y', { desc = "Yank line to system clipboard" })
+vim.keymap.set('v', '<D-c>', '"+y', { desc = "Copy to system clipboard" })
+vim.keymap.set('n', '<D-c>', '"+Y', { desc = "Copy line to system clipboard" })
 
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
@@ -101,7 +101,7 @@ require('lazy').setup("plugins", {
 })
 
 require('internal.statusline')
-require('internal.completion')
+-- require('internal.completion')
 
 -- vim.cmd.colorscheme('github_dark_default')
 -- vim.cmd.colorscheme('tokyonight-night')
@@ -116,3 +116,4 @@ require('internal.completion')
 -- ./lua/plugins/plugins.lua
 --
 -- init.lua
+vim.keymap.set('n', '<D-l>', ':AvanteToggle<cr>')
