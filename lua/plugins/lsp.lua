@@ -7,7 +7,7 @@ return {
       servers = {
         bashls = {},
         clangd = {},
-        tsserver = {},
+        ts_ls = {},
         jsonls = {},
         gopls = {
           settings = {
