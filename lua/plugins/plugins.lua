@@ -1,17 +1,5 @@
 return {
   {
-    enabled = false,
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-  {
-    enabled = false,
-    "projekt0n/github-nvim-theme",
-    lazy = false,
-    priority = 1000,
-  },
-  {
     "ibhagwan/fzf-lua",
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -50,7 +38,9 @@ return {
       end },
       { '<space>eo', function()
         local cmd = require('cmd').cmd()
-        vim.cmd('read !' .. cmd)
+        local output = vim.fn.systemlist(cmd)
+        local current_line = vim.api.nvim_win_get_cursor(0)[1]
+        vim.api.nvim_buf_set_lines(0, current_line, current_line, false, output)
       end },
       { '<space>ey', function()
         local cmd = require('cmd').cmd()
@@ -78,9 +68,10 @@ return {
   },
   {
     'echasnovski/mini.nvim',
-    version = '*',
+    version = false,
     keys = {
       { '<space>gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>' },
+      { '<space>mo', '<Cmd>lua MiniFiles.open()<CR>' },
     },
     event = 'VeryLazy',
     config = function()
@@ -89,6 +80,7 @@ return {
       require('mini.surround').setup()
       require('mini.diff').setup()
       require('mini.pairs').setup()
+      require('mini.files').setup()
       -- require('mini.tabline').setup()
       local statusline = require('mini.statusline')
 
@@ -135,11 +127,10 @@ return {
     },
   },
   {
-    enabled = false,
-    'MeanderingProgrammer/render-markdown.nvim',
-    opts = {},
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-  },
+    "leath-dub/snipe.nvim",
+    keys = {
+      { "gb", function() require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu" }
+    },
+    opts = {}
+  }
 }

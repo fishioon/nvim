@@ -1,7 +1,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    event = "VeryLazy",
+    ft = code_ft,
     opts = {
       inlay_hints = { enabled = true },
       servers = {
@@ -60,7 +60,7 @@ return {
     end
   },
   {
-    enabled = true,
+    enabled = false,
     "garymjr/nvim-snippets",
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -71,7 +71,7 @@ return {
     },
   },
   {
-    enabled = true,
+    enabled = false,
     'hrsh7th/nvim-cmp',
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",

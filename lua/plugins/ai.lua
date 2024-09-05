@@ -1,80 +1,58 @@
 return {
   {
-    enabled = false,
     "yetone/avante.nvim",
-    opts = {},
-    build = "make",
     event = "VeryLazy",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      {
-        "grapp-dev/nui-components.nvim",
-        dependencies = {
-          "MunifTanjim/nui.nvim"
-        }
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      provider = "claude",
+      claude = {
+        endpoint = "https://api.gpt.ge",
+        model = "claude-3-5-sonnet-20240620",
+        temperature = 0,
+        max_tokens = 4096,
       },
-      "nvim-lua/plenary.nvim",
-      "MeanderingProgrammer/render-markdown.nvim",
+      behaviour = {
+        auto_suggestions = true, -- Experimental stage
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+      },
     },
-    config = function()
-      require('avante').setup({
-        provider = "openai", -- "claude" or "openai" or "azure"
-        openai = {
-          endpoint = "https://chatgpt.shopee.io",
-          model = "gpt-4o",
-          temperature = 0,
-          max_tokens = 4096,
-        },
-        mappings = {
-          ask = "<space>aa",
-          edit = "<space>ae",
-          refresh = "<space>ar",
-          --- @class AvanteConflictMappings
-          diff = {
-            ours = "co",
-            theirs = "ct",
-            none = "c0",
-            both = "cb",
-            next = "]x",
-            prev = "[x",
-          },
-          jump = {
-            next = "]]",
-            prev = "[[",
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      -- "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
           },
         },
-      })
-    end
-  },
-  -- lazy.nvim
-  {
-    enabled = false,
-    "robitx/gp.nvim",
-    event = "VeryLazy",
-    config = function()
-      local conf = {
-        -- For customization, refer to Install > Configuration in the Documentation/Readme
-        providers = {
-          openai = {
-            endpoint = "https://chatgpt.shopee.io/v1/chat/completions",
-          }
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
         },
-        agents = {
-          {
-            provider = "openai",
-            name = "ChatGPT4o-mini",
-            chat = true,
-            command = false,
-            -- string with model name or table with model name and parameters
-            model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
-            system_prompt = require("gp.defaults").chat_system_prompt,
-          },
-        }
-      }
-      require("gp").setup(conf)
-      vim.keymap.set({ "n", "i" }, "<D-l>", "<cmd>GpChatToggle<cr>")
-      -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-    end,
-  },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  }
 }

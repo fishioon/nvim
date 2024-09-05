@@ -1,7 +1,7 @@
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -10,6 +10,7 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
+
 vim.opt.background = 'dark'
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -22,16 +23,12 @@ vim.opt.splitright = true
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
--- vim.opt.foldlevel = 4
--- vim.opt.list = true
--- vim.opt.tabstop = 4
--- vim.opt.shiftwidth = 4
--- vim.opt.statusline =
--- "%<%f %{get(b:, 'gitsigns_status', '')} %h%m%r%=%{get(b:,'gitsigns_head','')} %{getcwd()} %-14.(%l,%c%V%) %P"
+vim.opt.completeopt = 'menu,menuone,noinsert,fuzzy,popup'
 
 -- command
+_G.code_ft = { 'go', 'c', 'c++', 'javascript', 'lua', 'typescript', 'yaml', 'html', 'vim', 'json', 'sh', 'markdown', 'markdown_inline' }
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'c++', 'javascript', 'lua', 'typescript', 'yaml', 'html', 'vim', 'json', 'nginx', 'proto', 'sh' },
+  pattern = { 'c', 'lua' },
   callback = function()
     vim.bo.tabstop = 2
     vim.bo.shiftwidth = 2
@@ -67,23 +64,23 @@ keymap_nt('<S-D-}>', 'gt')
 -- vim.keymap.set({ 'i', 't' }, '<M-k>', '<Up>')
 -- vim.keymap.set({ 'i', 't', 'c' }, '<M-l>', '<Right>')
 
-vim.keymap.set('n', '<C-s>', '<Cmd>silent! update<CR>')
-vim.keymap.set('i', '<C-s>', '<Esc><Cmd>silent! update<CR>')
-vim.keymap.set('t', '<C-s>', '<C-\\><C-N>')
+vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
+vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
+vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 vim.keymap.set('v', '<space>y', '"+y')
 vim.keymap.set('n', '<space>y', '"+Y')
 vim.keymap.set('v', '<D-c>', '"+y')
 vim.keymap.set('n', '<D-c>', '"+Y')
-
--- vim.keymap.set('n', '<C-j>', '<C-w>w', { desc = 'Focus on below window' })
--- vim.keymap.set('n', '<C-k>', '<C-w>W', { desc = 'Focus on above window' })
 
 vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
 vim.keymap.set('n', '<space>d', ':tcd %:h<cr>')
+
+-- lsp
 vim.keymap.set('n', '<space>=', ':lua vim.lsp.buf.format({async=true})<cr>')
+vim.keymap.set('n', 'gri', '<cmd>lua vim.lsp.buf.implementation()<cr>')
 
 vim.keymap.set('n', '<space>gg', function()
   require('float_term').float_term('lazygit', {
@@ -104,6 +101,7 @@ require('lazy').setup("plugins", {
 })
 
 require('internal.statusline')
+require('internal.completion')
 
 -- vim.cmd.colorscheme('github_dark_default')
 -- vim.cmd.colorscheme('tokyonight-night')
