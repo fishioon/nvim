@@ -67,6 +67,13 @@ return {
     end
   },
   {
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'tokyonight-night'
+    end,
+  },
+  {
     'echasnovski/mini.nvim',
     version = false,
     keys = {
@@ -81,39 +88,7 @@ return {
       require('mini.diff').setup()
       require('mini.pairs').setup()
       require('mini.files').setup()
-      -- require('mini.completion').setup()
-      -- require('mini.tabline').setup()
-      local statusline = require('mini.statusline')
-
-      -- Set the tabline to the custom function
-      statusline.setup(
-        {
-          content = {
-            active = function()
-              local m           = statusline
-              local git         = m.section_git({ trunc_width = 40 })
-              local diff        = m.section_diff({ trunc_width = 75 })
-              local diagnostics = m.section_diagnostics({ trunc_width = 75 })
-              local lsp         = m.section_lsp({ trunc_width = 75 })
-              local fileinfo    = m.section_fileinfo({ trunc_width = 120 })
-              local location    = m.section_location({ trunc_width = 75 })
-              local search      = m.section_searchcount({ trunc_width = 75 })
-              -- local cwd         = vim.fn.getcwd():match("([^/]+)$")
-              return m.combine_groups({
-                { strings = { '%f%m%r' } },
-                '%<', -- Mark general truncate point
-                { strings = { git, lsp, diff, diagnostics } },
-                '%=', -- End left alignment
-                { strings = { fileinfo } },
-                { strings = { search, location } },
-              })
-            end,
-            inactive = nil,
-          },
-          use_icons = true,
-          set_vim_settings = false,
-        }
-      )
+      -- require('mini.statusline').setup()
     end
   },
   {

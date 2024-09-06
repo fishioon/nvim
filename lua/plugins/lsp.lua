@@ -1,7 +1,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    ft = code_ft,
+    ft = vim.g.my_code_ft,
     opts = {
       inlay_hints = { enabled = true },
       servers = {
@@ -35,7 +35,7 @@ return {
                 enable = true, -- necessary
               },
               diagnostics = {
-                globals = { 'ngx', '_G' }
+                globals = { 'ngx' }
               },
               runtime = {
                 version = 'LuaJIT'
