@@ -8,6 +8,8 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
+_G.Config = {}
+
 local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
   vim.cmd([[echo "Installing 'mini.nvim'" | redraw]])
@@ -64,6 +66,8 @@ later(function()
   require('term').setup({})
 end)
 
+require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
+
