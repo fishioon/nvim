@@ -1,5 +1,14 @@
 vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |tcd %:h', {})
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'c', 'lua' },
+  callback = function()
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = true
+  end,
+})
 
 local function keymap_nt(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)
@@ -48,13 +57,30 @@ vim.keymap.set('n', '<space>gg', function()
   })
 end)
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'lua' },
-  callback = function()
-    vim.bo.tabstop = 2
-    vim.bo.shiftwidth = 2
-    vim.bo.softtabstop = 2
-    vim.bo.expandtab = true
-  end,
-})
+-- fzf
+vim.keymap.set('n', '<space>/', '<cmd>FzfLua live_grep<cr>')
+vim.keymap.set('n', '<space>w', '<cmd>FzfLua grep_cword<cr>')
+vim.keymap.set('n', '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>')
+vim.keymap.set('n', '<space>ff', '<cmd>FzfLua files<cr>')
+vim.keymap.set('n', '<space>fa', '<cmd>FzfLua tabs<cr>')
+vim.keymap.set('n', '<space>fg', '<cmd>FzfLua grep_curbuf<cr>')
+vim.keymap.set('n', '<space>fp', '<cmd>FzfLua resume<cr>')
 
+-- cmd.nvim
+vim.keymap.set('n', '<space>ee', function()
+  local cmd = require('cmd').cmd()
+  require('term').send(cmd .. '\n', false)
+end)
+
+vim.keymap.set('n', '<space>eo', function()
+  local cmd = require('cmd').cmd()
+  local output = vim.fn.systemlist(cmd)
+  local current_line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_buf_set_lines(0, current_line, current_line, false, output)
+end)
+
+vim.keymap.set('n', '<space>ey', function()
+  local cmd = require('cmd').cmd()
+  vim.fn.setreg('+', cmd)
+end)
+vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)

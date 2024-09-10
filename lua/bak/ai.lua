@@ -1,7 +1,7 @@
 return {
   {
     "yetone/avante.nvim",
-    enabled = false,
+    enabled = true,
     version = false, -- set this if you want to always pull the latest change
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     event = "VeryLazy",
@@ -27,7 +27,7 @@ return {
     opts = {
       provider = "openai",
       openai = {
-        endpoint = "https://api.gpt.ge/v1",
+        endpoint = "https://api.proxyxai.com/v1",
         model = "claude-3-5-sonnet-20240620",
         temperature = 0,
         max_tokens = 4096,

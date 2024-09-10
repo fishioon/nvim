@@ -1,33 +1,5 @@
 return {
   {
-    "ibhagwan/fzf-lua",
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      { '<space>p',  '<cmd>FzfLua resume<cr>',                desc = 'fzf Resume last command' },
-      { '<space>/',  '<cmd>FzfLua live_grep<cr>',             desc = 'fzf live grep' },
-      { '<space>w',  '<cmd>FzfLua grep_cword<cr>',            desc = 'fzf live grep' },
-      { '<space>f',  '<cmd>FzfLua files<cr>',                 desc = 'fzf files' },
-      { '<space>gb', '<cmd>FzfLua grep_curbuf<cr>',           desc = 'fzf current buffer' },
-      -- { '<space>a',  '<cmd>FzfLua buffers<cr>',               desc = 'fzf buffers' },
-      { '<space>b',  '<cmd>FzfLua buffers cwd_only=true<cr>', desc = 'fzf cwd buffers' },
-    },
-    config = function()
-      local fzf = require("fzf-lua")
-      -- local actions = require "fzf-lua.actions"
-      fzf.setup({
-        actions = {
-          -- buffers = {
-          --   ["ctrl-j"] = function(_, opts) fzf.files({ query = opts.last_query, cwd = opts.cwd }) end,
-          -- },
-          -- files = {
-          --   ["ctrl-j"] = function(_, opts) fzf.buffers({ query = opts.last_query, cwd = opts.cwd }) end,
-          -- },
-        }
-      })
-    end
-  },
-  {
     'fishioon/term.nvim',
     dev = true,
     dependencies = { 'fishioon/cmd.nvim', dev = true },
@@ -67,6 +39,7 @@ return {
     end
   },
   {
+    enabled = false,
     'folke/tokyonight.nvim',
     priority = 1000,
     init = function()
