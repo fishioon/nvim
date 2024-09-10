@@ -41,6 +41,7 @@ local opts = {
             checkThirdParty = false,
             library = {
               vim.env.VIMRUNTIME,
+              vim.fn.stdpath('data') .. '/site/pack/deps/',
               "${3rd}/luv/library",
             }
           }

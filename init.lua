@@ -16,7 +16,6 @@ if not vim.uv.fs_stat(mini_path) then
 end
 require('mini.deps').setup()
 
----@diagnostic disable-next-line: undefined-global
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 now(function()
@@ -28,20 +27,17 @@ later(function() require('mini.diff').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.surround').setup() end)
-
 later(function()
   require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
 end)
-
 later(function()
   require('mini.pick').setup()
-  -- vim.ui.select = MiniPick.ui_select
-  -- vim.keymap.set('n', ',', [[<Cmd>Pick buf_lines scope='current'<CR>]], { nowait = true })
 end)
+
 
 later(function()
   add('neovim/nvim-lspconfig')
-  require('lsp')
+  require('core.lsp')
 end)
 
 later(function()
@@ -53,22 +49,21 @@ later(function()
   add('nvim-treesitter/nvim-treesitter-textobjects')
   require('nvim-treesitter.configs').setup({
     ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "json", "go" },
-    highlight = { enable = true }
+    highlight = { enable = true },
+    ignore_install = {},
+    sync_install = false,
+    auto_install = false,
+    modules = {},
   })
 end)
-
--- later(function()
---   add('ibhagwan/fzf-lua')
---   require('fzf-lua').setup()
--- end)
 
 later(function()
   add('fishioon/cmd.nvim')
   add('fishioon/term.nvim')
-  require('cmd').setup({})
+  require('cmd').setup()
   require('term').setup({})
 end)
 
-require('options')
-require('statusline')
-require('keymaps')
+require('core.options')
+require('core.statusline')
+require('core.keymaps')

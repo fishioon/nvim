@@ -16,6 +16,22 @@ local function keymap_nt(lhs, rhs, opt)
   vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
 end
 --
+
+local nmap_leader = function(suffix, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set('n', '<Leader>' .. suffix, rhs, opts)
+end
+local xmap_leader = function(suffix, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set('x', '<Leader>' .. suffix, rhs, opts)
+end
+
+-- Better command history navigation
+vim.keymap.set('c', '<C-p>', '<Up>', { silent = false })
+vim.keymap.set('c', '<C-n>', '<Down>', { silent = false })
+
 keymap_nt('<D-0>', ':silent tablast<CR>')
 keymap_nt('<D-1>', '1gt')
 keymap_nt('<D-2>', '2gt')
@@ -27,11 +43,6 @@ keymap_nt('<D-]>', '<C-w>w')
 keymap_nt('<D-d>', ':split|terminal<cr>')
 keymap_nt('<S-D-{>', 'gT')
 keymap_nt('<S-D-}>', 'gt')
-
--- vim.keymap.set({ 'i', 't', 'c' }, '<M-h>', '<Left>')
--- vim.keymap.set({ 'i', 't' }, '<M-j>', '<Down>')
--- vim.keymap.set({ 'i', 't' }, '<M-k>', '<Up>')
--- vim.keymap.set({ 'i', 't', 'c' }, '<M-l>', '<Right>')
 
 vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
@@ -56,15 +67,6 @@ vim.keymap.set('n', '<space>gg', function()
     size = { width = 0.85, height = 0.8 },
   })
 end)
-
--- fzf
--- vim.keymap.set('n', '<space>ff', '<cmd>FzfLua files<cr>')
--- vim.keymap.set('n', '<space>fa', '<cmd>FzfLua buffers<cr>')
--- vim.keymap.set('n', '<space>fb', '<cmd>FzfLua buffers cwd_only=true<cr>')
--- vim.keymap.set('n', '<space>fw', '<cmd>FzfLua grep_cword<cr>')
--- vim.keymap.set('n', '<space>fg', '<cmd>FzfLua grep_curbuf<cr>')
--- vim.keymap.set('n', '<space>/', '<cmd>FzfLua live_grep<cr>')
--- vim.keymap.set('n', '<space>p', '<cmd>FzfLua resume<cr>')
 
 -- cmd.nvim
 vim.keymap.set('n', '<space>ee', function()
@@ -92,7 +94,10 @@ vim.keymap.set('n', '<space>gs', function() MiniGit.show_at_cursor() end)
 
 -- picker
 vim.keymap.set('n', '<space>ff', '<cmd>Pick files<cr>')
-vim.keymap.set('n', '<space>fa', '<cmd>Pick buffers<cr>')
+vim.keymap.set('n', '<space>b', '<cmd>Pick buffers<cr>')
 vim.keymap.set('n', '<space>fg', '<cmd>Pick grep_live<cr>')
 vim.keymap.set('n', '<space>/', '<cmd>Pick grep<cr>')
 vim.keymap.set('n', '<space>p', '<cmd>Pick resume<cr>')
+vim.keymap.set('n', '<space>w', function()
+  MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") })
+end)
