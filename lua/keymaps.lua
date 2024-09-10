@@ -45,7 +45,7 @@ vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<space>d', ':tcd %:h<cr>')
+vim.keymap.set('n', '<space>d', '<cmd>Gcd<cr>')
 
 -- lsp
 vim.keymap.set('n', '<space>=', ':lua vim.lsp.buf.format({async=true})<cr>')
@@ -58,13 +58,13 @@ vim.keymap.set('n', '<space>gg', function()
 end)
 
 -- fzf
-vim.keymap.set('n', '<space>/', '<cmd>FzfLua live_grep<cr>')
-vim.keymap.set('n', '<space>w', '<cmd>FzfLua grep_cword<cr>')
-vim.keymap.set('n', '<space>b', '<cmd>FzfLua buffers cwd_only=true<cr>')
-vim.keymap.set('n', '<space>ff', '<cmd>FzfLua files<cr>')
-vim.keymap.set('n', '<space>fa', '<cmd>FzfLua tabs<cr>')
-vim.keymap.set('n', '<space>fg', '<cmd>FzfLua grep_curbuf<cr>')
-vim.keymap.set('n', '<space>fp', '<cmd>FzfLua resume<cr>')
+-- vim.keymap.set('n', '<space>ff', '<cmd>FzfLua files<cr>')
+-- vim.keymap.set('n', '<space>fa', '<cmd>FzfLua buffers<cr>')
+-- vim.keymap.set('n', '<space>fb', '<cmd>FzfLua buffers cwd_only=true<cr>')
+-- vim.keymap.set('n', '<space>fw', '<cmd>FzfLua grep_cword<cr>')
+-- vim.keymap.set('n', '<space>fg', '<cmd>FzfLua grep_curbuf<cr>')
+-- vim.keymap.set('n', '<space>/', '<cmd>FzfLua live_grep<cr>')
+-- vim.keymap.set('n', '<space>p', '<cmd>FzfLua resume<cr>')
 
 -- cmd.nvim
 vim.keymap.set('n', '<space>ee', function()
@@ -84,3 +84,15 @@ vim.keymap.set('n', '<space>ey', function()
   vim.fn.setreg('+', cmd)
 end)
 vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
+
+-- mini.nvim
+-- git
+vim.keymap.set('n', '<space>gs', function() MiniGit.show_at_cursor() end)
+-- vim.keymap.set('n', '<space>o', function() MiniFiles.open() end)
+
+-- picker
+vim.keymap.set('n', '<space>ff', '<cmd>Pick files<cr>')
+vim.keymap.set('n', '<space>fa', '<cmd>Pick buffers<cr>')
+vim.keymap.set('n', '<space>fg', '<cmd>Pick grep_live<cr>')
+vim.keymap.set('n', '<space>/', '<cmd>Pick grep<cr>')
+vim.keymap.set('n', '<space>p', '<cmd>Pick resume<cr>')

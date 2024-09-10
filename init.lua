@@ -7,7 +7,6 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
--- vim.g.my_code_ft = { 'go', 'c', 'c++', 'javascript', 'lua', 'typescript', 'yaml', 'html', 'vim', 'json', 'sh' }
 
 local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
@@ -17,7 +16,7 @@ if not vim.uv.fs_stat(mini_path) then
 end
 require('mini.deps').setup()
 
--- Define helpers
+---@diagnostic disable-next-line: undefined-global
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 now(function()
@@ -32,6 +31,12 @@ later(function() require('mini.surround').setup() end)
 
 later(function()
   require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
+end)
+
+later(function()
+  require('mini.pick').setup()
+  -- vim.ui.select = MiniPick.ui_select
+  -- vim.keymap.set('n', ',', [[<Cmd>Pick buf_lines scope='current'<CR>]], { nowait = true })
 end)
 
 later(function()
@@ -52,10 +57,10 @@ later(function()
   })
 end)
 
-later(function()
-  add('ibhagwan/fzf-lua')
-  require('fzf-lua').setup()
-end)
+-- later(function()
+--   add('ibhagwan/fzf-lua')
+--   require('fzf-lua').setup()
+-- end)
 
 later(function()
   add('fishioon/cmd.nvim')
@@ -65,5 +70,5 @@ later(function()
 end)
 
 require('options')
-require('keymaps')
 require('statusline')
+require('keymaps')
