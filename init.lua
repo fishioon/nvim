@@ -8,7 +8,9 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
-_G.Config = {}
+if not Config then
+  _G.Config = {}
+end
 
 local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
@@ -26,16 +28,58 @@ end)
 
 later(function() require('mini.bracketed').setup() end)
 later(function() require('mini.diff').setup() end)
+later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
+later(function() require('mini.pairs').setup() end)
+later(function() require('mini.pick').setup() end)
 later(function() require('mini.surround').setup() end)
 later(function()
-  require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
-end)
-later(function()
-  require('mini.pick').setup()
-end)
+  local miniclue = require('mini.clue')
+  miniclue.setup({
+    triggers = {
+      -- Leader triggers
+      { mode = 'n', keys = '<Leader>' },
+      { mode = 'x', keys = '<Leader>' },
 
+      -- Built-in completion
+      { mode = 'i', keys = '<C-x>' },
+
+      -- `g` key
+      { mode = 'n', keys = 'g' },
+      { mode = 'x', keys = 'g' },
+
+      -- Marks
+      { mode = 'n', keys = "'" },
+      { mode = 'n', keys = '`' },
+      { mode = 'x', keys = "'" },
+      { mode = 'x', keys = '`' },
+
+      -- Registers
+      { mode = 'n', keys = '"' },
+      { mode = 'x', keys = '"' },
+      { mode = 'i', keys = '<C-r>' },
+      { mode = 'c', keys = '<C-r>' },
+
+      -- Window commands
+      { mode = 'n', keys = '<C-w>' },
+
+      -- `z` key
+      { mode = 'n', keys = 'z' },
+      { mode = 'x', keys = 'z' },
+    },
+
+    clues = {
+      -- Enhance this by adding descriptions for <Leader> mapping groups
+      miniclue.gen_clues.builtin_completion(),
+      miniclue.gen_clues.g(),
+      miniclue.gen_clues.marks(),
+      miniclue.gen_clues.registers(),
+      miniclue.gen_clues.windows(),
+      miniclue.gen_clues.z(),
+    },
+  })
+end)
 
 later(function()
   add('neovim/nvim-lspconfig')
@@ -70,4 +114,3 @@ require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
-
