@@ -116,6 +116,7 @@ nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer
 nmap_leader('ff', '<Cmd>Pick files<CR>', 'Files')
 nmap_leader('fg', '<Cmd>Pick grep_live<CR>', 'Grep live')
 nmap_leader('fw', '<Cmd>Pick grep pattern="<cword>"<CR>', 'Grep current word')
+nmap_leader('/', '<Cmd>Pick grep<CR>', 'Grep')
 nmap_leader('fh', '<Cmd>Pick help<CR>', 'Help tags')
 nmap_leader('fH', '<Cmd>Pick hl_groups<CR>', 'Highlight groups')
 nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')

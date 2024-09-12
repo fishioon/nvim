@@ -22,8 +22,10 @@ require('mini.deps').setup()
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
+-- now(function() require('mini.statusline').setup() end)
 now(function()
   require('mini.icons').setup()
+  MiniIcons.mock_nvim_web_devicons()
 end)
 
 later(function() require('mini.bracketed').setup() end)
@@ -33,7 +35,19 @@ later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.pairs').setup() end)
-later(function() require('mini.pick').setup() end)
+later(function()
+  local pick = require('mini.pick')
+  pick.setup({
+    mappings = {
+      switch_pick = {
+        char = '<C-j>',
+        func = function()
+          pick.builtin.files()
+        end,
+      },
+    }
+  })
+end)
 later(function() require('mini.surround').setup() end)
 
 later(function()
