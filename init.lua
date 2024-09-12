@@ -27,6 +27,7 @@ now(function()
 end)
 
 later(function() require('mini.bracketed').setup() end)
+later(function() require('mini.completion').setup({}) end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
@@ -34,6 +35,7 @@ later(function() require('mini.git').setup() end)
 later(function() require('mini.pairs').setup() end)
 later(function() require('mini.pick').setup() end)
 later(function() require('mini.surround').setup() end)
+
 later(function()
   local miniclue = require('mini.clue')
   miniclue.setup({
@@ -87,10 +89,6 @@ later(function()
 end)
 
 later(function()
-  require('mini.completion').setup({})
-end)
-
-later(function()
   add('nvim-treesitter/nvim-treesitter')
   add('nvim-treesitter/nvim-treesitter-textobjects')
   require('nvim-treesitter.configs').setup({
@@ -108,6 +106,11 @@ later(function()
   add('fishioon/term.nvim')
   require('cmd').setup()
   require('term').setup({})
+end)
+
+later(function()
+  add('MeanderingProgrammer/render-markdown.nvim')
+  require('render-markdown').setup({})
 end)
 
 require('core.functions')

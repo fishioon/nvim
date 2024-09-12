@@ -69,7 +69,7 @@ vim.keymap.set('n', '<space>gg', function()
 end)
 
 -- cmd.nvim
-vim.keymap.set('n', '<space>ee', function()
+vim.keymap.set('n', '<space>r', function()
   local cmd = require('cmd').cmd()
   require('term').send(cmd .. '\n', false)
 end)
