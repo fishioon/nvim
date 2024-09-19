@@ -143,6 +143,16 @@ later(function()
   require('render-markdown').setup({})
 end)
 
+later(function()
+  add('stevearc/conform.nvim')
+  require("conform").setup({
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_format = "fallback",
+    },
+  })
+end)
+
 require('core.functions')
 require('core.options')
 require('core.statusline')
