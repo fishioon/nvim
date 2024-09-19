@@ -36,16 +36,32 @@ later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.pairs').setup() end)
 later(function()
-  local pick = require('mini.pick')
-  pick.setup({
+  local function next_pickers(name)
+    return name == 'buffers' and 'files' or 'buffers'
+    -- vim.print(name)
+    -- local pickers = { 'files', 'buffers' }
+    -- for index, value in ipairs(pickers) do
+    --   if value == name then
+    --     local k = index == #pickers and 1 or index+1
+    --     return pickers[k]
+    --   end
+    -- end
+    -- return pickers[1]
+  end
+
+  local switch_picker = function()
+    local query = MiniPick.get_picker_query() or {}
+    local cur_name = MiniPick.get_picker_opts().source.name
+    local name = next_pickers(string.lower(cur_name))
+    MiniPick.stop()
+    vim.cmd('Pick ' .. name)
+    local transfer_query = function() MiniPick.set_picker_query(query) end
+    vim.api.nvim_create_autocmd('User', { pattern = 'MiniPickStart', once = true, callback = transfer_query })
+  end
+  require('mini.pick').setup({
     mappings = {
-      switch_pick = {
-        char = '<C-j>',
-        func = function()
-          pick.builtin.files()
-        end,
-      },
-    }
+      switch = { char = '<C-k>', func = switch_picker },
+    },
   })
 end)
 later(function() require('mini.surround').setup() end)
