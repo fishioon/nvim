@@ -22,6 +22,8 @@ require('mini.deps').setup()
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
+-- now(function() require('mini.starter').setup() end)
+-- now(function() require('mini.sessions').setup() end)
 -- now(function() require('mini.statusline').setup() end)
 now(function()
   require('mini.icons').setup()
@@ -35,18 +37,32 @@ later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.pairs').setup() end)
+
 later(function()
-  local pick = require('mini.pick')
-  pick.setup({
+  require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
+  vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
+end)
+
+-- later(function() require('mini.starter').setup() end)
+later(function()
+  local switch_picker = function()
+    local query = MiniPick.get_picker_query() or {}
+    MiniPick.stop()
+    vim.ui.select(vim.tbl_keys(MiniPick.registry), {
+      prompt = 'Switch picker with query: ' .. table.concat(query, ''),
+    }, function(picker)
+      if not picker then return end
+      vim.cmd('Pick ' .. picker)
+      local transfer_query = function() MiniPick.set_picker_query(query) end
+      vim.api.nvim_create_autocmd('User', { pattern = 'MiniPickStart', once = true, callback = transfer_query })
+    end)
+  end
+  require('mini.pick').setup({
     mappings = {
-      switch_pick = {
-        char = '<C-j>',
-        func = function()
-          pick.builtin.files()
-        end,
-      },
-    }
+      switch = { char = '<C-k>', func = switch_picker },
+    },
   })
+  vim.ui.select = MiniPick.ui_select
 end)
 later(function() require('mini.surround').setup() end)
 
@@ -141,3 +157,4 @@ require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
+-- require('core.completion')

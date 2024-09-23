@@ -15,5 +15,6 @@ vim.o.foldmethod     = 'expr'
 vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldenable     = false
 vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
+-- vim.o.completeopt    = 'menu,preview'
 vim.o.listchars      = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',')
 vim.o.cursorlineopt  = 'screenline,number' -- Show cursor line only screen line when wrapped
