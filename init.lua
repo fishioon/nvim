@@ -30,8 +30,7 @@ now(function()
   MiniIcons.mock_nvim_web_devicons()
 end)
 
-later(function() require('mini.bracketed').setup() end)
-later(function() require('mini.completion').setup({}) end)
+-- later(function() require('mini.completion').setup({}) end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
@@ -54,7 +53,8 @@ later(function()
       if not picker then return end
       vim.cmd('Pick ' .. picker)
       local transfer_query = function() MiniPick.set_picker_query(query) end
-      vim.api.nvim_create_autocmd('User', { pattern = 'MiniPickStart', once = true, callback = transfer_query })
+      vim.api.nvim_create_autocmd('User',
+        { pattern = 'MiniPickStart', once = true, callback = transfer_query })
     end)
   end
   require('mini.pick').setup({
@@ -153,8 +153,12 @@ later(function()
   })
 end)
 
+later(function()
+  add('supermaven-inc/supermaven-nvim')
+  require('supermaven-nvim').setup({})
+end)
+
 require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
--- require('core.completion')
