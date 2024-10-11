@@ -1,6 +1,3 @@
--- Initialization =============================================================
-pcall(function() vim.loader.enable() end)
-
 vim.g.mapleader = ' '
 vim.g.localmapleader = ' '
 vim.g.loaded_python3_provider = 0
@@ -138,20 +135,20 @@ later(function()
   require('term').setup({})
 end)
 
-later(function()
-  add('MeanderingProgrammer/render-markdown.nvim')
-  require('render-markdown').setup({})
-end)
+-- later(function()
+--   add('MeanderingProgrammer/render-markdown.nvim')
+--   require('render-markdown').setup({})
+-- end)
 
-later(function()
-  add('stevearc/conform.nvim')
-  require("conform").setup({
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_format = "fallback",
-    },
-  })
-end)
+-- later(function()
+--   add('stevearc/conform.nvim')
+--   require("conform").setup({
+--     format_on_save = {
+--       timeout_ms = 500,
+--       lsp_format = "fallback",
+--     },
+--   })
+-- end)
 
 later(function()
   add('supermaven-inc/supermaven-nvim')
