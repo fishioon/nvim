@@ -1,3 +1,4 @@
+vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.localmapleader = ' '
 vim.g.loaded_python3_provider = 0
@@ -32,10 +33,11 @@ later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
-later(function() require('mini.pairs').setup() end)
+-- later(function() require('mini.pairs').setup() end)
+--
 
 later(function()
-  require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
+  require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
   vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
 end)
 
@@ -135,6 +137,26 @@ later(function()
   require('term').setup({})
 end)
 
+later(function()
+  add('rafamadriz/friendly-snippets')
+  add({
+    source = "saghen/blink.cmp",
+    checkout = 'v0.3.1',
+  })
+  require('blink.cmp').setup({
+    keymap = {
+      accept = '<CR>',
+      snippet_forward = "<c-j>",
+      snippet_backward = "<c-k>",
+    },
+    windows = {
+      documentation = {
+        auto_show = false,
+      },
+    }
+  })
+end)
+
 -- later(function()
 --   add('MeanderingProgrammer/render-markdown.nvim')
 --   require('render-markdown').setup({})
@@ -159,3 +181,4 @@ require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
+-- require('internal.completion')
