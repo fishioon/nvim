@@ -141,7 +141,7 @@ later(function()
   add('rafamadriz/friendly-snippets')
   add({
     source = "saghen/blink.cmp",
-    checkout = 'v0.3.1',
+    checkout = 'v0.4.1',
   })
   require('blink.cmp').setup({
     keymap = {
