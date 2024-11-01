@@ -141,7 +141,7 @@ later(function()
   add('rafamadriz/friendly-snippets')
   add({
     source = "saghen/blink.cmp",
-    checkout = 'v0.4.1',
+    checkout = 'v0.5.0',
   })
   require('blink.cmp').setup({
     keymap = {
@@ -155,6 +155,36 @@ later(function()
       },
     }
   })
+end)
+
+later(function()
+  add({
+    source = 'yetone/avante.nvim',
+    monitor = 'main',
+    depends = {
+      'stevearc/dressing.nvim',
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+    },
+  })
+  require('avante_lib').load()
+  require("avante").setup({
+    debug = false,
+    provider = "openai",
+    auto_suggestions_provider = "openai",
+    claude = {
+      endpoint = "https://api.proxyxai.com",
+      model = "claude-3-5-sonnet-20241022",
+      temperature = 0,
+      max_tokens = 4096,
+    },
+    openai = {
+      endpoint = "https://api.proxyxai.com",
+      -- model = "claude-3-5-sonnet-20241022",
+      temperature = 0,
+      max_tokens = 4096,
+    },
+  }) -- config for avante.nvim
 end)
 
 -- later(function()

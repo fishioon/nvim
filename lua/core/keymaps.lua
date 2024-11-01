@@ -1,7 +1,7 @@
 vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |tcd %:h', {})
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'lua' },
+  pattern = { 'c', 'lua', 'javascript' },
   callback = function()
     vim.bo.tabstop = 2
     vim.bo.shiftwidth = 2
@@ -32,17 +32,13 @@ end
 vim.keymap.set('c', '<C-p>', '<Up>', { silent = false })
 vim.keymap.set('c', '<C-n>', '<Down>', { silent = false })
 
-keymap_all('<M-0>', ':silent tablast<CR>')
-keymap_all('<M-1>', '1gt')
-keymap_all('<M-2>', '2gt')
-keymap_all('<M-3>', '3gt')
-keymap_all('<M-4>', '4gt')
-keymap_all('<M-]>', 'gt')
-keymap_all('<M-[>', 'gT')
-keymap_all('<M-h>', '<C-w>h', { desc = "h window" })
-keymap_all('<M-j>', '<C-w>j', { desc = "j window" })
-keymap_all('<M-k>', '<C-w>k', { desc = "k window" })
-keymap_all('<M-l>', '<C-w>l', { desc = "l window" })
+keymap_all('<C-j>', '<C-w>w', { desc = "j window" })
+keymap_all('<C-k>', '<C-w>W', { desc = "k window" })
+
+-- keymap_all('<M-h>', '<C-w>h', { desc = "h window" })
+-- keymap_all('<M-j>', '<C-w>j', { desc = "j window" })
+-- keymap_all('<M-k>', '<C-w>k', { desc = "k window" })
+-- keymap_all('<M-l>', '<C-w>l', { desc = "l window" })
 
 vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
