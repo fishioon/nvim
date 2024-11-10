@@ -1,4 +1,5 @@
 vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
+vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |tcd %:h', {})
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'c', 'lua', 'javascript' },
@@ -31,6 +32,20 @@ end
 -- Better command history navigation
 vim.keymap.set('c', '<C-p>', '<Up>', { silent = false })
 vim.keymap.set('c', '<C-n>', '<Down>', { silent = false })
+
+vim.keymap.set('n', '<leader>1', '1gt', { silent = false })
+vim.keymap.set('n', '<leader>2', '2gt', { silent = false })
+vim.keymap.set('n', '<leader>3', '3gt', { silent = false })
+vim.keymap.set('n', '<leader>4', '4gt', { silent = false })
+vim.keymap.set('n', '<leader>5', '5gt', { silent = false })
+vim.keymap.set('n', '<leader>6', '6gt', { silent = false })
+vim.keymap.set('n', '<leader>7', '7gt', { silent = false })
+vim.keymap.set('n', '<leader>8', '8gt', { silent = false })
+vim.keymap.set('n', '<leader>9', '9gt', { silent = false })
+vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>', { silent = false })
+
+vim.keymap.set('n', '<C-p>', '<Up>', { silent = false })
+vim.keymap.set('n', '<C-n>', '<Down>', { silent = false })
 
 keymap_all('<C-j>', '<C-w>w', { desc = "j window" })
 keymap_all('<C-k>', '<C-w>W', { desc = "k window" })

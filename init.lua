@@ -32,14 +32,13 @@ end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
-later(function() require('mini.git').setup() end)
--- later(function() require('mini.pairs').setup() end)
---
 
-later(function()
-  require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
-  vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
-end)
+-- later(function() require('mini.git').setup() end)
+
+-- later(function()
+--   require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
+--   vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
+-- end)
 
 -- later(function() require('mini.starter').setup() end)
 later(function()
@@ -141,14 +140,10 @@ later(function()
   add('rafamadriz/friendly-snippets')
   add({
     source = "saghen/blink.cmp",
-    checkout = 'v0.5.0',
+    checkout = "v0.5.1",
   })
   require('blink.cmp').setup({
-    keymap = {
-      accept = '<CR>',
-      snippet_forward = "<c-j>",
-      snippet_backward = "<c-k>",
-    },
+    keymap = 'enter',
     windows = {
       documentation = {
         auto_show = false,
@@ -167,48 +162,53 @@ later(function()
       'MunifTanjim/nui.nvim',
     },
   })
+  add({ source = 'zbirenbaum/copilot.lua' })
   require('avante_lib').load()
+  require('copilot').setup({
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      hide_during_completion = true,
+      debounce = 75,
+      keymap = {
+        accept = "<tab>",
+        accept_word = false,
+        accept_line = false,
+        next = "<M-]>",
+        prev = "<M-[>",
+        dismiss = "<C-]>",
+      },
+    },
+  })
   require("avante").setup({
     debug = false,
-    provider = "openai",
-    auto_suggestions_provider = "openai",
-    claude = {
-      endpoint = "https://api.proxyxai.com",
-      model = "claude-3-5-sonnet-20241022",
-      temperature = 0,
-      max_tokens = 4096,
+    provider = "copilot",
+    auto_suggestions_provider = "copilot",
+    behaviour = {
+      auto_suggestions = false, -- Experimental stage
+      auto_set_highlight_group = true,
+      auto_set_keymaps = true,
+      auto_apply_diff_after_generation = false,
+      support_paste_from_clipboard = false,
     },
-    openai = {
-      endpoint = "https://api.proxyxai.com",
-      -- model = "claude-3-5-sonnet-20241022",
-      temperature = 0,
-      max_tokens = 4096,
+    mappings = {
+      toggle = {
+        default = "<leader>aa",
+        debug = "<leader>ad",
+        hint = "<leader>ah",
+        suggestion = "<leader>as",
+        repomap = "<leader>aR",
+      },
     },
   }) -- config for avante.nvim
 end)
 
 -- later(function()
---   add('MeanderingProgrammer/render-markdown.nvim')
---   require('render-markdown').setup({})
+--   add('supermaven-inc/supermaven-nvim')
+--   require('supermaven-nvim').setup({})
 -- end)
-
--- later(function()
---   add('stevearc/conform.nvim')
---   require("conform").setup({
---     format_on_save = {
---       timeout_ms = 500,
---       lsp_format = "fallback",
---     },
---   })
--- end)
-
-later(function()
-  add('supermaven-inc/supermaven-nvim')
-  require('supermaven-nvim').setup({})
-end)
 
 require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
--- require('internal.completion')
