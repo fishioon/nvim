@@ -20,20 +20,18 @@ require('mini.deps').setup()
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
--- now(function() require('mini.starter').setup() end)
--- now(function() require('mini.sessions').setup() end)
--- now(function() require('mini.statusline').setup() end)
 now(function()
   require('mini.icons').setup()
   MiniIcons.mock_nvim_web_devicons()
 end)
 
--- later(function() require('mini.completion').setup({}) end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
-
--- later(function() require('mini.git').setup() end)
+later(function() require('mini.ai').setup() end)
+later(function() require('mini.git').setup() end)
+later(function() require('mini.completion').setup() end)
+later(function() require('mini.surround').setup() end)
 
 -- later(function()
 --   require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
@@ -62,7 +60,6 @@ later(function()
   })
   vim.ui.select = MiniPick.ui_select
 end)
-later(function() require('mini.surround').setup() end)
 
 later(function()
   local miniclue = require('mini.clue')
@@ -136,23 +133,24 @@ later(function()
   require('term').setup({})
 end)
 
-later(function()
-  add('rafamadriz/friendly-snippets')
-  add({
-    source = "saghen/blink.cmp",
-    checkout = "v0.5.1",
-  })
-  require('blink.cmp').setup({
-    keymap = 'enter',
-    windows = {
-      documentation = {
-        auto_show = false,
-      },
-    }
-  })
-end)
+-- later(function()
+--   add('rafamadriz/friendly-snippets')
+--   add({
+--     source = "saghen/blink.cmp",
+--     checkout = "v0.5.1",
+--   })
+--   require('blink.cmp').setup({
+--     keymap = 'enter',
+--     windows = {
+--       documentation = {
+--         auto_show = false,
+--       },
+--     }
+--   })
+-- end)
 
 later(function()
+  add('zbirenbaum/copilot.lua')
   add({
     source = 'yetone/avante.nvim',
     monitor = 'main',
@@ -162,9 +160,22 @@ later(function()
       'MunifTanjim/nui.nvim',
     },
   })
-  add({ source = 'zbirenbaum/copilot.lua' })
-  require('avante_lib').load()
   require('copilot').setup({
+    panel = {
+      enabled = true,
+      auto_refresh = false,
+      keymap = {
+        jump_prev = "[[",
+        jump_next = "]]",
+        accept = "<CR>",
+        refresh = "gr",
+        open = "<M-CR>"
+      },
+      layout = {
+        position = "bottom", -- | top | left | right
+        ratio = 0.4
+      },
+    },
     suggestion = {
       enabled = true,
       auto_trigger = true,
@@ -179,7 +190,18 @@ later(function()
         dismiss = "<C-]>",
       },
     },
+    filetypes = {
+      yaml = true,
+      markdown = true,
+      help = false,
+      gitcommit = true,
+      gitrebase = true,
+      ["."] = false,
+    },
+    copilot_node_command = 'node', -- Node.js version must be > 18.x
+    server_opts_overrides = {},
   })
+  require('avante_lib').load()
   require("avante").setup({
     debug = false,
     provider = "copilot",
