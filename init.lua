@@ -32,6 +32,10 @@ later(function() require('mini.ai').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
+later(function()
+  require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
+  vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
+end)
 
 -- later(function()
 --   require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
@@ -105,6 +109,13 @@ later(function()
       miniclue.gen_clues.windows(),
       miniclue.gen_clues.z(),
     },
+  })
+end)
+
+later(function()
+  add('folke/snacks.nvim')
+  require('snacks').setup({
+    bigfile = { enabled = true },
   })
 end)
 
