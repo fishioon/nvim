@@ -11,8 +11,8 @@ vim.lsp.config('luals', {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME,
-          vim.fn.stdpath('data') .. '/site/pack/deps/',
           "${3rd}/luv/library",
+          -- vim.fn.stdpath('data') .. '/site/pack/deps/',
         }
       }
     }

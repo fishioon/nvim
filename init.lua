@@ -16,7 +16,9 @@ if not vim.uv.fs_stat(mini_path) then
   local clone_cmd = { 'git', 'clone', '--filter=blob:none', 'https://github.com/echasnovski/mini.nvim', mini_path }
   vim.fn.system(clone_cmd)
 end
-require('mini.deps').setup()
+
+local MiniDeps = require('mini.deps')
+MiniDeps.setup()
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
@@ -25,11 +27,11 @@ now(function()
   MiniIcons.mock_nvim_web_devicons()
 end)
 
-later(function() require('mini.diff').setup() end)
+-- later(function() require('mini.diff').setup() end)
+-- later(function() require('mini.git').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.ai').setup() end)
-later(function() require('mini.git').setup() end)
 later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
 later(function()
@@ -126,22 +128,6 @@ later(function()
   require('term').setup({})
 end)
 
--- later(function()
---   add('rafamadriz/friendly-snippets')
---   add({
---     source = "saghen/blink.cmp",
---     checkout = "v0.5.1",
---   })
---   require('blink.cmp').setup({
---     keymap = 'enter',
---     windows = {
---       documentation = {
---         auto_show = false,
---       },
---     }
---   })
--- end)
-
 later(function()
   add('zbirenbaum/copilot.lua')
   add({
@@ -218,16 +204,6 @@ later(function()
   }) -- config for avante.nvim
 end)
 
--- later(function()
---   add('supermaven-inc/supermaven-nvim')
---   require('supermaven-nvim').setup({})
--- end)
-
-require('core.functions')
-require('core.options')
-require('core.statusline')
-require('core.keymaps')
-
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
 vim.lsp.config('*', {
   capabilities = {
@@ -240,4 +216,14 @@ vim.lsp.config('*', {
   root_markers = { '.git' },
 })
 
-vim.lsp.enable({ 'luals' })
+vim.lsp.config('jsonls', {
+  cmd = { 'vscode-json-languageserver', '--stdio' },
+  filetypes = { 'json' },
+})
+
+later(function() vim.lsp.enable({ 'luals', 'gopls', 'jsonls' }) end)
+
+require('core.functions')
+require('core.options')
+require('core.statusline')
+require('core.keymaps')
