@@ -135,6 +135,7 @@ nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')
 nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>', 'Lines (current)')
 nmap_leader('fm', '<Cmd>Pick git_hunks<CR>', 'Modified hunks (all)')
 nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>', 'Modified hunks (current)')
+nmap_leader('fp', '<Cmd>Pick projects<CR>', 'Projects')
 nmap_leader('fr', '<Cmd>Pick resume<CR>', 'Resume')
 nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>', 'References (LSP)')
 nmap_leader('fs', '<Cmd>Pick lsp scope="workspace_symbol"<CR>', 'Symbols workspace (LSP)')
@@ -143,12 +144,28 @@ nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>', 'Visit paths (all)')
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>', 'Visit paths (cwd)')
 
 -- g is for git
-nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
-nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
-nmap_leader('gg', '<Cmd>lua Config.open_lazygit()<CR>', 'Git tab')
-nmap_leader('gl', '<Cmd>Git log --oneline<CR>', 'Log')
-nmap_leader('gL', '<Cmd>Git log --oneline --follow -- %<CR>', 'Log buffer')
-nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
-nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
+-- nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
+-- nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
+-- nmap_leader('gg', '<Cmd>lua Config.open_lazygit()<CR>', 'Git tab')
+-- nmap_leader('gl', '<Cmd>Git log --oneline<CR>', 'Log')
+-- nmap_leader('gL', '<Cmd>Git log --oneline --follow -- %<CR>', 'Log buffer')
+-- nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
+-- nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
+
+-- snacks
+nmap_leader('z', function() Snacks.zen() end, 'Toggle Zen Mode')
+nmap_leader('Z', function() Snacks.zen.zoom() end, 'Toggle Zen Mode')
+nmap_leader('.', function() Snacks.scratch() end, 'Toggle Scratch Buffer')
+nmap_leader('S', function() Snacks.scratch.select() end, 'Select Scratch Buffer')
+
+nmap_leader('gB', function() Snacks.gitbrowse() end, 'Git Browse')
+nmap_leader('gb', function() Snacks.git.blame_line() end, 'Git Blame line')
+nmap_leader('gg', function() Snacks.lazygit() end, 'Lazygit')
+nmap_leader('gl', function() Snacks.lazygit.log() end, 'Lazygit log (cwd)')
+nmap_leader('gf', function() Snacks.lazygit.log_file() end, 'Lazygit current file history')
+
+    -- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
+    -- { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+vim.keymap.set('n', '[[', function() MiniGit.show_at_cursor() end)
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')

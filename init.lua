@@ -34,35 +34,21 @@ later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
 later(function()
   require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
-  vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
+  -- vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
 end)
 
--- later(function()
---   require('mini.pairs').setup({ modes = { insert = true, command = false, terminal = false } })
---   vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
--- end)
-
--- later(function() require('mini.starter').setup() end)
 later(function()
-  local switch_picker = function()
-    local query = MiniPick.get_picker_query() or {}
-    MiniPick.stop()
-    vim.ui.select(vim.tbl_keys(MiniPick.registry), {
-      prompt = 'Switch picker with query: ' .. table.concat(query, ''),
-    }, function(picker)
-      if not picker then return end
-      vim.cmd('Pick ' .. picker)
-      local transfer_query = function() MiniPick.set_picker_query(query) end
-      vim.api.nvim_create_autocmd('User',
-        { pattern = 'MiniPickStart', once = true, callback = transfer_query })
-    end)
-  end
-  require('mini.pick').setup({
-    mappings = {
-      switch = { char = '<C-k>', func = switch_picker },
-    },
-  })
+  require('mini.pick').setup({ window = { config = { border = 'double' } } })
   vim.ui.select = MiniPick.ui_select
+  vim.keymap.set('n', ',', [[<Cmd>Pick buf_lines scope='current' preserve_order=true<CR>]], { nowait = true })
+
+  MiniPick.registry.projects = function()
+    local cwd = vim.fn.expand('~/repos')
+    local choose = function(item)
+      vim.schedule(function() MiniPick.builtin.files(nil, { source = { cwd = item.path } }) end)
+    end
+    return MiniExtra.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
+  end
 end)
 
 later(function()
@@ -116,12 +102,8 @@ later(function()
   add('folke/snacks.nvim')
   require('snacks').setup({
     bigfile = { enabled = true },
+    bufdelete = { enabled = true },
   })
-end)
-
-later(function()
-  add('neovim/nvim-lspconfig')
-  require('core.lsp')
 end)
 
 later(function()
@@ -245,3 +227,17 @@ require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
+
+-- https://microsoft.github.io/language-server-protocol/implementors/servers/
+vim.lsp.config('*', {
+  capabilities = {
+    textDocument = {
+      semanticTokens = {
+        multilineTokenSupport = true,
+      }
+    }
+  },
+  root_markers = { '.git' },
+})
+
+vim.lsp.enable({ 'luals' })
