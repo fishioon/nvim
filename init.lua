@@ -6,10 +6,6 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
-if not Config then
-  _G.Config = {}
-end
-
 local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
   vim.cmd([[echo "Installing 'mini.nvim'" | redraw]])
@@ -27,17 +23,16 @@ now(function()
   MiniIcons.mock_nvim_web_devicons()
 end)
 
--- later(function() require('mini.diff').setup() end)
--- later(function() require('mini.git').setup() end)
+now(function()
+  add('folke/tokyonight.nvim')
+  vim.cmd.colorscheme('tokyonight-night')
+end)
+
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.ai').setup() end)
 later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
-later(function()
-  require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } })
-  -- vim.keymap.set('i', '<CR>', 'v:lua.Config.cr_action()', { expr = true })
-end)
 
 later(function()
   require('mini.pick').setup({ window = { config = { border = 'double' } } })
@@ -158,8 +153,8 @@ later(function()
     suggestion = {
       enabled = true,
       auto_trigger = true,
-      hide_during_completion = true,
-      debounce = 75,
+      hide_during_completion = false,
+      debounce = 50,
       keymap = {
         accept = "<tab>",
         accept_word = false,
@@ -215,7 +210,6 @@ vim.lsp.config('*', {
   },
   root_markers = { '.git' },
 })
-
 vim.lsp.config('jsonls', {
   cmd = { 'vscode-json-languageserver', '--stdio' },
   filetypes = { 'json' },
@@ -223,7 +217,6 @@ vim.lsp.config('jsonls', {
 
 later(function() vim.lsp.enable({ 'luals', 'gopls', 'jsonls' }) end)
 
-require('core.functions')
 require('core.options')
 require('core.statusline')
 require('core.keymaps')
