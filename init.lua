@@ -214,8 +214,12 @@ vim.lsp.config('jsonls', {
   cmd = { 'vscode-json-languageserver', '--stdio' },
   filetypes = { 'json' },
 })
+vim.lsp.config('tsls', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = { 'javascript', 'typescript' },
+})
 
-later(function() vim.lsp.enable({ 'luals', 'gopls', 'jsonls' }) end)
+later(function() vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' }) end)
 
 require('core.options')
 require('core.statusline')
