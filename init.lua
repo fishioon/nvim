@@ -31,7 +31,7 @@ end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.ai').setup() end)
-later(function() require('mini.completion').setup() end)
+-- later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
 
 later(function()
@@ -123,6 +123,21 @@ later(function()
   require('term').setup({})
 end)
 
+-- use a release tag to download pre-built binaries
+later(function()
+  add({
+    source = "saghen/blink.cmp",
+    depends = {
+      "rafamadriz/friendly-snippets",
+    },
+    checkout = "v0.7.6", -- check releases for latest tag
+  })
+  require('blink.cmp').setup({
+    keymap = { preset = 'enter' },
+  })
+end)
+
+-- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 later(function()
   add('zbirenbaum/copilot.lua')
   add({
@@ -199,27 +214,38 @@ later(function()
   }) -- config for avante.nvim
 end)
 
--- https://microsoft.github.io/language-server-protocol/implementors/servers/
-vim.lsp.config('*', {
-  capabilities = {
-    textDocument = {
-      semanticTokens = {
-        multilineTokenSupport = true,
-      }
-    }
-  },
-  root_markers = { '.git' },
-})
-vim.lsp.config('jsonls', {
-  cmd = { 'vscode-json-languageserver', '--stdio' },
-  filetypes = { 'json' },
-})
-vim.lsp.config('tsls', {
-  cmd = { 'typescript-language-server', '--stdio' },
-  filetypes = { 'javascript', 'typescript' },
-})
+later(function()
+  add('williamboman/mason.nvim')
+  require('mason').setup()
 
-later(function() vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' }) end)
+  vim.lsp.config('*', {
+    capabilities = {
+      textDocument = {
+        semanticTokens = {
+          multilineTokenSupport = true,
+        }
+      }
+    },
+    root_markers = { '.git' },
+  })
+  vim.lsp.config('jsonls', {
+    cmd = { 'vscode-json-languageserver', '--stdio' },
+    filetypes = { 'json' },
+  })
+  vim.lsp.config('tsls', {
+    cmd = { 'typescript-language-server', '--stdio' },
+    filetypes = { 'javascript', 'typescript' },
+  })
+
+  vim.lsp.config('yamls', {
+    cmd = { 'yaml-language-server', '--stdio' },
+    filetypes = { 'yaml' },
+  })
+
+  vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls', 'yamls' })
+end)
+
+-- https://microsoft.github.io/language-server-protocol/implementors/servers/
 
 require('core.options')
 require('core.statusline')
