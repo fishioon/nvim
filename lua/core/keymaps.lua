@@ -61,38 +61,38 @@ vim.keymap.set('t', '<D-s>', '<C-\\><C-N>', { desc = "Exit terminal mode" })
 vim.keymap.set('v', '<D-c>', '"+y', { desc = "Copy to system clipboard" })
 vim.keymap.set('n', '<D-c>', '"+Y', { desc = "Copy line to system clipboard" })
 
-vim.keymap.set('v', '<space>y', '"+y', { desc = "Yank to system clipboard" })
-vim.keymap.set('n', '<space>y', '"+Y', { desc = "Yank line to system clipboard" })
-vim.keymap.set('n', '<space>n', '<C-w>gf:Gcd<cr>')
-vim.keymap.set('n', '<space>ss', ':wa | mksession! ~/.config/work.vim<cr>')
-vim.keymap.set('n', '<space>so', ':so ~/.config/work.vim<cr>')
-vim.keymap.set('n', '<space><space>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<space>d', '<cmd>Gcd<cr>')
+vim.keymap.set('v', '<leader>y', '"+y', { desc = "Yank to system clipboard" })
+vim.keymap.set('n', '<leader>y', '"+Y', { desc = "Yank line to system clipboard" })
+vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
+vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
+vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
+vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
+vim.keymap.set('n', '<leader>d', '<cmd>Gcd<cr>')
 
 -- lsp
-vim.keymap.set('n', '<space>=', ':lua vim.lsp.buf.format({async=true})<cr>')
+vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
 vim.keymap.set('n', 'gri', '<cmd>lua vim.lsp.buf.implementation()<cr>')
 
-vim.keymap.set('n', '<space>gg', function()
+vim.keymap.set('n', '<leader>gg', function()
   require('float_term').float_term('lazygit', {
     size = { width = 0.85, height = 0.8 },
   })
 end)
 
 -- cmd.nvim
-vim.keymap.set('n', '<space>r', function()
+vim.keymap.set('n', '<leader>r', function()
   local cmd = require('cmd').cmd()
   require('term').send(cmd .. '\n', false)
 end)
 
-vim.keymap.set('n', '<space>eo', function()
+vim.keymap.set('n', '<leader>eo', function()
   local cmd = require('cmd').cmd()
   local output = vim.fn.systemlist(cmd)
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(0, current_line, current_line, false, output)
 end)
 
-vim.keymap.set('n', '<space>ey', function()
+vim.keymap.set('n', '<leader>ey', function()
   local cmd = require('cmd').cmd()
   vim.fn.setreg('+', cmd)
 end)
@@ -100,8 +100,8 @@ vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
 
 -- mini.nvim
 -- git
-vim.keymap.set('n', '<space>gs', function() MiniGit.show_at_cursor() end)
--- vim.keymap.set('n', '<space>o', function() MiniFiles.open() end)
+vim.keymap.set('n', '<leader>gs', function() MiniGit.show_at_cursor() end)
+-- vim.keymap.set('n', '<leader>o', function() MiniFiles.open() end)
 
 -- e is for 'explore' and 'edit'
 nmap_leader('ec', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<CR>', 'Config')

@@ -25,7 +25,7 @@ end)
 
 now(function()
   add('folke/tokyonight.nvim')
-  vim.cmd.colorscheme('tokyonight-night')
+  -- vim.cmd.colorscheme('tokyonight-night')
 end)
 
 later(function() require('mini.extra').setup() end)
