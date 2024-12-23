@@ -62,7 +62,9 @@ vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<leader>d', '<cmd>silent tcd %:h | silent tcd `git root` | pwd <cr>')
+vim.keymap.set('n', '<leader>cd', '<cmd>silent tcd %:h | silent tcd `git root` | pwd <cr>')
+
+vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
 
 -- lsp
 vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
@@ -139,13 +141,14 @@ nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>', 'Visit paths (all)')
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>', 'Visit paths (cwd)')
 
 -- g is for git
--- nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
--- nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
+nmap_leader('ga', '<Cmd>Git add %<CR>', 'git add')
+nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
+nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
 -- nmap_leader('gg', '<Cmd>lua Config.open_lazygit()<CR>', 'Git tab')
 -- nmap_leader('gl', '<Cmd>Git log --oneline<CR>', 'Log')
 -- nmap_leader('gL', '<Cmd>Git log --oneline --follow -- %<CR>', 'Log buffer')
--- nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
--- nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
+nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
+nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 
 -- snacks
 nmap_leader('z', function() Snacks.zen() end, 'Toggle Zen Mode')
@@ -153,14 +156,14 @@ nmap_leader('Z', function() Snacks.zen.zoom() end, 'Toggle Zen Mode')
 nmap_leader('.', function() Snacks.scratch() end, 'Toggle Scratch Buffer')
 nmap_leader('S', function() Snacks.scratch.select() end, 'Select Scratch Buffer')
 
-nmap_leader('gB', function() Snacks.gitbrowse() end, 'Git Browse')
-nmap_leader('gb', function() Snacks.git.blame_line() end, 'Git Blame line')
+-- nmap_leader('gB', function() Snacks.gitbrowse() end, 'Git Browse')
+-- nmap_leader('gb', function() Snacks.git.blame_line() end, 'Git Blame line')
 nmap_leader('gg', function() Snacks.lazygit() end, 'Lazygit')
-nmap_leader('gl', function() Snacks.lazygit.log() end, 'Lazygit log (cwd)')
-nmap_leader('gf', function() Snacks.lazygit.log_file() end, 'Lazygit current file history')
+-- nmap_leader('gl', function() Snacks.lazygit.log() end, 'Lazygit log (cwd)')
+-- nmap_leader('gf', function() Snacks.lazygit.log_file() end, 'Lazygit current file history')
 
-    -- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
-    -- { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+-- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
+-- { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
 vim.keymap.set('n', '[[', function() MiniGit.show_at_cursor() end)
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
