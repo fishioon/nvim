@@ -50,11 +50,6 @@ vim.keymap.set('n', '<C-n>', '<Down>', { silent = false })
 keymap_all('<C-j>', '<C-w>w', { desc = "j window" })
 keymap_all('<C-k>', '<C-w>W', { desc = "k window" })
 
--- keymap_all('<M-h>', '<C-w>h', { desc = "h window" })
--- keymap_all('<M-j>', '<C-w>j', { desc = "j window" })
--- keymap_all('<M-k>', '<C-w>k', { desc = "k window" })
--- keymap_all('<M-l>', '<C-w>l', { desc = "l window" })
-
 vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>', { desc = "Exit terminal mode" })
@@ -67,7 +62,7 @@ vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<leader>d', '<cmd>Gcd<cr>')
+vim.keymap.set('n', '<leader>d', '<cmd>silent tcd %:h | silent tcd `git root` | pwd <cr>')
 
 -- lsp
 vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
