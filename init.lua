@@ -33,6 +33,8 @@ later(function() require('mini.files').setup() end)
 later(function() require('mini.ai').setup() end)
 -- later(function() require('mini.completion').setup() end)
 later(function() require('mini.surround').setup() end)
+later(function() require('mini.git').setup() end)
+later(function() require('mini.diff').setup() end)
 
 later(function()
   require('mini.pick').setup({ window = { config = { border = 'double' } } })
