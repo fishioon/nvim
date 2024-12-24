@@ -62,9 +62,9 @@ vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
-vim.keymap.set('n', '<leader>cd', '<cmd>silent tcd %:h | silent tcd `git root` | pwd <cr>')
 
 vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
+vim.keymap.set('n', '<leader>dc', '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
 
 -- lsp
 vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')

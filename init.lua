@@ -35,6 +35,7 @@ later(function() require('mini.surround').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.diff').setup() end)
 -- later(function() require('mini.completion').setup() end)
+-- later(function() require('mini.snippets').setup() end)
 
 later(function()
   require('mini.pick').setup({ window = { config = { border = 'double' } } })
@@ -125,20 +126,6 @@ later(function()
   require('term').setup({})
 end)
 
--- use a release tag to download pre-built binaries
-later(function()
-  add({
-    source = "saghen/blink.cmp",
-    depends = {
-      "rafamadriz/friendly-snippets",
-    },
-    checkout = "v0.7.6", -- check releases for latest tag
-  })
-  require('blink.cmp').setup({
-    keymap = { preset = 'enter' },
-  })
-end)
-
 -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 later(function()
   add('zbirenbaum/copilot.lua')
@@ -173,7 +160,7 @@ later(function()
       hide_during_completion = false,
       debounce = 50,
       keymap = {
-        accept = "<tab>",
+        accept = "<C-l>",
         accept_word = false,
         accept_line = false,
         next = "<M-]>",
@@ -248,6 +235,27 @@ later(function()
 end)
 
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
+
+later(function()
+  local build_blink = function(params)
+    vim.notify('Building blink.cmp', vim.log.levels.INFO)
+    local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
+    if obj.code == 0 then
+      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+    else
+      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+    end
+  end
+
+  add({
+    source = 'Saghen/blink.cmp',
+    hooks = {
+      post_install = build_blink,
+      post_checkout = build_blink,
+    },
+  })
+  add('Saghen/blink.cmp')
+end)
 
 require('core.options')
 require('core.statusline')
