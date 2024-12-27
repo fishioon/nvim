@@ -34,13 +34,21 @@ later(function() require('mini.ai').setup() end)
 later(function() require('mini.surround').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.diff').setup() end)
+later(function() require('mini.pairs').setup() end)
+
 -- later(function() require('mini.completion').setup() end)
--- later(function() require('mini.snippets').setup() end)
+-- local gen_loader = require('mini.snippets').gen_loader
+-- require('mini.snippets').setup({
+--   snippets = {
+--     gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+--     gen_loader.from_lang(),
+--   },
+-- })
 
 later(function()
   require('mini.pick').setup({ window = { config = { border = 'double' } } })
   vim.ui.select = MiniPick.ui_select
-  vim.keymap.set('n', ',', [[<Cmd>Pick buf_lines scope='current' preserve_order=true<CR>]], { nowait = true })
+  vim.keymap.set('n', ',', [[<Cmd>Pick buf_lines scope='current' preserve_order=true<CR>]])
 
   MiniPick.registry.projects = function()
     local cwd = vim.fn.expand('~/repos')
@@ -125,6 +133,8 @@ later(function()
   require('cmd').setup()
   require('term').setup({})
 end)
+
+later(function() add('rafamadriz/friendly-snippets') end)
 
 -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 later(function()
@@ -231,6 +241,11 @@ later(function()
     filetypes = { 'yaml' },
   })
 
+  vim.lsp.config('sqlls', {
+    cmd = { 'sqlls-language-server', '--stdio' },
+    filetypes = { 'sql' },
+  })
+
   vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls', 'yamls' })
 end)
 
@@ -254,8 +269,65 @@ later(function()
       post_checkout = build_blink,
     },
   })
-  add('Saghen/blink.cmp')
+  require('blink.cmp').setup({
+    keymap = {
+      preset = 'enter',
+      cmdline = {
+        preset = 'default',
+      },
+    }
+  })
 end)
+
+-- later(function()
+--   add('mfussenegger/nvim-dap')
+--   local dap = require('dap')
+--   dap.adapters.delve = function(callback, config)
+--     if config.mode == 'remote' and config.request == 'attach' then
+--       callback({
+--         type = 'server',
+--         host = config.host or '127.0.0.1',
+--         port = config.port or '38697'
+--       })
+--     else
+--       callback({
+--         type = 'server',
+--         port = '${port}',
+--         executable = {
+--           command = 'dlv',
+--           args = { 'dap', '-l', '127.0.0.1:${port}', '--log', '--log-output=dap' },
+--           detached = vim.fn.has("win32") == 0,
+--         }
+--       })
+--     end
+--   end
+--
+--
+--   -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+--   dap.configurations.go = {
+--     {
+--       type = "delve",
+--       name = "Debug",
+--       request = "launch",
+--       program = "${file}"
+--     },
+--     {
+--       type = "delve",
+--       name = "Debug test", -- configuration for debugging test files
+--       request = "launch",
+--       mode = "test",
+--       program = "${file}"
+--     },
+--     -- works with go.mod packages and sub packages
+--     {
+--       type = "delve",
+--       name = "Debug test (go.mod)",
+--       request = "launch",
+--       mode = "test",
+--       program = "./${relativeFileDirname}"
+--     }
+--   }
+-- end)
 
 require('core.options')
 require('core.statusline')
