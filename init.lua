@@ -35,7 +35,6 @@ later(function() require('mini.surround').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.pairs').setup() end)
-
 -- later(function() require('mini.completion').setup() end)
 -- local gen_loader = require('mini.snippets').gen_loader
 -- require('mini.snippets').setup({
@@ -252,23 +251,23 @@ end)
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
 
 later(function()
-  local build_blink = function(params)
-    vim.notify('Building blink.cmp', vim.log.levels.INFO)
-    local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
-    if obj.code == 0 then
-      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
-    else
-      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
-    end
-  end
-
+  -- local build_blink = function(params)
+  --   vim.notify('Building blink.cmp', vim.log.levels.INFO)
+  --   local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
+  --   if obj.code == 0 then
+  --     vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+  --   else
+  --     vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+  --   end
+  -- end
   add({
-    source = 'Saghen/blink.cmp',
-    hooks = {
-      post_install = build_blink,
-      post_checkout = build_blink,
+    source = "saghen/blink.cmp",
+    depends = {
+      "rafamadriz/friendly-snippets",
     },
+    checkout = "v0.8.2", -- check releases for latest tag
   })
+
   require('blink.cmp').setup({
     keymap = {
       preset = 'enter',
