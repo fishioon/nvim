@@ -30,41 +30,39 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- Better command history navigation
-vim.keymap.set('c', '<C-p>', '<Up>', { silent = false })
-vim.keymap.set('c', '<C-n>', '<Down>', { silent = false })
+vim.keymap.set('c', '<C-p>', '<Up>')
+vim.keymap.set('c', '<C-n>', '<Down>')
 
-vim.keymap.set('n', '<leader>1', '1gt', { silent = false })
-vim.keymap.set('n', '<leader>2', '2gt', { silent = false })
-vim.keymap.set('n', '<leader>3', '3gt', { silent = false })
-vim.keymap.set('n', '<leader>4', '4gt', { silent = false })
-vim.keymap.set('n', '<leader>5', '5gt', { silent = false })
-vim.keymap.set('n', '<leader>6', '6gt', { silent = false })
-vim.keymap.set('n', '<leader>7', '7gt', { silent = false })
-vim.keymap.set('n', '<leader>8', '8gt', { silent = false })
-vim.keymap.set('n', '<leader>9', '9gt', { silent = false })
-vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>', { silent = false })
+vim.keymap.set('n', '<leader>1', '1gt')
+vim.keymap.set('n', '<leader>2', '2gt')
+vim.keymap.set('n', '<leader>3', '3gt')
+vim.keymap.set('n', '<leader>4', '4gt')
+vim.keymap.set('n', '<leader>5', '5gt')
+vim.keymap.set('n', '<leader>6', '6gt')
+vim.keymap.set('n', '<leader>7', '7gt')
+vim.keymap.set('n', '<leader>8', '8gt')
+vim.keymap.set('n', '<leader>9', '9gt')
+vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>')
 
-vim.keymap.set('n', '<C-p>', '<Up>', { silent = false })
-vim.keymap.set('n', '<C-n>', '<Down>', { silent = false })
+vim.keymap.set('n', '<C-p>', '<Up>')
+vim.keymap.set('n', '<C-n>', '<Down>')
 
 keymap_all('<C-j>', '<C-w>w', { desc = "j window" })
 keymap_all('<C-k>', '<C-w>W', { desc = "k window" })
 
-vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
-vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
-vim.keymap.set('t', '<D-s>', '<C-\\><C-N>', { desc = "Exit terminal mode" })
-vim.keymap.set('v', '<D-c>', '"+y', { desc = "Copy to system clipboard" })
-vim.keymap.set('n', '<D-c>', '"+Y', { desc = "Copy line to system clipboard" })
+vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
+vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
+vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
-vim.keymap.set('v', '<leader>y', '"+y', { desc = "Yank to system clipboard" })
-vim.keymap.set('n', '<leader>y', '"+Y', { desc = "Yank line to system clipboard" })
+vim.keymap.set('v', '<leader>y', '"+y')
+vim.keymap.set('n', '<leader>y', '"+Y')
 vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
 vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
-vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
+vim.keymap.set('n', '<leader><leader>', '<CMD>JJ<CR>')
 
-vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
-vim.keymap.set('n', '<leader>dc', '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
+vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end)
+vim.keymap.set('n', '<leader>dc', '<CMD>Gcd<CR>')
 
 -- lsp
 vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
@@ -93,7 +91,7 @@ vim.keymap.set('n', '<leader>ey', function()
   local cmd = require('cmd').cmd()
   vim.fn.setreg('+', cmd)
 end)
-vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
+vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 
 -- mini.nvim
 -- git
