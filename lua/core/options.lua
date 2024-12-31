@@ -16,7 +16,7 @@ vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldenable     = false
 vim.o.tabstop        = 4
 vim.o.termguicolors  = true
-vim.o.cmdheight      = 0
+-- vim.o.cmdheight      = 0
 
 -- vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
 -- vim.o.completeopt    = 'menu,preview'
