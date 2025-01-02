@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)
   vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
-  vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
+  -- vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
 end
 --
 
@@ -44,6 +44,8 @@ vim.keymap.set('n', '<leader>8', '8gt', { silent = false })
 vim.keymap.set('n', '<leader>9', '9gt', { silent = false })
 vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>', { silent = false })
 
+vim.keymap.set('n', '<leader>q', '<CMD>wqall<CR>', { silent = false })
+
 vim.keymap.set('n', '<C-p>', '<Up>', { silent = false })
 vim.keymap.set('n', '<C-n>', '<Down>', { silent = false })
 
@@ -63,12 +65,11 @@ vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
 vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
 
-vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
-vim.keymap.set('n', '<leader>dc', '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
+-- vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
+vim.keymap.set('n', '<leader>d', '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
 
 -- lsp
 vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
-vim.keymap.set('n', 'gri', '<cmd>lua vim.lsp.buf.implementation()<cr>')
 
 vim.keymap.set('n', '<leader>gg', function()
   require('float_term').float_term('lazygit', {
@@ -93,7 +94,7 @@ vim.keymap.set('n', '<leader>ey', function()
   local cmd = require('cmd').cmd()
   vim.fn.setreg('+', cmd)
 end)
-vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
+vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 
 -- mini.nvim
 -- git

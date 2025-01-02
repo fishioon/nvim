@@ -1,6 +1,6 @@
 vim.loader.enable()
-vim.g.mapleader = ' '
-vim.g.localmapleader = ' '
+vim.g.mapleader = vim.keycode('<space>')
+vim.g.maplocalleader = vim.keycode('<space>')
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -251,15 +251,6 @@ end)
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
 
 later(function()
-  -- local build_blink = function(params)
-  --   vim.notify('Building blink.cmp', vim.log.levels.INFO)
-  --   local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
-  --   if obj.code == 0 then
-  --     vim.notify('Building blink.cmp done', vim.log.levels.INFO)
-  --   else
-  --     vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
-  --   end
-  -- end
   add({
     source = "saghen/blink.cmp",
     depends = {
@@ -278,56 +269,6 @@ later(function()
   })
 end)
 
--- later(function()
---   add('mfussenegger/nvim-dap')
---   local dap = require('dap')
---   dap.adapters.delve = function(callback, config)
---     if config.mode == 'remote' and config.request == 'attach' then
---       callback({
---         type = 'server',
---         host = config.host or '127.0.0.1',
---         port = config.port or '38697'
---       })
---     else
---       callback({
---         type = 'server',
---         port = '${port}',
---         executable = {
---           command = 'dlv',
---           args = { 'dap', '-l', '127.0.0.1:${port}', '--log', '--log-output=dap' },
---           detached = vim.fn.has("win32") == 0,
---         }
---       })
---     end
---   end
---
---
---   -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
---   dap.configurations.go = {
---     {
---       type = "delve",
---       name = "Debug",
---       request = "launch",
---       program = "${file}"
---     },
---     {
---       type = "delve",
---       name = "Debug test", -- configuration for debugging test files
---       request = "launch",
---       mode = "test",
---       program = "${file}"
---     },
---     -- works with go.mod packages and sub packages
---     {
---       type = "delve",
---       name = "Debug test (go.mod)",
---       request = "launch",
---       mode = "test",
---       program = "./${relativeFileDirname}"
---     }
---   }
--- end)
-
 require('core.options')
-require('core.statusline')
 require('core.keymaps')
+require('core.statusline')
