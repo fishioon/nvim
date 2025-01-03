@@ -35,7 +35,7 @@ later(function() require('mini.surround').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.pairs').setup() end)
--- later(function() require('mini.completion').setup() end)
+later(function() require('mini.completion').setup() end)
 -- local gen_loader = require('mini.snippets').gen_loader
 -- require('mini.snippets').setup({
 --   snippets = {
@@ -245,29 +245,34 @@ later(function()
     filetypes = { 'sql' },
   })
 
-  vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls', 'yamls' })
+  vim.lsp.config('helmls', {
+    cmd = { 'helm_ls', 'serve' },
+    filetypes = { 'helm' },
+  })
+
+  vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls', 'yamls', 'helmls' })
 end)
 
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
 
-later(function()
-  add({
-    source = "saghen/blink.cmp",
-    depends = {
-      "rafamadriz/friendly-snippets",
-    },
-    checkout = "v0.8.2", -- check releases for latest tag
-  })
-
-  require('blink.cmp').setup({
-    keymap = {
-      preset = 'enter',
-      cmdline = {
-        preset = 'default',
-      },
-    }
-  })
-end)
+-- later(function()
+--   add({
+--     source = "saghen/blink.cmp",
+--     depends = {
+--       "rafamadriz/friendly-snippets",
+--     },
+--     checkout = "v0.8.2", -- check releases for latest tag
+--   })
+--
+--   require('blink.cmp').setup({
+--     keymap = {
+--       preset = 'default',
+--       cmdline = {
+--         preset = 'default',
+--       },
+--     }
+--   })
+-- end)
 
 require('core.options')
 require('core.keymaps')

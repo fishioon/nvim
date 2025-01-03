@@ -11,6 +11,13 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*/templates/*.yaml", "*/templates/*.tpl", "*.gotmpl", "helmfile*.yaml" },
+  callback = function()
+    vim.bo.filetype = "helm"
+  end,
+})
+
 local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)
   vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
@@ -30,76 +37,68 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- Better command history navigation
-vim.keymap.set('c', '<C-p>', '<Up>', { silent = false })
-vim.keymap.set('c', '<C-n>', '<Down>', { silent = false })
+vim.keymap.set('c', '<C-p>', '<Up>')
+vim.keymap.set('c', '<C-n>', '<Down>')
 
-vim.keymap.set('n', '<leader>1', '1gt', { silent = false })
-vim.keymap.set('n', '<leader>2', '2gt', { silent = false })
-vim.keymap.set('n', '<leader>3', '3gt', { silent = false })
-vim.keymap.set('n', '<leader>4', '4gt', { silent = false })
-vim.keymap.set('n', '<leader>5', '5gt', { silent = false })
-vim.keymap.set('n', '<leader>6', '6gt', { silent = false })
-vim.keymap.set('n', '<leader>7', '7gt', { silent = false })
-vim.keymap.set('n', '<leader>8', '8gt', { silent = false })
-vim.keymap.set('n', '<leader>9', '9gt', { silent = false })
-vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>', { silent = false })
+for i = 1, 9 do
+  vim.keymap.set('n', '<leader>' .. i, i .. 'gt')
+end
+nmap_leader('0', '<CMD>tablast<CR>')
 
-vim.keymap.set('n', '<leader>q', '<CMD>wqall<CR>', { silent = false })
+nmap_leader('q', '<CMD>wqall<CR>')
 
-vim.keymap.set('n', '<C-p>', '<Up>', { silent = false })
-vim.keymap.set('n', '<C-n>', '<Down>', { silent = false })
+keymap_all('<C-j>', '<C-w>w')
+keymap_all('<C-k>', '<C-w>W')
 
-keymap_all('<C-j>', '<C-w>w', { desc = "j window" })
-keymap_all('<C-k>', '<C-w>W', { desc = "k window" })
+vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
+vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
+vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
-vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>', { desc = "Save file" })
-vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>', { desc = "Save file" })
-vim.keymap.set('t', '<D-s>', '<C-\\><C-N>', { desc = "Exit terminal mode" })
-vim.keymap.set('v', '<D-c>', '"+y', { desc = "Copy to system clipboard" })
-vim.keymap.set('n', '<D-c>', '"+Y', { desc = "Copy line to system clipboard" })
+vim.keymap.set('v', '<leader>y', '"+y')
+nmap_leader('y', '"+Y', "Yank line to system clipboard")
+nmap_leader('n', '<C-w>gf:Gcd<cr>')
+nmap_leader('ss', ':wa | mksession! ~/.config/work.vim<cr>')
+nmap_leader('so', ':so ~/.config/work.vim<cr>')
+nmap_leader('<leader>', ':JJ<cr>')
 
-vim.keymap.set('v', '<leader>y', '"+y', { desc = "Yank to system clipboard" })
-vim.keymap.set('n', '<leader>y', '"+Y', { desc = "Yank line to system clipboard" })
-vim.keymap.set('n', '<leader>n', '<C-w>gf:Gcd<cr>')
-vim.keymap.set('n', '<leader>ss', ':wa | mksession! ~/.config/work.vim<cr>')
-vim.keymap.set('n', '<leader>so', ':so ~/.config/work.vim<cr>')
-vim.keymap.set('n', '<leader><leader>', ':JJ<cr>', { silent = true })
-
--- vim.keymap.set('n', '<leader>db', function() Snacks.bufdelete() end, { desc = "Delete buffer" })
-vim.keymap.set('n', '<leader>d', '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
+-- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
+nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
+nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
 
 -- lsp
-vim.keymap.set('n', '<leader>=', ':lua vim.lsp.buf.format({async=true})<cr>')
+nmap_leader('=', ':lua vim.lsp.buf.format({async=true})<cr>')
 
-vim.keymap.set('n', '<leader>gg', function()
+nmap_leader('gg', function()
   require('float_term').float_term('lazygit', {
     size = { width = 0.85, height = 0.8 },
   })
 end)
 
 -- cmd.nvim
-vim.keymap.set('n', '<leader>r', function()
+nmap_leader('r', function()
   local cmd = require('cmd').cmd()
   require('term').send(cmd .. '\n', false)
 end)
 
-vim.keymap.set('n', '<leader>eo', function()
+nmap_leader('eo', function()
   local cmd = require('cmd').cmd()
   local output = vim.fn.systemlist(cmd)
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(0, current_line, current_line, false, output)
 end)
 
-vim.keymap.set('n', '<leader>ey', function()
+nmap_leader('ey', function()
   local cmd = require('cmd').cmd()
   vim.fn.setreg('+', cmd)
 end)
-vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
+
+-- just like vscode shortcuts
+vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
 
 -- mini.nvim
 -- git
-vim.keymap.set('n', '<leader>gs', function() MiniGit.show_at_cursor() end)
--- vim.keymap.set('n', '<leader>o', function() MiniFiles.open() end)
+nmap_leader('gs', function() MiniGit.show_at_cursor() end)
+-- nmap_leader('o', function() MiniFiles.open() end)
 
 -- e is for 'explore' and 'edit'
 nmap_leader('ec', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<CR>', 'Config')

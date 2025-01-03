@@ -26,4 +26,4 @@ vim.o.termguicolors  = true
 -- vim.o.cursorlineopt  = 'screenline,number' -- Show cursor line only screen line when wrapped
 
 vim.o.completeopt    = "menu,menuone,popup,fuzzy" -- modern completion menu
-vim.o.list           = true
+vim.o.list           = false
