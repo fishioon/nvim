@@ -18,7 +18,7 @@ vim.o.foldenable     = true
 vim.o.foldlevel      = 99 -- start editing with all folds opened
 
 vim.o.tabstop        = 4
-vim.o.termguicolors  = true
+-- vim.o.termguicolors  = true
 -- vim.o.cmdheight      = 0
 -- vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
 -- vim.o.completeopt    = 'menu,preview'

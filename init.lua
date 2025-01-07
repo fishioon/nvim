@@ -37,14 +37,6 @@ later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
 later(function() require('mini.pairs').setup() end)
--- later(function() require('mini.completion').setup() end)
--- local gen_loader = require('mini.snippets').gen_loader
--- require('mini.snippets').setup({
---   snippets = {
---     gen_loader.from_file('~/.config/nvim/snippets/global.json'),
---     gen_loader.from_lang(),
---   },
--- })
 
 later(function()
   require('mini.pick').setup({ window = { config = { border = 'double' } } })
@@ -131,8 +123,6 @@ end)
 later(function()
   add('fishioon/cmd.nvim')
   add('fishioon/term.nvim')
-  -- require('cmd').setup()
-  -- require('term').setup({})
 end)
 
 later(function()
@@ -156,10 +146,6 @@ later(function()
         accept = "<CR>",
         refresh = "gr",
         open = "<M-CR>"
-      },
-      layout = {
-        position = "bottom", -- | top | left | right
-        ratio = 0.4
       },
     },
     suggestion = {
@@ -188,84 +174,6 @@ later(function()
     server_opts_overrides = {},
   })
 end)
-
-
--- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
--- later(function()
---   add('zbirenbaum/copilot.lua')
---   add({
---     source = 'yetone/avante.nvim',
---     monitor = 'main',
---     depends = {
---       'stevearc/dressing.nvim',
---       'nvim-lua/plenary.nvim',
---       'MunifTanjim/nui.nvim',
---     },
---   })
---   require('copilot').setup({
---     panel = {
---       enabled = true,
---       auto_refresh = false,
---       keymap = {
---         jump_prev = "[[",
---         jump_next = "]]",
---         accept = "<CR>",
---         refresh = "gr",
---         open = "<M-CR>"
---       },
---       layout = {
---         position = "bottom", -- | top | left | right
---         ratio = 0.4
---       },
---     },
---     suggestion = {
---       enabled = true,
---       auto_trigger = true,
---       hide_during_completion = false,
---       debounce = 50,
---       keymap = {
---         accept = "<C-l>",
---         accept_word = false,
---         accept_line = false,
---         next = "<M-]>",
---         prev = "<M-[>",
---         dismiss = "<C-]>",
---       },
---     },
---     filetypes = {
---       yaml = true,
---       markdown = true,
---       help = false,
---       gitcommit = true,
---       gitrebase = true,
---       ["."] = false,
---     },
---     copilot_node_command = 'node', -- Node.js version must be > 18.x
---     server_opts_overrides = {},
---   })
---   -- require('avante_lib').load()
---   -- require("avante").setup({
---   --   debug = false,
---   --   provider = "copilot",
---   --   auto_suggestions_provider = "copilot",
---   --   behaviour = {
---   --     auto_suggestions = false, -- Experimental stage
---   --     auto_set_highlight_group = true,
---   --     auto_set_keymaps = true,
---   --     auto_apply_diff_after_generation = false,
---   --     support_paste_from_clipboard = false,
---   --   },
---   --   mappings = {
---   --     toggle = {
---   --       default = "<leader>aa",
---   --       debug = "<leader>ad",
---   --       hint = "<leader>ah",
---   --       suggestion = "<leader>as",
---   --       repomap = "<leader>aR",
---   --     },
---   --   },
---   -- }) -- config for avante.nvim
--- end)
 
 later(function()
   add('williamboman/mason.nvim')
