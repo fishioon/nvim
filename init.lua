@@ -30,7 +30,7 @@ end)
 
 later(function() require('mini.ai').setup() end)
 later(function() require('mini.animate').setup() end)
-later(function() require('mini.completion').setup() end)
+-- later(function() require('mini.completion').setup() end)
 later(function() require('mini.cursorword').setup() end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
