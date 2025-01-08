@@ -127,7 +127,6 @@ end)
 
 require('core.lsp')
 require('core.ai')
-
 require('core.options')
 require('core.keymaps')
 require('core.statusline')

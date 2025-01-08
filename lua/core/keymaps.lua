@@ -94,6 +94,7 @@ end)
 
 -- just like vscode shortcuts
 vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
+vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 
 -- mini.nvim
 -- git
