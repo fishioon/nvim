@@ -66,7 +66,7 @@ later(function()
   vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls', 'yamls', 'helmls' })
 end)
 
--- https://microsoft.github.io/language-server-protocol/implementors/servers/
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 
 later(function()
   local function build_blink(params)

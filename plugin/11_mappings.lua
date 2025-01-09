@@ -55,7 +55,7 @@ nmap_leader('y', '"+Y', "Yank line to system clipboard")
 nmap_leader('n', '<C-w>gf:Gcd<cr>')
 nmap_leader('ss', ':wa | mksession! ~/.config/work.vim<cr>')
 nmap_leader('so', ':so ~/.config/work.vim<cr>')
-nmap_leader('<leader>', ':JJ<cr>')
+nmap_leader('<leader>', ':JJ<cr>', 'Open tmp.md in first tab', { silent = true })
 
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
