@@ -26,8 +26,8 @@ later(function()
 end)
 
 later(function()
-  add('williamboman/mason.nvim')
-  require('mason').setup()
+  -- add('williamboman/mason.nvim')
+  -- require('mason').setup()
 
   vim.lsp.config('*', {
     capabilities = {
