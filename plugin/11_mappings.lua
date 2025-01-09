@@ -36,10 +36,6 @@ local xmap_leader = function(suffix, rhs, desc, opts)
   vim.keymap.set('x', '<Leader>' .. suffix, rhs, opts)
 end
 
--- Better command history navigation
-vim.keymap.set('c', '<C-p>', '<Up>')
-vim.keymap.set('c', '<C-n>', '<Down>')
-
 for i = 1, 9 do
   vim.keymap.set('n', '<leader>' .. i, i .. 'gt')
 end
@@ -64,6 +60,8 @@ nmap_leader('<leader>', ':JJ<cr>')
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
 nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
+
+nmap_leader('q', '<cmd>lua Config.toggle_quickfix()<cr>', "Toggle quickfix")
 
 -- lsp
 nmap_leader('=', ':lua vim.lsp.buf.format({async=true})<cr>')
@@ -148,6 +146,7 @@ nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
 -- nmap_leader('gg', '<Cmd>lua Config.open_lazygit()<CR>', 'Git tab')
 -- nmap_leader('gl', '<Cmd>Git log --oneline<CR>', 'Log')
 -- nmap_leader('gL', '<Cmd>Git log --oneline --follow -- %<CR>', 'Log buffer')
+--
 nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
 nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 
