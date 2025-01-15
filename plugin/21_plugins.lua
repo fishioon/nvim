@@ -1,4 +1,4 @@
-local add, later = MiniDeps.add, MiniDeps.later
+local add, later, now = MiniDeps.add, MiniDeps.later, MiniDeps.now
 later(function()
   add('folke/snacks.nvim')
   require('snacks').setup({
@@ -92,7 +92,7 @@ later(function()
 
   require('blink.cmp').setup({
     keymap = {
-      preset = 'enter',
+      preset = 'default',
       cmdline = {
         preset = 'default',
       },
@@ -150,3 +150,33 @@ later(function()
   })
 end)
 
+add({
+  source = 'yetone/avante.nvim',
+  monitor = 'main',
+  depends = {
+    'stevearc/dressing.nvim',
+    'nvim-lua/plenary.nvim',
+    'MunifTanjim/nui.nvim',
+    'MeanderingProgrammer/render-markdown.nvim',
+  },
+  hooks = { post_checkout = function() vim.cmd('make') end }
+})
+--- optional
+add({ source = 'MeanderingProgrammer/render-markdown.nvim' })
+
+now(function() require('avante_lib').load() end)
+later(function() require('render-markdown').setup() end)
+later(function()
+  require("avante").setup({
+    provider = "copilot",
+    auto_suggestions_provider = "openai",
+    behaviour = {
+      auto_suggestions = false,
+      auto_set_highlight_group = true,
+      auto_set_keymaps = true,
+      auto_apply_diff_after_generation = false,
+      support_paste_from_clipboard = false,
+      minimize_diff = true,
+    },
+  })
+end)
