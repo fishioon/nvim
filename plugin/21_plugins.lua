@@ -4,6 +4,8 @@ later(function()
   require('snacks').setup({
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
+    animate = { },
+    -- dashboard = {},
   })
 end)
 
