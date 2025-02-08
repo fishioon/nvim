@@ -1,6 +1,6 @@
 vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
 vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
-vim.api.nvim_create_user_command('JJ', ':tabfirst | edit ~/Documents/note/tmp.md |tcd %:h', {})
+vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'c', 'lua', 'javascript' },
   callback = function()
@@ -16,6 +16,18 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   callback = function()
     vim.bo.filetype = "helm"
   end,
+})
+
+vim.api.nvim_create_autocmd("TabNew", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_create_autocmd("BufEnter", {
+      once = true, -- 只执行一次，避免影响其他 BufEnter 事件
+      callback = function()
+        vim.cmd("silent! Gcd")
+      end
+    })
+  end
 })
 
 local function keymap_all(lhs, rhs, opt)
@@ -52,7 +64,7 @@ vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
 vim.keymap.set('v', '<leader>y', '"+y')
 nmap_leader('y', '"+Y', "Yank line to system clipboard")
-nmap_leader('n', '<C-w>gf:Gcd<cr>')
+nmap_leader('n', '<C-w>gf<cr>')
 nmap_leader('ss', ':wa | mksession! ~/.config/work.vim<cr>')
 nmap_leader('so', ':so ~/.config/work.vim<cr>')
 nmap_leader('<leader>', ':JJ<cr>', 'Open tmp.md in first tab', { silent = true })
@@ -110,36 +122,6 @@ nmap_leader('em', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/d
 nmap_leader('ep', '<Cmd>lua MiniFiles.open(vim.fn.stdpath("data").."/site/pack/deps/opt")<CR>', 'Plugins directory')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
--- f is for 'fuzzy find'
--- nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')
--- nmap_leader('f;', '<Cmd>Pick history scope=":"<CR>', '":" history')
--- nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
--- nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
--- nmap_leader('fb', '<Cmd>Pick buffers<CR>', 'Buffers')
--- nmap_leader('b', '<Cmd>Pick buffers_cwd<CR>', 'Buffers scope="current"')
---
--- nmap_leader('fc', '<Cmd>Pick git_commits<CR>', 'Commits (all)')
--- nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>', 'Commits (current)')
--- nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
--- nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
--- nmap_leader('ff', '<Cmd>Pick files<CR>', 'Files')
--- nmap_leader('fg', '<Cmd>Pick grep<CR>', 'Grep')
--- nmap_leader('fw', '<Cmd>Pick grep pattern="<cword>"<CR>', 'Grep current word')
--- nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
--- nmap_leader('fh', '<Cmd>Pick help<CR>', 'Help tags')
--- nmap_leader('fH', '<Cmd>Pick hl_groups<CR>', 'Highlight groups')
--- nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')
--- nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>', 'Lines (current)')
--- nmap_leader('fm', '<Cmd>Pick git_hunks<CR>', 'Modified hunks (all)')
--- nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>', 'Modified hunks (current)')
--- nmap_leader('fp', '<Cmd>Pick projects<CR>', 'Projects')
--- nmap_leader('fr', '<Cmd>Pick resume<CR>', 'Resume')
--- nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>', 'References (LSP)')
--- nmap_leader('fs', '<Cmd>Pick lsp scope="workspace_symbol"<CR>', 'Symbols workspace (LSP)')
--- nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>', 'Symbols buffer (LSP)')
--- nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>', 'Visit paths (all)')
--- nmap_leader('fV', '<Cmd>Pick visit_paths<CR>', 'Visit paths (cwd)')
-
 -- g is for git
 nmap_leader('ga', '<Cmd>Git add %<CR>', 'git add')
 nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
@@ -152,10 +134,10 @@ nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
 nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 
 -- snacks
-nmap_leader('z', function() Snacks.zen() end, 'Toggle Zen Mode')
-nmap_leader('Z', function() Snacks.zen.zoom() end, 'Toggle Zen Mode')
-nmap_leader('.', function() Snacks.scratch() end, 'Toggle Scratch Buffer')
-nmap_leader('S', function() Snacks.scratch.select() end, 'Select Scratch Buffer')
+-- nmap_leader('z', function() Snacks.zen() end, 'Toggle Zen Mode')
+-- nmap_leader('Z', function() Snacks.zen.zoom() end, 'Toggle Zen Mode')
+-- nmap_leader('.', function() Snacks.scratch() end, 'Toggle Scratch Buffer')
+-- nmap_leader('S', function() Snacks.scratch.select() end, 'Select Scratch Buffer')
 
 -- nmap_leader('gB', function() Snacks.gitbrowse() end, 'Git Browse')
 -- nmap_leader('gb', function() Snacks.git.blame_line() end, 'Git Blame line')
@@ -169,53 +151,45 @@ vim.keymap.set('n', '[[', function() MiniGit.show_at_cursor() end)
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 
-local keys = {
-  { "<leader>,",       function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-  { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
-  { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
-  { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files" },
-  -- find
-  { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-  { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-  { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files" },
-  { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
-  { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
-  -- git
-  { "<leader>gc",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
-  { "<leader>gs",      function() Snacks.picker.git_status() end,                              desc = "Git Status" },
-  -- Grep
-  { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
-  { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
-  { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep" },
-  { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
-  -- search
-  { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
-  { "<leader>sa",      function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
-  { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
-  { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
-  { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
-  { "<leader>sh",      function() Snacks.picker.help() end,                                    desc = "Help Pages" },
-  { "<leader>sH",      function() Snacks.picker.highlights() end,                              desc = "Highlights" },
-  { "<leader>sj",      function() Snacks.picker.jumps() end,                                   desc = "Jumps" },
-  { "<leader>sk",      function() Snacks.picker.keymaps() end,                                 desc = "Keymaps" },
-  { "<leader>sl",      function() Snacks.picker.loclist() end,                                 desc = "Location List" },
-  { "<leader>sM",      function() Snacks.picker.man() end,                                     desc = "Man Pages" },
-  { "<leader>sm",      function() Snacks.picker.marks() end,                                   desc = "Marks" },
-  { "<leader>sR",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
-  { "<leader>sq",      function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
-  { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
-  { "<leader>qp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
-  -- LSP
-  { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
-  { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                     desc = "References" },
-  { "gI",              function() Snacks.picker.lsp_implementations() end,                     desc = "Goto Implementation" },
-  { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
-  { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
+local leader_keys = {
+  -- normal
+  { 'gg',      function() Snacks.lazygit() end,                                        'Lazygit' },
+  -- snacks picker
+  { "<space>", function() Snacks.picker.files() end,                                   "Find Files" },
+  { ",",       function() Snacks.picker.buffers() end,                                 "Buffers" },
+  { "/",       function() Snacks.picker.grep() end,                                    "Grep" },
+  { ";",       function() Snacks.picker.command_history() end,                         "Command History" },
+  { "fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, "Find Config File" },
+  { "fg",      function() Snacks.picker.git_files() end,                               "Find Git Files" },
+  { "fr",      function() Snacks.picker.recent() end,                                  "Recent" },
+  { "gc",      function() Snacks.picker.git_log() end,                                 "Git Log" },
+  { "gs",      function() Snacks.picker.git_status() end,                              "Git Status" },
+  { "fb",      function() Snacks.picker.lines() end,                                   "Buffer Lines" },
+  { "fB",      function() Snacks.picker.grep_buffers() end,                            "Grep Open Buffers" },
+  { "fw",      function() Snacks.picker.grep_word() end,                               "Visual selection or word", mode = { "n", "x" } },
+  { 'f"',      function() Snacks.picker.registers() end,                               "Registers" },
+  { "fa",      function() Snacks.picker.autocmds() end,                                "Autocmds" },
+  { "fC",      function() Snacks.picker.commands() end,                                "Commands" },
+  { "fd",      function() Snacks.picker.diagnostics() end,                             "Diagnostics" },
+  { "fh",      function() Snacks.picker.help() end,                                    "Help Pages" },
+  { "fH",      function() Snacks.picker.highlights() end,                              "Highlights" },
+  { "fj",      function() Snacks.picker.jumps() end,                                   "Jumps" },
+  { "fk",      function() Snacks.picker.keymaps() end,                                 "Keymaps" },
+  { "fl",      function() Snacks.picker.loclist() end,                                 "Location List" },
+  { "fM",      function() Snacks.picker.man() end,                                     "Man Pages" },
+  { "fm",      function() Snacks.picker.marks() end,                                   "Marks" },
+  { "fR",      function() Snacks.picker.resume() end,                                  "Resume" },
+  { "fq",      function() Snacks.picker.qflist() end,                                  "Quickfix List" },
+  { "fC",      function() Snacks.picker.colorschemes() end,                            "Colorschemes" },
+  { "fp",      function() Snacks.picker.projects() end,                                "Projects" },
+  { "fe",      function() Snacks.picker.explorer() end,                                "explorer" },
+
+
 }
 
-for _, key in ipairs(keys) do
+for _, key in ipairs(leader_keys) do
   local mode = key.mode or { "n" }
   for _, m in ipairs(mode) do
-    vim.keymap.set(m, key[1], key[2], { desc = key.desc, nowait = key.nowait })
+    vim.keymap.set(m, '<Leader>' .. key[1], key[2], { desc = key[3], nowait = key.nowait })
   end
 end
