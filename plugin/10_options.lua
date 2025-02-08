@@ -16,3 +16,24 @@ vim.o.foldlevel      = 99 -- start editing with all folds opened
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 1
 vim.o.switchbuf      = 'usetab'
+
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+      [vim.diagnostic.severity.WARN] = 'WarningMsg',
+    },
+    numhl = {
+      [vim.diagnostic.severity.WARN] = 'WarningMsg',
+      [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+    },
+  },
+})
