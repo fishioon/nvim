@@ -18,6 +18,7 @@ vim.o.cmdheight      = 1
 vim.o.switchbuf      = 'usetab'
 
 vim.diagnostic.config({
+  virtual_lines = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = '',
