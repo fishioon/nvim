@@ -11,6 +11,6 @@
   "nui.nvim": { "branch": "main", "commit": "53e907ffe5eedebdca1cd503b00aa8692068ca46" },
   "nvim-treesitter": { "branch": "master", "commit": "6d957c22cb48a734b009a69d03c18d20042c4754" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
-  "snacks.nvim": { "branch": "main", "commit": "1491b543ef1d8a0eb29a6ebc35db4fb808dcb47f" },
+  "snacks.nvim": { "branch": "main", "commit": "1219f5e43baf1c17e305d605d3db8972aae19bf5" },
   "term.nvim": { "branch": "main", "commit": "103b71883fa802270fd7ac8c63e6898e05981867" }
 }

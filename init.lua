@@ -63,7 +63,10 @@ local plugins = {
     end,
   },
   {
-    'echasnovski/mini.nvim'
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.git').setup()
+    end,
   },
   {
     'saghen/blink.cmp',
@@ -88,6 +91,7 @@ local plugins = {
   },
   {
     'zbirenbaum/copilot.lua',
+    event = "VeryLazy",
     opts = {
       panel = {
         enabled = true,
