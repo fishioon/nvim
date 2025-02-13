@@ -27,8 +27,8 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = '',
     },
     linehl = {
-      [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
-      [vim.diagnostic.severity.WARN] = 'WarningMsg',
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
     },
     numhl = {
       [vim.diagnostic.severity.WARN] = 'WarningMsg',
@@ -38,3 +38,39 @@ vim.diagnostic.config({
     },
   },
 })
+
+vim.lsp.config('*', {
+  capabilities = {
+    textDocument = {
+      semanticTokens = {
+        multilineTokenSupport = true,
+      }
+    }
+  },
+  root_markers = { '.git' },
+})
+vim.lsp.config('jsonls', {
+  cmd = { 'vscode-json-languageserver', '--stdio' },
+  filetypes = { 'json' },
+})
+vim.lsp.config('tsls', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = { 'javascript', 'typescript' },
+})
+
+vim.lsp.config('yamls', {
+  cmd = { 'yaml-language-server', '--stdio' },
+  filetypes = { 'yaml' },
+})
+
+vim.lsp.config('sqlls', {
+  cmd = { 'sqlls-language-server', '--stdio' },
+  filetypes = { 'sql' },
+})
+
+vim.lsp.config('helmls', {
+  cmd = { 'helm_ls', 'serve' },
+  filetypes = { 'helm' },
+})
+
+vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' })
