@@ -57,9 +57,6 @@ vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
-vim.keymap.set('v', '<leader>y', '"+y')
-nmap_leader('y', '"+Y', "Yank line to system clipboard")
-nmap_leader('n', '<C-w>gf<cr>')
 nmap_leader('ss', ':wa | mksession! ~/.config/work.vim<cr>')
 nmap_leader('so', ':so ~/.config/work.vim<cr>')
 
@@ -70,77 +67,12 @@ nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
 -- lsp
 nmap_leader('=', ':lua vim.lsp.buf.format({async=true})<cr>')
 
--- cmd.nvim
-nmap_leader('r', function()
-  local cmd = require('cmd').cmd()
-  require('term').send(cmd .. '\n', false)
-end)
-
-nmap_leader('eo', function()
-  local cmd = require('cmd').cmd()
-  local output = vim.fn.systemlist(cmd)
-  local current_line = vim.api.nvim_win_get_cursor(0)[1]
-  vim.api.nvim_buf_set_lines(0, current_line, current_line, false, output)
-end)
-
-nmap_leader('ey', function()
-  local cmd = require('cmd').cmd()
-  vim.fn.setreg('+', cmd)
-end)
-
 -- just like vscode shortcuts
 -- vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
 vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 
-local leader_keys = {
-  -- most use key
-  { "<space>", function() Snacks.picker.files() end,                                   "Find Files" },
-  { ",",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      "Buffers" },
-  { "/",       function() Snacks.picker.grep() end,                                    "Grep" },
-  { ";",       function() Snacks.picker.command_history() end,                         "Command History" },
-  { "n",       '<C-w>gf<cr>',                                                          "New tab with under file" },
-  { "y",       '"+y',                                                                  "Yank line to system clipboard" },
-  { "d",       '<cmd>Gcd<cr>',                                                         "Change directory to git root" },
-  { "D",       '<cmd>silent tcd %:h<cr>',                                              "Change directory to file dir" },
-
-  -- session
-  { "ss",      ':wa | mksession! ~/.config/work.vim<cr>',                              "Save session" },
-  { "so",      ':so ~/.config/work.vim<cr>',                                           "Open session" },
-
-  -- normal
-  { 'gg',      function() Snacks.lazygit() end,                                        'Lazygit' },
-  -- snacks picker
-  { "fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, "Find Config File" },
-  { "fg",      function() Snacks.picker.git_files() end,                               "Find Git Files" },
-  { "fr",      function() Snacks.picker.recent() end,                                  "Recent" },
-  { "gc",      function() Snacks.picker.git_log() end,                                 "Git Log" },
-  { "gs",      function() Snacks.picker.git_status() end,                              "Git Status" },
-  { "fb",      function() Snacks.picker.lines() end,                                   "Buffer Lines" },
-  { "fB",      function() Snacks.picker.grep_buffers() end,                            "Grep Open Buffers" },
-  { "fw",      function() Snacks.picker.grep_word() end,                               "Visual selection or word",     mode = { "n", "x" } },
-  { 'f"',      function() Snacks.picker.registers() end,                               "Registers" },
-  { "fa",      function() Snacks.picker.autocmds() end,                                "Autocmds" },
-  { "fC",      function() Snacks.picker.commands() end,                                "Commands" },
-  { "fd",      function() Snacks.picker.diagnostics() end,                             "Diagnostics" },
-  { "fh",      function() Snacks.picker.help() end,                                    "Help Pages" },
-  { "fH",      function() Snacks.picker.highlights() end,                              "Highlights" },
-  { "fj",      function() Snacks.picker.jumps() end,                                   "Jumps" },
-  { "fk",      function() Snacks.picker.keymaps() end,                                 "Keymaps" },
-  { "fl",      function() Snacks.picker.loclist() end,                                 "Location List" },
-  { "fM",      function() Snacks.picker.man() end,                                     "Man Pages" },
-  { "fm",      function() Snacks.picker.marks() end,                                   "Marks" },
-  { "fR",      function() Snacks.picker.resume() end,                                  "Resume" },
-  { "fq",      function() Snacks.picker.qflist() end,                                  "Quickfix List" },
-  { "fC",      function() Snacks.picker.colorschemes() end,                            "Colorschemes" },
-  { "fp",      function() Snacks.picker.projects() end,                                "Projects" },
-  { "fe",      function() Snacks.picker.explorer() end,                                "explorer" },
-
-
-}
-
-for _, key in ipairs(leader_keys) do
-  local mode = key.mode or { "n" }
-  for _, m in ipairs(mode) do
-    vim.keymap.set(m, '<Leader>' .. key[1], key[2], { desc = key[3], nowait = key.nowait })
-  end
-end
+vim.keymap.set('n', "<Leader>n",  '<C-w>gf<cr>',                             { desc = "New tab with under file"})
+vim.keymap.set('v', '<leader>y', '"+y')
+vim.keymap.set('n', "<Leader>y",  '"+y',                                     { desc = "Yank line to system clipboard"} )
+vim.keymap.set('n', "<Leader>d",  '<cmd>Gcd<cr>',                            { desc = "Change directory to git root"} )
+vim.keymap.set('n', "<Leader>D",  '<cmd>silent tcd %:h<cr>',                 { desc = "Change directory to file dir"} )

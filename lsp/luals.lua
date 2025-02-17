@@ -1,4 +1,4 @@
-vim.lsp.config('luals', {
+return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { '.luarc.json', '.luarc.jsonc' },
@@ -11,10 +11,10 @@ vim.lsp.config('luals', {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME,
-          vim.fn.stdpath('data') .. '/site/pack/deps/',
+          vim.fn.stdpath('data') .. '/lazy',
           "${3rd}/luv/library",
         }
       }
     }
   }
-})
+}
