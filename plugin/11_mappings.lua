@@ -95,7 +95,7 @@ vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 local leader_keys = {
   -- most use key
   { "<space>", function() Snacks.picker.files() end,                                   "Find Files" },
-  { ",",       function() Snacks.picker.buffers() end,                                 "Buffers" },
+  { ",",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      "Buffers" },
   { "/",       function() Snacks.picker.grep() end,                                    "Grep" },
   { ";",       function() Snacks.picker.command_history() end,                         "Command History" },
   { "n",       '<C-w>gf<cr>',                                                          "New tab with under file" },
