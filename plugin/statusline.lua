@@ -84,5 +84,5 @@ function _G.MyStatusline()
   }, " ")
 end
 
-vim.o.statusline = "%{%v:lua.MyStatusline()%}"
+-- vim.o.statusline = "%{%v:lua.MyStatusline()%}"
 -- vim.o.tabline = '%!v:lua.MyTabline()'

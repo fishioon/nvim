@@ -21,12 +21,13 @@ vim.g.maplocalleader = "\\"
 local plugins = {
   {
     "folke/snacks.nvim",
-    -- priority = 1000,
+    priority = 1000,
+    lazy = false,
     opts = {
       animate = {},
       bigfile = {},
       bufdelete = {},
-      -- dashboard = {},
+      dashboard = {},
       image = {},
       input = {},
       picker = {
@@ -34,17 +35,16 @@ local plugins = {
           input = {
             keys = {
               ['<c-t>'] = { 'edit_tab', mode = { 'n', 'i' } },
-              ['<c-j>'] = { 'edit_tab', mode = { 'n', 'i' } },
             },
           },
         },
       },
-      -- statuscolumn = {},
       toggle = {},
       explorer = {},
+      notifier = {},
     },
     keys = {
-      { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files" },
+      { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
       { "<leader>,",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers" },
       { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       { "<leader>;",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
@@ -85,21 +85,13 @@ local plugins = {
       { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
       { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
       -- toggle
-      { "<leader>us",      function() Snacks.toggle.spell() end,                                   desc = "Spelling" },
-      { "<leader>uw",      function() Snacks.toggle.wrap() end,                                    desc = "Wrap" },
-      { "<leader>uL",      function() Snacks.toggle.relativenumber() end,                          desc = "Relative Number" },
       { "<leader>ud",      function() Snacks.toggle.diagnostics() end,                             desc = "Diagnostics" },
       { "<leader>ul",      function() Snacks.toggle.line_number() end,                             desc = "Line Number" },
-      { "<leader>uc",      function() Snacks.toggle.conceallevel() end,                            desc = "Conceal Level" },
       { "<leader>uT",      function() Snacks.toggle.treesitter() end,                              desc = "Treesitter" },
-      { "<leader>ub",      function() Snacks.toggle.background() end,                              desc = "Dark Background" },
       { "<leader>uh",      function() Snacks.toggle.inlay_hints() end,                             desc = "Inlay Hints" },
       { "<leader>ug",      function() Snacks.toggle.indent() end,                                  desc = "Indent" },
       { "<leader>uD",      function() Snacks.toggle.dim() end,                                     desc = "Dim" },
     },
-    config = function()
-      require("snacks").setup()
-    end,
   },
   {
     "folke/which-key.nvim",
@@ -160,6 +152,8 @@ local plugins = {
     config = function()
       require('mini.git').setup()
       require('mini.diff').setup()
+      require('mini.surround').setup()
+      require('mini.statusline').setup()
     end,
   },
   {
@@ -227,6 +221,7 @@ local plugins = {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
+    disabled = true,
     lazy = false,
     version = '*',
     opts = {
@@ -236,7 +231,7 @@ local plugins = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
-  }
+   }
 }
 
 -- Setup lazy.nvim
