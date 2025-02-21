@@ -53,7 +53,7 @@ vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>')
 keymap_all('<C-j>', '<C-w>w')
 keymap_all('<C-k>', '<C-w>W')
 
-vim.keymap.set('n', '<D-s>', '<Cmd>silent! update<CR>')
+vim.keymap.set('n', '<D-s>', '<Cmd>silent! write<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
@@ -69,7 +69,6 @@ nmap_leader('=', ':lua vim.lsp.buf.format({async=true})<cr>')
 
 -- just like vscode shortcuts
 -- vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
-vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('term').toggle() end)
 
 vim.keymap.set('n', "<Leader>n",  '<C-w>gf<cr>',                             { desc = "New tab with under file"})
 vim.keymap.set('v', '<leader>y', '"+y')

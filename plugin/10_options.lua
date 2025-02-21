@@ -14,6 +14,7 @@ vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldlevel      = 4
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
+-- vim.o.shortmess      = vim.o.shortmess .. 'W'
 
 -- vim.diagnostic.config({
 --   virtual_lines = false,

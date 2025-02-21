@@ -20,17 +20,31 @@ vim.g.maplocalleader = "\\"
 
 local plugins = {
   {
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.git').setup()
+      require('mini.diff').setup()
+      require('mini.surround').setup()
+      require('mini.statusline').setup()
+      require('mini.icons').setup()
+      require('mini.pairs').setup()
+    end,
+  },
+  {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
     opts = {
-      animate = {},
-      bigfile = {},
-      bufdelete = {},
-      dashboard = {},
-      image = {},
-      input = {},
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      explorer = {
+        replace_netrw = true,
+      },
+      indent = { enabled = true },
+      input = { enabled = true },
+      notifier = { enabled = true },
       picker = {
+        enabled = true,
         win = {
           input = {
             keys = {
@@ -39,9 +53,11 @@ local plugins = {
           },
         },
       },
-      toggle = {},
-      explorer = {},
-      notifier = {},
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
     },
     keys = {
       { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
@@ -78,10 +94,10 @@ local plugins = {
       { "<leader>Z",       function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
       { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
       { "<leader>S",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
-      -- { "<leader>n",       function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
+      { "<leader>mh",      function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
       { "<leader>bd",      function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
       { "<leader>cR",      function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
-      { "<leader>gB",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },
+      { "<leader>gb",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },
       { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
       { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
       -- toggle
@@ -126,7 +142,8 @@ local plugins = {
     'fishioon/cmd.nvim',
     dependencies = { 'fishioon/term.nvim' },
     keys = {
-      { '<leader>r',  function() require('term').send(require('cmd').cmd() .. '\n') end, desc = 'Execute command terminal' },
+      { '<C-/>',     function() require('term').toggle() end,                           desc = 'Toggle command terminal', mode = { 'n', 't' } },
+      { '<leader>r', function() require('term').send(require('cmd').cmd() .. '\n') end, desc = 'Execute command terminal' },
       {
         '<leader>eo',
         function()
@@ -137,7 +154,7 @@ local plugins = {
         end,
         desc = 'Execute command output buffer'
       },
-      { '<leader>ey', function() vim.fn.setreg('+', require('cmd').cmd()) end,           desc = 'Execute command output yank' },
+      { '<leader>ey', function() vim.fn.setreg('+', require('cmd').cmd()) end, desc = 'Execute command output yank' },
     }
   },
   {
@@ -145,15 +162,6 @@ local plugins = {
     event = "VeryLazy",
     config = function()
       require('mason').setup()
-    end,
-  },
-  {
-    'echasnovski/mini.nvim',
-    config = function()
-      require('mini.git').setup()
-      require('mini.diff').setup()
-      require('mini.surround').setup()
-      require('mini.statusline').setup()
     end,
   },
   {
@@ -165,15 +173,15 @@ local plugins = {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      keymap = { preset = 'default' },
+      keymap = { preset = 'enter' },
       appearance = {
         use_nvim_cmp_as_default = true,
         nerd_font_variant = 'mono'
       },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
-        -- cmdline = {},
       },
+      cmdline = { enabled = false },
     },
     opts_extend = { "sources.default" }
   },
@@ -231,7 +239,7 @@ local plugins = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
-   }
+  }
 }
 
 -- Setup lazy.nvim
