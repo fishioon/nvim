@@ -16,27 +16,9 @@ vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
 -- vim.o.shortmess      = vim.o.shortmess .. 'W'
 
--- vim.diagnostic.config({
---   virtual_lines = false,
---   signs = {
---     text = {
---       [vim.diagnostic.severity.ERROR] = '',
---       [vim.diagnostic.severity.WARN] = '',
---       [vim.diagnostic.severity.INFO] = '',
---       [vim.diagnostic.severity.HINT] = '',
---     },
---     linehl = {
---       [vim.diagnostic.severity.ERROR] = '',
---       [vim.diagnostic.severity.WARN] = '',
---     },
---     numhl = {
---       [vim.diagnostic.severity.WARN] = 'WarningMsg',
---       [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
---       [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
---       [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
---     },
---   },
--- })
+vim.diagnostic.config({
+  virtual_lines = true,
+})
 
 vim.lsp.config('*', {
   capabilities = {

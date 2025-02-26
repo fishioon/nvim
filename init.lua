@@ -14,7 +14,6 @@ if not vim.uv.fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
@@ -22,12 +21,17 @@ local plugins = {
   {
     'echasnovski/mini.nvim',
     config = function()
+      require('mini.diff').setup({
+        view = {
+          style = 'number',
+          priority = 9
+        },
+      })
       require('mini.git').setup()
-      require('mini.diff').setup()
-      require('mini.surround').setup()
-      require('mini.statusline').setup()
       require('mini.icons').setup()
       require('mini.pairs').setup()
+      require('mini.statusline').setup()
+      require('mini.surround').setup()
     end,
   },
   {
@@ -56,7 +60,7 @@ local plugins = {
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },
-      statuscolumn = { enabled = true },
+      statuscolumn = { enabled = false },
       words = { enabled = true },
     },
     keys = {
@@ -83,7 +87,7 @@ local plugins = {
       { "<leader>fl",      function() Snacks.picker.loclist() end,                                 desc = "Location List" },
       { "<leader>fM",      function() Snacks.picker.man() end,                                     desc = "Man Pages" },
       { "<leader>fm",      function() Snacks.picker.marks() end,                                   desc = "Marks" },
-      { "<leader>fR",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
+      { "<leader>fr",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
       { "<leader>fq",      function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
       { "<leader>fC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
       { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
@@ -127,6 +131,7 @@ local plugins = {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require 'nvim-treesitter.configs'.setup({
         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "json", "go" },
@@ -187,6 +192,7 @@ local plugins = {
   },
   {
     'zbirenbaum/copilot.lua',
+    disable = true,
     event = "VeryLazy",
     opts = {
       panel = {
@@ -229,11 +235,17 @@ local plugins = {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    disabled = true,
-    lazy = false,
-    version = '*',
     opts = {
       provider = "copilot",
+      copilot = {
+        model = "claude-3.7-sonnet",
+        max_tokens = 20000,
+        temperature = 1,
+      },
+      auto_suggestions_provider = "copilot",
+      behaviour = {
+        auto_suggestions = true,
+      }
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -245,6 +257,19 @@ local plugins = {
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = plugins,
-  -- install = { colorscheme = { "habamax" } },
   checker = { enabled = true },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      }
+    }
+  }
 })
