@@ -17,7 +17,7 @@ vim.o.cmdheight      = 0
 -- vim.o.shortmess      = vim.o.shortmess .. 'W'
 
 vim.diagnostic.config({
-  virtual_lines = true,
+  -- virtual_lines = true,
 })
 
 vim.lsp.config('*', {
@@ -55,3 +55,7 @@ vim.lsp.config('helmls', {
 })
 
 vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' })
+
+vim.api.nvim_set_hl(0, 'SnacksPickerDir', {
+  link = 'Comment',
+})

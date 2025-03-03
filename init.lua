@@ -1,4 +1,3 @@
---q Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -19,6 +18,12 @@ vim.g.maplocalleader = "\\"
 
 local plugins = {
   {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     'echasnovski/mini.nvim',
     config = function()
       require('mini.diff').setup({
@@ -29,7 +34,7 @@ local plugins = {
       })
       require('mini.git').setup()
       require('mini.icons').setup()
-      require('mini.pairs').setup()
+      -- require('mini.pairs').setup()
       require('mini.statusline').setup()
       require('mini.surround').setup()
     end,
@@ -65,7 +70,7 @@ local plugins = {
     },
     keys = {
       { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
-      { "<leader>,",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers" },
+      { "<leader>,",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers cwd" },
       { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       { "<leader>;",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
       { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
@@ -73,7 +78,7 @@ local plugins = {
       { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
       { "<leader>gc",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
       { "<leader>gs",      function() Snacks.picker.git_status() end,                              desc = "Git Status" },
-      { "<leader>fb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
+      { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
       { "<leader>fB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
       { "<leader>fw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
       { '<leader>f"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
@@ -162,6 +167,15 @@ local plugins = {
       { '<leader>ey', function() vim.fn.setreg('+', require('cmd').cmd()) end, desc = 'Execute command output yank' },
     }
   },
+  -- {
+  --   'MeanderingProgrammer/render-markdown.nvim',
+  --   disabled = true,
+  --   opts = {
+  --     code = {
+  --       enabled = true,
+  --     },
+  --   },
+  -- },
   {
     'williamboman/mason.nvim',
     event = "VeryLazy",
@@ -192,7 +206,7 @@ local plugins = {
   },
   {
     'zbirenbaum/copilot.lua',
-    disable = true,
+    disable = false,
     event = "VeryLazy",
     opts = {
       panel = {
@@ -235,6 +249,7 @@ local plugins = {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
+    build = "make",
     opts = {
       provider = "copilot",
       copilot = {
@@ -244,7 +259,7 @@ local plugins = {
       },
       auto_suggestions_provider = "copilot",
       behaviour = {
-        auto_suggestions = true,
+        auto_suggestions = false,
       }
     },
     dependencies = {
