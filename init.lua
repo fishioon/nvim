@@ -18,10 +18,7 @@ vim.g.maplocalleader = "\\"
 
 local plugins = {
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
+    "rebelot/kanagawa.nvim",
   },
   {
     'echasnovski/mini.nvim',
@@ -37,6 +34,8 @@ local plugins = {
       -- require('mini.pairs').setup()
       require('mini.statusline').setup()
       require('mini.surround').setup()
+      -- require('mini.completion').setup()
+      -- require('mini.snippets').setup()
     end,
   },
   {
@@ -118,6 +117,14 @@ local plugins = {
       { "<leader>uD",      function() Snacks.toggle.dim() end,                                     desc = "Dim" },
     },
   },
+  -- lazy.nvim
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+  },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -188,7 +195,6 @@ local plugins = {
     event = "VeryLazy",
     dependencies = 'rafamadriz/friendly-snippets',
     version = '*',
-
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -200,7 +206,7 @@ local plugins = {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
-      cmdline = { enabled = false },
+      cmdline = { enabled = true },
     },
     opts_extend = { "sources.default" }
   },

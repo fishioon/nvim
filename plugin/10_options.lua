@@ -59,3 +59,5 @@ vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' })
 vim.api.nvim_set_hl(0, 'SnacksPickerDir', {
   link = 'Comment',
 })
+
+vim.cmd('colorscheme kanagawa')

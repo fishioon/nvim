@@ -65,13 +65,13 @@ nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
 nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
 
 -- lsp
-nmap_leader('=', ':lua vim.lsp.buf.format({async=true})<cr>')
+vim.keymap.set('n', '<Leader>=', '<CMD>silent! lua vim.lsp.buf.format({async=true})<cr>')
 
 -- just like vscode shortcuts
 -- vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
 
-vim.keymap.set('n', "<Leader>n",  '<C-w>gf<cr>',                             { desc = "New tab with under file"})
+vim.keymap.set('n', "<Leader>n", '<C-w>gf<cr>', { desc = "New tab with under file" })
 vim.keymap.set('v', '<leader>y', '"+y')
-vim.keymap.set('n', "<Leader>y",  '"+y',                                     { desc = "Yank line to system clipboard"} )
-vim.keymap.set('n', "<Leader>d",  '<cmd>Gcd<cr>',                            { desc = "Change directory to git root"} )
-vim.keymap.set('n', "<Leader>D",  '<cmd>silent tcd %:h<cr>',                 { desc = "Change directory to file dir"} )
+vim.keymap.set('n', "<Leader>y", '"+y', { desc = "Yank line to system clipboard" })
+vim.keymap.set('n', "<Leader>d", '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
+vim.keymap.set('n', "<Leader>D", '<cmd>silent tcd %:h<cr>', { desc = "Change directory to file dir" })
