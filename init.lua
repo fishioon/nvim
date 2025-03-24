@@ -50,7 +50,7 @@ local plugins = {
       },
       indent = { enabled = true },
       input = { enabled = true },
-      notifier = { enabled = true },
+      -- notifier = { enabled = true },
       picker = {
         enabled = true,
         win = {
@@ -66,6 +66,7 @@ local plugins = {
       scroll = { enabled = true },
       statuscolumn = { enabled = false },
       words = { enabled = true },
+      image = { enabled = true },
     },
     keys = {
       { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
@@ -118,29 +119,29 @@ local plugins = {
     },
   },
   -- lazy.nvim
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- add any options here
-    },
-  },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      delay = 500,
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    },
-  },
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     -- add any options here
+  --   },
+  -- },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     delay = 500,
+  --   },
+  --   keys = {
+  --     {
+  --       "<leader>?",
+  --       function()
+  --         require("which-key").show({ global = false })
+  --       end,
+  --       desc = "Buffer Local Keymaps (which-key)",
+  --     },
+  --   },
+  -- },
   {
     'nvim-treesitter/nvim-treesitter',
     event = { "BufReadPost", "BufNewFile" },
@@ -195,18 +196,12 @@ local plugins = {
     event = "VeryLazy",
     dependencies = 'rafamadriz/friendly-snippets',
     version = '*',
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
     opts = {
       keymap = { preset = 'enter' },
-      appearance = {
-        use_nvim_cmp_as_default = true,
-        nerd_font_variant = 'mono'
-      },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
-      cmdline = { enabled = true },
+      -- cmdline = { enabled = true },
     },
     opts_extend = { "sources.default" }
   },
