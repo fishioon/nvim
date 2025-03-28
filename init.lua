@@ -17,9 +17,9 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 local plugins = {
-  {
-    "rebelot/kanagawa.nvim",
-  },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  -- },
   {
     'echasnovski/mini.nvim',
     config = function()
@@ -118,30 +118,6 @@ local plugins = {
       { "<leader>uD",      function() Snacks.toggle.dim() end,                                     desc = "Dim" },
     },
   },
-  -- lazy.nvim
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     -- add any options here
-  --   },
-  -- },
-  -- {
-  --   "folke/which-key.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     delay = 500,
-  --   },
-  --   keys = {
-  --     {
-  --       "<leader>?",
-  --       function()
-  --         require("which-key").show({ global = false })
-  --       end,
-  --       desc = "Buffer Local Keymaps (which-key)",
-  --     },
-  --   },
-  -- },
   {
     'nvim-treesitter/nvim-treesitter',
     event = { "BufReadPost", "BufNewFile" },
@@ -174,36 +150,6 @@ local plugins = {
       },
       { '<leader>ey', function() vim.fn.setreg('+', require('cmd').cmd()) end, desc = 'Execute command output yank' },
     }
-  },
-  -- {
-  --   'MeanderingProgrammer/render-markdown.nvim',
-  --   disabled = true,
-  --   opts = {
-  --     code = {
-  --       enabled = true,
-  --     },
-  --   },
-  -- },
-  {
-    'williamboman/mason.nvim',
-    event = "VeryLazy",
-    config = function()
-      require('mason').setup()
-    end,
-  },
-  {
-    'saghen/blink.cmp',
-    event = "VeryLazy",
-    dependencies = 'rafamadriz/friendly-snippets',
-    version = '*',
-    opts = {
-      keymap = { preset = 'enter' },
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
-      -- cmdline = { enabled = true },
-    },
-    opts_extend = { "sources.default" }
   },
   {
     'zbirenbaum/copilot.lua',
@@ -261,7 +207,10 @@ local plugins = {
       auto_suggestions_provider = "copilot",
       behaviour = {
         auto_suggestions = false,
-      }
+      },
+      mappings = {
+        ask = "<D-l>",
+      },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
