@@ -11,7 +11,7 @@ vim.o.splitbelow     = true
 vim.o.splitright     = true
 vim.o.foldmethod     = 'expr'
 vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
-vim.o.foldlevel      = 4
+vim.o.foldlevel      = 99
 vim.o.tabstop        = 4
 -- vim.o.cmdheight      = 0
 -- vim.o.winborder      = "none"
@@ -62,6 +62,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     if client:supports_method('textDocument/implementation') then
       -- Create a keymap for vim.lsp.buf.implementation ...
+    end
+
+    if client:supports_method('textDocument/foldingRange') then
+      local win = vim.api.nvim_get_current_win()
+      vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
     end
 
     -- Enable auto-completion.

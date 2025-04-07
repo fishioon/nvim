@@ -31,7 +31,7 @@ local plugins = {
       })
       require('mini.git').setup()
       require('mini.icons').setup()
-      -- require('mini.pairs').setup()
+      require('mini.pairs').setup()
       require('mini.statusline').setup()
       require('mini.surround').setup()
       -- require('mini.completion').setup()
@@ -97,11 +97,12 @@ local plugins = {
       { "<leader>fC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
       { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
       { "<leader>fe",      function() Snacks.picker.explorer() end,                                desc = "explorer" },
+      { "<leader>.",       function() Snacks.picker.lines() end,                                   desc = "lines" },
 
       { '<leader>gg',      function() Snacks.lazygit() end,                                        desc = 'Lazygit' },
       { "<leader>z",       function() Snacks.zen() end,                                            desc = "Toggle Zen Mode" },
       { "<leader>Z",       function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
-      { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
+      -- { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
       { "<leader>S",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
       { "<leader>mh",      function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
       { "<leader>bd",      function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
@@ -150,6 +151,11 @@ local plugins = {
       },
       { '<leader>ey', function() vim.fn.setreg('+', require('cmd').cmd()) end, desc = 'Execute command output yank' },
     }
+  },
+  {
+    'mcauley-penney/visual-whitespace.nvim',
+    config = true,
+    -- keys = { 'v', 'V', '<C-v>' }, -- optionally, lazy load on visual mode keys
   },
   {
     'zbirenbaum/copilot.lua',
