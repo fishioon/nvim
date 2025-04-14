@@ -13,9 +13,9 @@ vim.o.foldmethod     = 'expr'
 vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldlevel      = 99
 vim.o.tabstop        = 4
--- vim.o.cmdheight      = 0
+vim.o.cmdheight      = 0
 -- vim.o.winborder      = "none"
-vim.o.completeopt    = 'menuone,noselect,noinsert,fuzzy,preview'
+-- vim.o.completeopt    = 'menuone,noselect,noinsert,fuzzy,preview'
 
 vim.diagnostic.config({
   -- virtual_lines = true,
@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Enable auto-completion.
     if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+      -- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
     end
 
     -- Auto-format ("lint") on save.
