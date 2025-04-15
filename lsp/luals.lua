@@ -11,8 +11,9 @@ return {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME,
-          -- vim.fn.stdpath('data') .. '/lazy',
-          -- "${3rd}/luv/library",
+          "${3rd}/luv/library",
+          vim.fn.stdpath('data') .. '/lazy/snacks.nvim',
+          vim.fn.stdpath('data') .. '/lazy/mini.nvim',
         }
       }
     }

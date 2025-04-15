@@ -98,11 +98,9 @@ local plugins = {
       { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
       { "<leader>fe",      function() Snacks.picker.explorer() end,                                desc = "explorer" },
       { "<leader>.",       function() Snacks.picker.lines() end,                                   desc = "lines" },
-
       { '<leader>gg',      function() Snacks.lazygit() end,                                        desc = 'Lazygit' },
       { "<leader>z",       function() Snacks.zen() end,                                            desc = "Toggle Zen Mode" },
       { "<leader>Z",       function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
-      -- { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
       { "<leader>S",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
       { "<leader>mh",      function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
       { "<leader>bd",      function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
@@ -110,7 +108,6 @@ local plugins = {
       { "<leader>gb",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },
       { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
       { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
-      -- toggle
       { "<leader>ud",      function() Snacks.toggle.diagnostics() end,                             desc = "Diagnostics" },
       { "<leader>ul",      function() Snacks.toggle.line_number() end,                             desc = "Line Number" },
       { "<leader>uT",      function() Snacks.toggle.treesitter() end,                              desc = "Treesitter" },
@@ -162,41 +159,20 @@ local plugins = {
     disable = false,
     event = "VeryLazy",
     opts = {
-      panel = {
-        enabled = true,
-        auto_refresh = false,
-        keymap = {
-          jump_prev = "[[",
-          jump_next = "]]",
-          accept = "<CR>",
-          refresh = "gr",
-          open = "<M-CR>"
-        },
-      },
       suggestion = {
         enabled = true,
         auto_trigger = true,
         hide_during_completion = false,
         debounce = 50,
         keymap = {
-          accept = "<C-l>",
-          accept_word = false,
-          accept_line = false,
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<C-]>",
+          accept = "<Tab>",
         },
       },
       filetypes = {
-        yaml = true,
         markdown = true,
-        help = false,
-        gitcommit = true,
-        gitrebase = true,
         ["."] = false,
       },
       copilot_node_command = 'node', -- Node.js version must be > 18.x
-      server_opts_overrides = {},
     }
   },
   {
