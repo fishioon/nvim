@@ -75,3 +75,10 @@ vim.keymap.set('v', '<leader>y', '"+y')
 vim.keymap.set('n', "<Leader>y", '"+y', { desc = "Yank line to system clipboard" })
 vim.keymap.set('n', "<Leader>d", '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
 vim.keymap.set('n', "<Leader>D", '<cmd>silent tcd %:h<cr>', { desc = "Change directory to file dir" })
+
+vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v", "i" }, "<D-l>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])
