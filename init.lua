@@ -69,8 +69,8 @@ local plugins = {
       image = { enabled = true },
     },
     keys = {
-      { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
-      { "<leader>,",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers cwd" },
+      { "<leader><space>", function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers cwd" },
+      { "<leader>,",       function() Snacks.picker.smart() end,                                   desc = "Find Files" },
       { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       { "<leader>;",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
       { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
