@@ -56,7 +56,7 @@ local plugins = {
         win = {
           input = {
             keys = {
-              ['<c-t>'] = { 'edit_tab', mode = { 'n', 'i' } },
+              -- ['<c-t>'] = { 'edit_tab', mode = { 'n', 'i' } },
             },
           },
         },
@@ -69,10 +69,11 @@ local plugins = {
       image = { enabled = true },
     },
     keys = {
-      { "<leader><space>", function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers cwd" },
-      { "<leader>,",       function() Snacks.picker.smart() end,                                   desc = "Find Files" },
+      { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
+      { "<leader>,",       function() Snacks.picker.buffers({ filter = { cwd = true } }) end,      desc = "Buffers cwd" },
       { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       { "<leader>;",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
+      { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find File" },
       { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
       { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
       { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },

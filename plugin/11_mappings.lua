@@ -19,18 +19,17 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-
-vim.api.nvim_create_autocmd("TabNew", {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_create_autocmd("BufEnter", {
-      once = true, -- 只执行一次，避免影响其他 BufEnter 事件
-      callback = function()
-        vim.cmd("silent! Gcd")
-      end
-    })
-  end
-})
+-- vim.api.nvim_create_autocmd("TabNew", {
+--   pattern = "*",
+--   callback = function()
+--     vim.api.nvim_create_autocmd("BufEnter", {
+--       once = true, -- 只执行一次，避免影响其他 BufEnter 事件
+--       callback = function()
+--         vim.cmd("silent! Gcd")
+--       end
+--     })
+--   end
+-- })
 
 local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)
@@ -57,16 +56,15 @@ vim.keymap.set('n', '<D-s>', '<Cmd>silent! write<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
-nmap_leader('ss', ':wa | mksession! ~/.config/work.vim<cr>')
-nmap_leader('so', ':so ~/.config/work.vim<cr>')
+nmap_leader('ss', ':wa | mksession! ~/.config/work/work.vim<cr>')
+nmap_leader('so', ':so ~/.config/work/work.vim<cr>')
 
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
 nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
 
 -- lsp
-vim.keymap.set('n', '<Leader>=', '<CMD>silent! lua vim.lsp.buf.format({async=true})<cr>')
-
+-- vim.keymap.set('n', '<Leader>=', '<CMD>silent! lua vim.lsp.buf.format({async=true})<cr>')
 -- just like vscode shortcuts
 -- vim.keymap.set({ 'n', 't' }, '<D-j>', function() require('term').toggle() end)
 
