@@ -74,6 +74,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       -- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
     end
 
+    if client:supports_method('textDocument/documentColor') then
+      vim.lsp.document_color.enable(true, args.buf)
+    end
+
     -- Auto-format ("lint") on save.
     -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
     if not client:supports_method('textDocument/willSaveWaitUntil')

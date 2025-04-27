@@ -67,6 +67,16 @@ local plugins = {
       statuscolumn = { enabled = false },
       words = { enabled = true },
       image = { enabled = true },
+      gitbrowse = {
+        url_patterns = {
+          ["git.garena.com"] = {
+            branch = "/-/tree/{branch}",
+            file = "/-/blob/{branch}/{file}#L{line_start}",
+            permalink = "/-/blob/{commit}/{file}#L{line_start}",
+            commit = "/-/commit/{commit}",
+          },
+        }
+      },
     },
     keys = {
       { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Find Files" },
