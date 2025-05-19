@@ -8,6 +8,8 @@ return {
         unreachable = true,
         unusedvariable = true,
         unusedparams = true,
+        rangeint = false,
+        modernize = false,
       },
       matcher = "CaseInsensitive",
       staticcheck = true,

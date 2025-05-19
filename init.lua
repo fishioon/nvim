@@ -46,16 +46,16 @@ local plugins = {
     lazy = false,
     opts = {
       bigfile = { enabled = true },
-      dashboard = { enabled = true },
+      dashboard = { enabled = false },
       explorer = { replace_netrw = true },
-      indent = { enabled = true },
-      input = { enabled = true },
+      indent = { enabled = false },
+      input = { enabled = false },
       picker = { enabled = true },
       quickfile = { enabled = true },
-      scope = { enabled = true },
-      scroll = { enabled = true },
+      scope = { enabled = false },
+      scroll = { enabled = false },
       statuscolumn = { enabled = false },
-      words = { enabled = true },
+      words = { enabled = false },
       image = { enabled = true },
       gitbrowse = {
         url_patterns = {
@@ -121,7 +121,7 @@ local plugins = {
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require 'nvim-treesitter.configs'.setup({
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "json", "go" },
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "json", "go", "bash", "http", "hurl" },
         highlight = { enable = true },
         ignore_install = {},
         sync_install = false,
@@ -273,6 +273,10 @@ local plugins = {
     end,
   },
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    enabled = false,
+  },
+  {
     "miroshQa/debugmaster.nvim",
     config = function()
       local dm = require("debugmaster")
@@ -280,6 +284,65 @@ local plugins = {
       vim.keymap.set({ "n", "v" }, "<leader>gd", dm.mode.toggle, { nowait = true })
       vim.keymap.set("t", "<C-/>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
     end
+  },
+  {
+    "jellydn/hurl.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      -- Optional, for markdown rendering with render-markdown.nvim
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown" },
+        },
+        ft = { "markdown" },
+      },
+    },
+    ft = "hurl",
+    opts = {
+      env_file = { '.env' },
+      -- Show debugging info
+      debug = false,
+      -- Show notification on run
+      show_notification = false,
+      -- Show response in popup or split
+      mode = "split",
+      -- Default formatter
+      formatters = {
+        json = { 'jq' }, -- Make sure you have install jq in your system, e.g: brew install jq
+        html = {
+          'prettier',    -- Make sure you have install prettier in your system, e.g: npm install -g prettier
+          '--parser',
+          'html',
+        },
+        xml = {
+          'tidy', -- Make sure you have installed tidy in your system, e.g: brew install tidy-html5
+          '-xml',
+          '-i',
+          '-q',
+        },
+      },
+      -- Default mappings for the response popup or split views
+      mappings = {
+        close = 'q',          -- Close the response popup or split view
+        next_panel = '<C-n>', -- Move to the next response popup window
+        prev_panel = '<C-p>', -- Move to the previous response popup window
+      },
+    },
+    keys = {
+      -- Run API request
+      { "<leader>hA", "<cmd>HurlRunner<CR>",           desc = "Run All requests" },
+      { "<leader>ha", "<cmd>HurlRunnerAt<CR>",         desc = "Run Api request" },
+      { "<leader>hl", "<cmd>HurlShowLastResponse<CR>", desc = "Show Last Response" },
+      { "<leader>he", "<cmd>HurlRunnerToEntry<CR>",    desc = "Run Api request to entry" },
+      { "<leader>hE", "<cmd>HurlRunnerToEnd<CR>",      desc = "Run Api request from current entry to end" },
+      { "<leader>hm", "<cmd>HurlToggleMode<CR>",       desc = "Hurl Toggle Mode" },
+      { "<leader>hv", "<cmd>HurlVerbose<CR>",          desc = "Run Api in verbose mode" },
+      { "<leader>hV", "<cmd>HurlVeryVerbose<CR>",      desc = "Run Api in very verbose mode" },
+      { "<leader>hh", ":HurlRunner<CR>",               desc = "Hurl Runner",                              mode = "v" },
+    },
   }
 }
 

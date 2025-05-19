@@ -18,7 +18,8 @@ vim.o.cmdheight      = 0
 -- vim.o.completeopt    = 'menuone,noselect,noinsert,fuzzy,preview'
 
 vim.diagnostic.config({
-  -- virtual_lines = true,
+  virtual_text = { current_line = true, severity = { min = "INFO", max = "WARN" } },
+  virtual_lines = { current_line = true, severity = { min = "ERROR" } },
 })
 
 vim.lsp.config('*', {
@@ -45,11 +46,6 @@ vim.lsp.config('yamls', {
   filetypes = { 'yaml' },
 })
 
-vim.lsp.config('sqlls', {
-  cmd = { 'sqlls-language-server', '--stdio' },
-  filetypes = { 'sql' },
-})
-
 vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' })
 
 vim.api.nvim_set_hl(0, 'SnacksPickerDir', {
@@ -60,19 +56,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    if client:supports_method('textDocument/implementation') then
-      -- Create a keymap for vim.lsp.buf.implementation ...
-    end
-
     if client:supports_method('textDocument/foldingRange') then
       local win = vim.api.nvim_get_current_win()
       vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
     end
 
     -- Enable auto-completion.
-    if client:supports_method('textDocument/completion') then
-      -- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-    end
+    -- if client:supports_method('textDocument/completion') then
+    --   vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    -- end
 
     if client:supports_method('textDocument/documentColor') then
       vim.lsp.document_color.enable(true, args.buf)
