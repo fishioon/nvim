@@ -34,7 +34,7 @@ local plugins = {
       require('mini.git').setup()
       require('mini.icons').setup()
       require('mini.pairs').setup()
-      require('mini.statusline').setup()
+      -- require('mini.statusline').setup()
       require('mini.surround').setup()
       -- require('mini.completion').setup()
       -- require('mini.snippets').setup()
@@ -98,7 +98,8 @@ local plugins = {
       { "<leader>fC", function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
       { "<leader>fp", function() Snacks.picker.projects() end,                                desc = "Projects" },
       { "<leader>fe", function() Snacks.picker.explorer() end,                                desc = "explorer" },
-      { "<leader>.",  function() Snacks.picker.lines() end,                                   desc = "lines" },
+      { "<leader>ll", function() Snacks.picker.lines() end,                                   desc = "lines" },
+      { "<leader>.",  function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
       { '<leader>gg', function() Snacks.lazygit() end,                                        desc = 'Lazygit' },
       { "<leader>z",  function() Snacks.zen() end,                                            desc = "Toggle Zen Mode" },
       { "<leader>Z",  function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
@@ -180,6 +181,7 @@ local plugins = {
   },
   {
     'saghen/blink.cmp',
+    -- enabled = false,
     dependencies = { 'rafamadriz/friendly-snippets' },
     version = '1.*',
     opts = {

@@ -14,8 +14,6 @@ vim.o.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldlevel      = 99
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
--- vim.o.winborder      = "none"
--- vim.o.completeopt    = 'menuone,noselect,noinsert,fuzzy,preview'
 
 vim.diagnostic.config({
   virtual_text = { current_line = true, severity = { min = "INFO", max = "WARN" } },
