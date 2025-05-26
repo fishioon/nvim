@@ -1,4 +1,4 @@
-vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root`', {})
+vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
 vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
 
@@ -10,7 +10,7 @@ vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Document
 -- })
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'lua', 'javascript', 'yaml', 'helm' },
+  pattern = { 'c', 'lua', 'javascript', 'yaml', 'helm', 'json' },
   callback = function()
     vim.bo.tabstop = 2
     vim.bo.shiftwidth = 2
@@ -19,17 +19,17 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
--- vim.api.nvim_create_autocmd("TabNew", {
---   pattern = "*",
---   callback = function()
---     vim.api.nvim_create_autocmd("BufEnter", {
---       once = true, -- 只执行一次，避免影响其他 BufEnter 事件
---       callback = function()
---         vim.cmd("silent! Gcd")
---       end
---     })
---   end
--- })
+vim.api.nvim_create_autocmd({ 'TabNew' }, {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_create_autocmd("BufEnter", {
+      once = true, -- 只执行一次，避免影响其他 BufEnter 事件
+      callback = function()
+        vim.cmd("silent! Gcd")
+      end
+    })
+  end
+})
 
 local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)

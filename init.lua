@@ -34,7 +34,7 @@ local plugins = {
       require('mini.git').setup()
       require('mini.icons').setup()
       require('mini.pairs').setup()
-      -- require('mini.statusline').setup()
+      require('mini.statusline').setup()
       require('mini.surround').setup()
       -- require('mini.completion').setup()
       -- require('mini.snippets').setup()
