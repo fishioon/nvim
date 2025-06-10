@@ -168,6 +168,15 @@ local plugins = {
         markdown = true,
         ["."] = false,
       },
+      -- logger = {
+      --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
+      --   file_log_level = vim.log.levels.INFO,
+      --   print_log_level = vim.log.levels.OFF,
+      --   trace_lsp = "verbose", -- "off" | "messages" | "verbose"
+      --   trace_lsp_progress = true,
+      --   log_lsp_messages = true,
+      -- },
+
       copilot_node_command = 'node', -- Node.js version must be > 18.x
     }
   },
@@ -178,6 +187,16 @@ local plugins = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+    config = function()
+      require("mcphub").setup()
+    end
   },
   {
     'saghen/blink.cmp',
