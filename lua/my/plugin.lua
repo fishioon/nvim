@@ -380,7 +380,6 @@ later(function() require('mini.visits').setup() end)
 
 later(function() add('rafamadriz/friendly-snippets') end)
 
-
 later(function()
   vim.lsp.config('*', {
     capabilities = {
@@ -412,5 +411,39 @@ later(function()
 
   vim.api.nvim_set_hl(0, 'SnacksPickerDir', {
     link = 'Comment',
+  })
+end)
+
+later(function()
+  add('akinsho/toggleterm.nvim')
+  require("toggleterm").setup()
+end)
+
+later(function()
+  add("zbirenbaum/copilot.lua")
+  require('copilot').setup({
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      hide_during_completion = true,
+      debounce = 50,
+      keymap = {
+        accept = "<Tab>",
+      },
+    },
+    filetypes = {
+      markdown = true,
+      ["."] = false,
+    },
+    -- logger = {
+    --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
+    --   file_log_level = vim.log.levels.INFO,
+    --   print_log_level = vim.log.levels.OFF,
+    --   trace_lsp = "verbose", -- "off" | "messages" | "verbose"
+    --   trace_lsp_progress = true,
+    --   log_lsp_messages = true,
+    -- },
+
+    copilot_node_command = 'node',   -- Node.js version must be > 18.x
   })
 end)

@@ -56,8 +56,8 @@ vim.keymap.set('n', '<D-s>', '<Cmd>silent! write<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
-nmap_leader('ss', ':wa | mksession! ~/.config/work/work.vim<cr>')
-nmap_leader('so', ':so ~/.config/work/work.vim<cr>')
+-- nmap_leader('ss', ':wa | mksession! ~/.config/work/work.vim<cr>')
+-- nmap_leader('so', ':so ~/.config/work/work.vim<cr>')
 
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
@@ -132,13 +132,11 @@ nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
 -- e is for 'explore' and 'edit'
 local edit_config_file = function(filename)
-  return '<Cmd>edit ' .. vim.fn.stdpath('config') .. '/plugin/' .. filename .. '<CR>'
+  return '<Cmd>edit ' .. vim.fn.stdpath('config') .. '/lua/my/' .. filename .. '<CR>'
 end
 nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>', 'Directory')
 nmap_leader('ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
-nmap_leader('em', edit_config_file('20_mini.lua'), 'Mini.nvim config')
-nmap_leader('eo', edit_config_file('10_options.lua'), 'Options config')
-nmap_leader('ep', edit_config_file('21_plugins.lua'), 'Plugins config')
+nmap_leader('ec', edit_config_file('plugin.lua'), 'neovim config')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
@@ -247,7 +245,8 @@ nmap_leader('rt', '<Cmd>T devtools::test()<CR>', 'Test')
 xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
 
 -- s is for 'send' (Send text to neoterm buffer)
-nmap_leader('s', '<Cmd>TREPLSendLine<CR>j', 'Send to terminal')
+nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
+vim.keymap.set({'n', 't'}, '<c-.>', '<CMD>ToggleTerm<CR>')
 
 -- - In simple visual mode send text and move to the last character in
 --   selection and move to the right. Otherwise (like in line or block visual
@@ -260,8 +259,7 @@ nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')
 nmap_leader('tf', '<Cmd>lua MiniTest.run_file()<CR>', 'Test run file')
 nmap_leader('tl', '<Cmd>lua MiniTest.run_at_location()<CR>', 'Test run location')
 nmap_leader('ts', '<Cmd>lua Config.minitest_screenshots.browse()<CR>', 'Test show screenshot')
-nmap_leader('tT', '<Cmd>belowright Tnew<CR>', 'Terminal (horizontal)')
-nmap_leader('tt', '<Cmd>vertical Tnew<CR>', 'Terminal (vertical)')
+
 
 -- T is for 'test'
 nmap_leader('TF', '<Cmd>TestFile -strategy=make | copen<CR>', 'File (quickfix)')
