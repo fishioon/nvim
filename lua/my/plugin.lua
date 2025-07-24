@@ -11,14 +11,14 @@ add({ name = 'mini.nvim', checkout = 'HEAD' })
 -- now(function() vim.cmd('colorscheme minisummer') end)
 -- now(function() vim.cmd('colorscheme miniautumn') end)
 
-now(function()
-  require('mini.basics').setup({
-    -- Manage options manually in a spirit of transparency
-    options = { basic = false },
-    mappings = { windows = true, move_with_alt = true },
-    autocommands = { relnum_in_visual_mode = true },
-  })
-end)
+-- now(function()
+--   require('mini.basics').setup({
+--     -- Manage options manually in a spirit of transparency
+--     options = { basic = false },
+--     mappings = { windows = true, move_with_alt = true },
+--     autocommands = { relnum_in_visual_mode = true },
+--   })
+-- end)
 
 now(function()
   require('mini.icons').setup({
@@ -162,9 +162,8 @@ later(function()
   })
 end)
 
-later(function() require('mini.align').setup() end)
-
-later(function() require('mini.animate').setup({ scroll = { enable = false } }) end)
+-- later(function() require('mini.align').setup() end)
+-- later(function() require('mini.animate').setup({ scroll = { enable = false } }) end)
 
 later(function() require('mini.bracketed').setup() end)
 
@@ -214,21 +213,21 @@ end)
 
 later(function() require('mini.comment').setup() end)
 
-later(function()
-  -- Don't show 'Text' suggestions
-  local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
-  local process_items = function(items, base)
-    return MiniCompletion.default_process_items(items, base, process_items_opts)
-  end
-  require('mini.completion').setup({
-    lsp_completion = { source_func = 'omnifunc', auto_setup = false, process_items = process_items },
-  })
-
-  -- Set up LSP part of completion
-  local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
-  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
-  if vim.fn.has('nvim-0.11') == 1 then vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() }) end
-end)
+-- later(function()
+--   -- Don't show 'Text' suggestions
+--   local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
+--   local process_items = function(items, base)
+--     return MiniCompletion.default_process_items(items, base, process_items_opts)
+--   end
+--   require('mini.completion').setup({
+--     lsp_completion = { source_func = 'omnifunc', auto_setup = false, process_items = process_items },
+--   })
+--
+--   -- Set up LSP part of completion
+--   local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
+--   vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
+--   if vim.fn.has('nvim-0.11') == 1 then vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() }) end
+-- end)
 
 later(function() require('mini.cursorword').setup() end)
 
@@ -285,8 +284,8 @@ later(function() require('mini.jump').setup() end)
 
 later(function()
   local map_multistep = require('mini.keymap').map_multistep
-  map_multistep('i', '<Tab>', { 'pmenu_next' })
-  map_multistep('i', '<S-Tab>', { 'pmenu_prev' })
+  -- map_multistep('i', '<Tab>', { 'pmenu_next' })
+  -- map_multistep('i', '<S-Tab>', { 'pmenu_prev' })
   map_multistep('i', '<CR>', { 'pmenu_accept', 'minipairs_cr' })
   map_multistep('i', '<BS>', { 'minipairs_bs' })
 
@@ -322,7 +321,7 @@ end)
 
 later(function() require('mini.move').setup({ options = { reindent_linewise = false } }) end)
 
-later(function() require('mini.operators').setup() end)
+-- later(function() require('mini.operators').setup() end)
 
 later(function() require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } }) end)
 
@@ -332,7 +331,7 @@ later(function()
   vim.keymap.set('n', ',', '<Cmd>Pick buf_lines scope="current" preserve_order=true<CR>', { nowait = true })
 
   MiniPick.registry.projects = function()
-    local cwd = vim.fn.expand('~/repos')
+    local cwd = vim.fn.expand('~/git')
     local choose = function(item)
       vim.schedule(function() MiniPick.builtin.files(nil, { source = { cwd = item.path } }) end)
     end
@@ -428,7 +427,7 @@ later(function()
       hide_during_completion = true,
       debounce = 50,
       keymap = {
-        accept = "<Tab>",
+        accept = '<tab>',
       },
     },
     filetypes = {
@@ -447,3 +446,21 @@ later(function()
     copilot_node_command = 'node',   -- Node.js version must be > 18.x
   })
 end)
+
+later(function()
+  add('fishioon/cmd.nvim')
+  require('cmd').setup({})
+end)
+
+later(function()
+  add({
+    source = 'saghen/blink.nvim',
+    depends = { "rafamadriz/friendly-snippets" },
+  })
+  require('blink').setup({})
+end)
+
+later(function()
+  add({ source = 'nvim-treesitter/nvim-treesitter', branch = 'main' })
+end)
+

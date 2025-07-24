@@ -73,7 +73,7 @@ vim.keymap.set('v', '<leader>y', '"+y')
 vim.keymap.set('n', "<Leader>y", '"+y', { desc = "Yank line to system clipboard" })
 vim.keymap.set('n', "<Leader>d", '<cmd>Gcd<cr>', { desc = "Change directory to git root" })
 vim.keymap.set('n', "<Leader>D", '<cmd>silent tcd %:h<cr>', { desc = "Change directory to file dir" })
-
+vim.keymap.set('n', '<leader>=', 'gggqG')
 
 
 -- Basic mappings =============================================================
@@ -141,8 +141,8 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
 -- f is for 'fuzzy find'
-nmap_leader( ' ', '<Cmd>Pick buffers<CR>', 'Buffers')
-nmap_leader( '/', '<Cmd>Pick grep_live<CR>', 'Grep live')
+nmap_leader(' ', '<Cmd>Pick buffers<CR>', 'Buffers')
+nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('f;', '<Cmd>Pick history scope=":"<CR>', '":" history')
@@ -188,18 +188,17 @@ nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 
 -- l is for 'LSP' (Language Server Protocol)
-local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
-nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>', 'Actions')
-nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', 'Diagnostics popup')
-nmap_leader('lf', formatting_cmd, 'Format')
-nmap_leader('li', '<Cmd>lua vim.lsp.buf.hover()<CR>', 'Information')
-nmap_leader('lj', '<Cmd>lua vim.diagnostic.goto_next()<CR>', 'Next diagnostic')
-nmap_leader('lk', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', 'Prev diagnostic')
-nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>', 'References')
-nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>', 'Rename')
-nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>', 'Source definition')
-
-xmap_leader('lf', formatting_cmd, 'Format selection')
+-- local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
+-- nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>', 'Actions')
+-- nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', 'Diagnostics popup')
+-- nmap_leader('lf', formatting_cmd, 'Format')
+-- nmap_leader('li', '<Cmd>lua vim.lsp.buf.hover()<CR>', 'Information')
+-- nmap_leader('lj', '<Cmd>lua vim.diagnostic.goto_next()<CR>', 'Next diagnostic')
+-- nmap_leader('lk', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', 'Prev diagnostic')
+-- nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>', 'References')
+-- nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>', 'Rename')
+-- nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>', 'Source definition')
+-- xmap_leader('lf', formatting_cmd, 'Format selection')
 
 -- L is for 'Lua'
 nmap_leader('Lc', '<Cmd>lua Config.log_clear()<CR>', 'Clear log')
@@ -246,7 +245,7 @@ xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
 
 -- s is for 'send' (Send text to neoterm buffer)
 nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
-vim.keymap.set({'n', 't'}, '<c-.>', '<CMD>ToggleTerm<CR>')
+vim.keymap.set({ 'n', 't' }, '<c-.>', '<CMD>ToggleTerm<CR>')
 
 -- - In simple visual mode send text and move to the last character in
 --   selection and move to the right. Otherwise (like in line or block visual
@@ -284,6 +283,23 @@ local map_pick_core = function(keys, cwd, desc)
   end
   nmap_leader(keys, rhs, desc)
 end
+
 map_pick_core('vc', '', 'Core visits (all)')
 map_pick_core('vC', nil, 'Core visits (cwd)')
--- stylua: ignore end
+
+vim.keymap.set('n', '<C-W>:', function()
+  vim.ui.input({
+    prompt = '(capture) :',
+    completion = 'command',
+  }, function(input)
+    if input == '' or input == nil then return end
+    local output = vim.api.nvim_exec2(input, { output = true }).output
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, '\n'))
+    local win = vim.api.nvim_open_win(buf, true, {
+      height = vim.o.cmdwinheight,
+      split = 'below',
+      win = 0,
+    })
+  end)
+end)
