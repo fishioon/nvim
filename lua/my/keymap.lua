@@ -244,21 +244,19 @@ nmap_leader('rt', '<Cmd>T devtools::test()<CR>', 'Test')
 xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
 
 -- s is for 'send' (Send text to neoterm buffer)
-nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
-vim.keymap.set({ 'n', 't' }, '<c-.>', '<CMD>ToggleTerm<CR>')
-
--- - In simple visual mode send text and move to the last character in
---   selection and move to the right. Otherwise (like in line or block visual
---   mode) send text and move one line down from bottom of selection.
-local send_selection_cmd = [[mode() ==# "v" ? ":TREPLSendSelection<CR>`>l" : ":TREPLSendSelection<CR>'>j"]]
-xmap_leader('s', send_selection_cmd, 'Send to terminal', { expr = true })
+-- nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
+vim.keymap.set({ 'n', 't' }, '<c-.>', function() require('term').send('\n') end, { desc = 'Toggle terminal' })
+vim.keymap.set('n', '<leader>s', function()
+  local command = require('cmd').cmd()
+  require('term').send(command)
+end,
+{ desc = 'Run command with terminal' })
 
 -- t is for 'terminal' (uses 'neoterm') and 'minitest'
 nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')
 nmap_leader('tf', '<Cmd>lua MiniTest.run_file()<CR>', 'Test run file')
 nmap_leader('tl', '<Cmd>lua MiniTest.run_at_location()<CR>', 'Test run location')
 nmap_leader('ts', '<Cmd>lua Config.minitest_screenshots.browse()<CR>', 'Test show screenshot')
-
 
 -- T is for 'test'
 nmap_leader('TF', '<Cmd>TestFile -strategy=make | copen<CR>', 'File (quickfix)')

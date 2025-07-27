@@ -448,7 +448,7 @@ later(function()
 end)
 
 later(function()
-  add('fishioon/cmd.nvim')
+  add({ source = 'fishioon/cmd.nvim', depends = { 'fishioon/term.nvim' } })
   require('cmd').setup({})
 end)
 
