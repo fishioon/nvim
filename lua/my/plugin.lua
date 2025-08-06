@@ -5,21 +5,6 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 -- 'runtimepath' as there is a '.../pack/*/start/*' entry there.
 add({ name = 'mini.nvim', checkout = 'HEAD' })
 
--- Step one ===================================================================
--- now(function() vim.cmd('colorscheme miniwinter') end)
--- now(function() vim.cmd('colorscheme minispring') end)
--- now(function() vim.cmd('colorscheme minisummer') end)
--- now(function() vim.cmd('colorscheme miniautumn') end)
-
--- now(function()
---   require('mini.basics').setup({
---     -- Manage options manually in a spirit of transparency
---     options = { basic = false },
---     mappings = { windows = true, move_with_alt = true },
---     autocommands = { relnum_in_visual_mode = true },
---   })
--- end)
-
 now(function()
   require('mini.icons').setup({
     use_file_extension = function(ext, _)
@@ -48,51 +33,6 @@ now(function() require('mini.sessions').setup() end)
 now(function() require('mini.starter').setup() end)
 
 now(function() require('mini.statusline').setup() end)
-
--- Future 'mini.statuscolumn'
-now(function()
-  if vim.fn.has('nvim-0.9') == 1 then
-    -- TODO: Add "scrollbar" section:
-    -- - Treat whole window height as representation of buffer height.
-    -- - Show a bar for window lines that span from top to bottom visible
-    --   buffer lines. At least a single line should be covered.
-    -- - Maybe point in a middle with where the cursor is (like in 'mini.map').
-    -- - Maybe combine it with │ rightmost delimiter (╏ is good for scrollbar).
-    local n_wraps = function(row)
-      -- TODO: Use it for better cursor animation with 'wrap' enabled?
-      -- NOTE: Include `start_vcol = 0` to not count virtual text above
-      return vim.api.nvim_win_text_height(0, { start_row = row, start_vcol = 0, end_row = row }).all - 1
-    end
-
-    vim.api.nvim_set_hl(0, 'MiniStatuscolumnBorder', { link = 'LineNr' })
-    vim.cmd('au ColorScheme * hi! link MiniStatuscolumnBorder LineNr')
-
-    _G.statuscolumn = function()
-      -- add_to_log({ 'statuscolumn', actual = vim.g.actual_curwin, cur = vim.api.nvim_get_current_win() })
-
-      -- TODO: address `signcolumn=auto` and `foldcolumn=auto`
-      if not vim.wo.number and vim.wo.signcolumn == 'no' and vim.wo.foldcolumn == '0' then return '' end
-
-      -- TODO: Take a look at why `CursorLineNr` is not combined with extmark
-      -- highligting from 'mini.diff'
-      -- local is_cur = vim.v.relnum == 0
-      -- local line_nr_hl = '%#' .. (is_cur and 'Cursor' or '') .. 'LineNr#'
-      local line_nr_hl = ''
-
-      local lnum = vim.v.virtnum == 0 and '%l'
-          -- or (vim.v.virtnum < 0 and '•' or (vim.v.virtnum == n_wraps(vim.v.lnum - 1) and '└' or '├'))
-          -- or (vim.v.virtnum < 0 and '•' or '↯')
-          or (vim.v.virtnum < 0 and '•' or '↳')
-
-      -- Deal with sign widths
-
-      return '%C%s%=' .. line_nr_hl .. lnum .. '%#LineNr#│'
-    end
-    vim.o.statuscolumn = '%{%v:lua.statuscolumn()%}'
-  end
-end)
-
--- now(function() require('mini.tabline').setup() end)
 
 -- Future part of 'mini.detect'
 -- TODO: Needs some condition to stop the comb.
@@ -208,47 +148,12 @@ later(function()
   })
 end)
 
--- Don't really need it on daily basis
--- later(function() require('mini.colors').setup() end)
-
-later(function() require('mini.comment').setup() end)
-
--- later(function()
---   -- Don't show 'Text' suggestions
---   local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
---   local process_items = function(items, base)
---     return MiniCompletion.default_process_items(items, base, process_items_opts)
---   end
---   require('mini.completion').setup({
---     lsp_completion = { source_func = 'omnifunc', auto_setup = false, process_items = process_items },
---   })
---
---   -- Set up LSP part of completion
---   local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
---   vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
---   if vim.fn.has('nvim-0.11') == 1 then vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() }) end
--- end)
-
 later(function() require('mini.cursorword').setup() end)
 
 later(function() require('mini.diff').setup() end)
 
-later(function() require('mini.doc').setup() end)
-
 later(function()
   require('mini.files').setup({ windows = { preview = true } })
-
-  local minifiles_augroup = vim.api.nvim_create_augroup('ec-mini-files', {})
-  vim.api.nvim_create_autocmd('User', {
-    group = minifiles_augroup,
-    pattern = 'MiniFilesExplorerOpen',
-    callback = function()
-      MiniFiles.set_bookmark('c', vim.fn.stdpath('config'), { desc = 'Config' })
-      MiniFiles.set_bookmark('m', vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim', { desc = 'mini.nvim' })
-      MiniFiles.set_bookmark('p', vim.fn.stdpath('data') .. '/site/pack/deps/opt', { desc = 'Plugins' })
-      MiniFiles.set_bookmark('w', vim.fn.getcwd, { desc = 'Working directory' })
-    end,
-  })
 end)
 
 later(function() require('mini.git').setup() end)
@@ -267,20 +172,6 @@ later(function()
     },
   })
 end)
-
-later(function() require('mini.indentscope').setup() end)
-
-later(function() require('mini.jump').setup() end)
-
--- later(function()
---   local jump2d = require('mini.jump2d')
---   jump2d.setup({
---     spotter = jump2d.gen_spotter.pattern('[^%s%p]+'),
---     labels = 'asdfghjkl;',
---     view = { dim = true, n_steps_ahead = 2 },
---   })
---   vim.keymap.set({ 'n', 'x', 'o' }, 'sj', function() MiniJump2d.start(MiniJump2d.builtin_opts.single_character) end)
--- end)
 
 later(function()
   local map_multistep = require('mini.keymap').map_multistep
@@ -406,16 +297,11 @@ later(function()
     filetypes = { 'yaml' },
   })
 
-  vim.lsp.enable({ 'luals', 'gopls', 'jsonls', 'tsls' })
+  vim.lsp.enable({ 'luals', 'gopls', 'tsls' })
 
   vim.api.nvim_set_hl(0, 'SnacksPickerDir', {
     link = 'Comment',
   })
-end)
-
-later(function()
-  add('akinsho/toggleterm.nvim')
-  require("toggleterm").setup()
 end)
 
 later(function()
@@ -434,16 +320,7 @@ later(function()
       markdown = true,
       ["."] = false,
     },
-    -- logger = {
-    --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
-    --   file_log_level = vim.log.levels.INFO,
-    --   print_log_level = vim.log.levels.OFF,
-    --   trace_lsp = "verbose", -- "off" | "messages" | "verbose"
-    --   trace_lsp_progress = true,
-    --   log_lsp_messages = true,
-    -- },
-
-    copilot_node_command = 'node',   -- Node.js version must be > 18.x
+    copilot_node_command = 'node', -- Node.js version must be > 18.x
   })
 end)
 
@@ -454,13 +331,31 @@ end)
 
 later(function()
   add({
-    source = 'saghen/blink.nvim',
+    source = 'saghen/blink.cmp',
     depends = { "rafamadriz/friendly-snippets" },
+    checkout = 'v1.6.0',
   })
-  require('blink').setup({})
+  require('blink.cmp').setup({
+    keymap = { preset = 'default' },
+    completion = { documentation = { auto_show = false } },
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'cmdline' },
+    },
+    fuzzy = { implementation = "prefer_rust_with_warning" },
+  })
 end)
 
 later(function()
   add({ source = 'nvim-treesitter/nvim-treesitter', branch = 'main' })
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { 'lua', 'vim', 'vimdoc', 'markdown', 'markdown_inline', 'json', 'yaml', 'html', 'css' },
+    highlight = {
+      enable = true,
+      -- additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+      -- disable = { 'yaml' }, -- YAML indent is not good
+    },
+  }
 end)
-

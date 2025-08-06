@@ -2,6 +2,16 @@ vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` 
 vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
 
+vim.api.nvim_create_user_command('SSH', function(opts)
+  local ssh_cmd = "ssh " .. opts.args
+  vim.cmd("tabnew | terminal " .. ssh_cmd)
+  vim.cmd([[startinsert]])
+end, {
+  nargs = '+',  -- 接受至少一个参数
+  complete = 'file',  -- 路径自动补全
+  desc = "在新标签页执行 SSH 连接"
+})
+
 -- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 --   pattern = { "*/templates/*.yaml", "*/templates/*.tpl", "*.gotmpl", "helmfile*.yaml" },
 --   callback = function()
@@ -146,6 +156,7 @@ nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('f;', '<Cmd>Pick history scope=":"<CR>', '":" history')
+nmap_leader(';', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
 nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
 nmap_leader('fb', '<Cmd>Pick buffers<CR>', 'Buffers')
@@ -245,8 +256,8 @@ xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
 
 -- s is for 'send' (Send text to neoterm buffer)
 -- nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
-vim.keymap.set({ 'n', 't' }, '<c-.>', function() require('term').send('\n') end, { desc = 'Toggle terminal' })
-vim.keymap.set('n', '<leader>s', function()
+vim.keymap.set({ 'n', 't' }, '<c-.>', function() require('term').toggle() end, { desc = 'Toggle terminal' })
+vim.keymap.set('n', '<leader>ss', function()
   local command = require('cmd').cmd()
   require('term').send(command)
 end,
@@ -274,17 +285,6 @@ nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core"
 nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>', 'Add label')
 nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>', 'Remove label')
 
-local map_pick_core = function(keys, cwd, desc)
-  local rhs = function()
-    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
-    MiniExtra.pickers.visit_paths({ cwd = cwd, filter = 'core', sort = sort_latest }, { source = { name = desc } })
-  end
-  nmap_leader(keys, rhs, desc)
-end
-
-map_pick_core('vc', '', 'Core visits (all)')
-map_pick_core('vC', nil, 'Core visits (cwd)')
-
 vim.keymap.set('n', '<C-W>:', function()
   vim.ui.input({
     prompt = '(capture) :',
@@ -294,7 +294,7 @@ vim.keymap.set('n', '<C-W>:', function()
     local output = vim.api.nvim_exec2(input, { output = true }).output
     local buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, '\n'))
-    local win = vim.api.nvim_open_win(buf, true, {
+    local _ = vim.api.nvim_open_win(buf, true, {
       height = vim.o.cmdwinheight,
       split = 'below',
       win = 0,
