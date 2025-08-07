@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd({ 'TabNew' }, {
 local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('n', lhs, rhs, opt)
   vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
-  -- vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
+  vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
 end
 --
 
@@ -55,9 +55,11 @@ local nmap_leader = function(suffix, rhs, desc, opts)
 end
 
 for i = 1, 9 do
-  vim.keymap.set('n', '<leader>' .. i, i .. 'gt')
+  -- keymap_all('<leader>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
+  keymap_all('<A-' .. i .. '>', i .. 'gt', { desc = 'Go to tab ' .. i })
 end
-vim.keymap.set('n', '<leader>0', '<CMD>tablast<CR>')
+-- keymap_all('<leader>0', '<CMD>tablast<CR>')
+keymap_all('<A-0>', '<CMD>tablast<CR>')
 
 keymap_all('<C-j>', '<C-w>w')
 keymap_all('<C-k>', '<C-w>W')
