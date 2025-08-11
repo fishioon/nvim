@@ -1,3 +1,21 @@
+local nmap_leader = function(suffix, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set('n', '<Leader>' .. suffix, rhs, opts)
+end
+
+local xmap_leader = function(suffix, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set('x', '<Leader>' .. suffix, rhs, opts)
+end
+
+local function keymap_all(lhs, rhs, opt)
+  vim.keymap.set('n', lhs, rhs, opt)
+  vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
+  vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
+end
+
 vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
 vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
@@ -40,19 +58,6 @@ vim.api.nvim_create_autocmd({ 'TabNew' }, {
     })
   end
 })
-
-local function keymap_all(lhs, rhs, opt)
-  vim.keymap.set('n', lhs, rhs, opt)
-  vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
-  vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
-end
---
-
-local nmap_leader = function(suffix, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set('n', '<Leader>' .. suffix, rhs, opts)
-end
 
 for i = 1, 9 do
   -- keymap_all('<leader>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
@@ -104,36 +109,7 @@ vim.keymap.set({ 'n', 'x' }, ']p', '<Cmd>exe "' .. cmd .. ' "  . v:register<CR>'
 
 -- Create global tables with information about clue groups in certain modes
 -- Structure of tables is taken to be compatible with 'mini.clue'.
-_G.Config.leader_group_clues = {
-  { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
-  { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
-  { mode = 'n', keys = '<Leader>f', desc = '+Find' },
-  { mode = 'n', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
-  { mode = 'n', keys = '<Leader>L', desc = '+Lua/Log' },
-  { mode = 'n', keys = '<Leader>m', desc = '+Map' },
-  { mode = 'n', keys = '<Leader>o', desc = '+Other' },
-  { mode = 'n', keys = '<Leader>r', desc = '+R' },
-  { mode = 'n', keys = '<Leader>t', desc = '+Terminal/Minitest' },
-  { mode = 'n', keys = '<Leader>T', desc = '+Test' },
-  { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
-
-  { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
-  { mode = 'x', keys = '<Leader>r', desc = '+R' },
-}
-
 -- Create `<Leader>` mappings
-local nmap_leader = function(suffix, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set('n', '<Leader>' .. suffix, rhs, opts)
-end
-local xmap_leader = function(suffix, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set('x', '<Leader>' .. suffix, rhs, opts)
-end
-
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>', 'Alternate')
 nmap_leader('bd', '<Cmd>lua MiniBufremove.delete()<CR>', 'Delete')
@@ -148,7 +124,8 @@ local edit_config_file = function(filename)
 end
 nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>', 'Directory')
 nmap_leader('ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
-nmap_leader('ec', edit_config_file('plugin.lua'), 'neovim config')
+nmap_leader('ec', edit_config_file(''), 'neovim config')
+nmap_leader('ek', edit_config_file('keymap.lua'), 'neovim config')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
@@ -264,6 +241,8 @@ vim.keymap.set('n', '<leader>ss', function()
   require('term').send(command)
 end,
 { desc = 'Run command with terminal' })
+
+nmap_leader('cc', '<Cmd>lua Config.toggle_claude()<CR>', 'Toggle terminal command')
 
 -- t is for 'terminal' (uses 'neoterm') and 'minitest'
 nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')

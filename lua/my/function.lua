@@ -332,3 +332,35 @@ local on_list = function(args)
 end
 
 Config.luals_unique_definition = function() return vim.lsp.buf.definition({ on_list = on_list }) end
+
+Config.toggle_terminal_cmd = function(cmd)
+  local prefix = 'term://' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+  local suffix = ':' .. cmd
+
+  -- Check if 'claude' is already open
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local name = vim.api.nvim_buf_get_name(buf)
+    if vim.startswith(name, 'term://') and vim.endswith(name, suffix) then
+      -- If it is, close it
+      vim.api.nvim_win_close(win, true)
+      return
+    end
+  end
+
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    local name = vim.api.nvim_buf_get_name(buf)
+    vim.print('buf: ' .. name)
+    if vim.startswith(name, prefix) and vim.endswith(name, ':' .. cmd) then
+      vim.cmd('vsplit #' .. buf)
+      return
+    end
+  end
+
+  -- If not, open it in a vertical split
+  vim.cmd('vsplit | terminal ' .. cmd)
+end
+
+Config.toggle_claude = function()
+  Config.toggle_terminal_cmd('claude')
+end

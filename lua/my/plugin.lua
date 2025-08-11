@@ -112,9 +112,27 @@ later(function() require('mini.bufremove').setup() end)
 later(function()
   local miniclue = require('mini.clue')
   --stylua: ignore
+  local leader_group_clues = {
+    { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
+    { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
+    { mode = 'n', keys = '<Leader>f', desc = '+Find' },
+    { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+    { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
+    { mode = 'n', keys = '<Leader>L', desc = '+Lua/Log' },
+    { mode = 'n', keys = '<Leader>m', desc = '+Map' },
+    { mode = 'n', keys = '<Leader>o', desc = '+Other' },
+    { mode = 'n', keys = '<Leader>r', desc = '+R' },
+    { mode = 'n', keys = '<Leader>t', desc = '+Terminal/Minitest' },
+    { mode = 'n', keys = '<Leader>T', desc = '+Test' },
+    { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
+
+    { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
+    { mode = 'x', keys = '<Leader>r', desc = '+R' },
+  }
+
   miniclue.setup({
     clues = {
-      Config.leader_group_clues,
+      leader_group_clues,
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
@@ -212,8 +230,6 @@ end)
 
 later(function() require('mini.move').setup({ options = { reindent_linewise = false } }) end)
 
--- later(function() require('mini.operators').setup() end)
-
 later(function() require('mini.pairs').setup({ modes = { insert = true, command = true, terminal = true } }) end)
 
 later(function()
@@ -256,11 +272,7 @@ end)
 
 later(function() require('mini.splitjoin').setup() end)
 
-later(function()
-  require('mini.surround').setup()
-  -- Disable `s` shortcut (use `cl` instead) for safer usage of 'mini.surround'
-  vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
-end)
+later(function() require('mini.surround').setup() end)
 
 later(function() require('mini.test').setup() end)
 
@@ -330,14 +342,30 @@ later(function()
 end)
 
 later(function()
+  local function build_blink(params)
+    vim.notify('Building blink.cmp', vim.log.levels.INFO)
+    local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
+    if obj.code == 0 then
+      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+    else
+      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+    end
+  end
   add({
     source = 'saghen/blink.cmp',
     depends = { "rafamadriz/friendly-snippets" },
-    checkout = 'v1.6.0',
+    hooks = {
+      post_install = build_blink,
+      post_checkout = build_blink,
+    },
   })
   require('blink.cmp').setup({
     keymap = { preset = 'default' },
     completion = { documentation = { auto_show = false } },
+    cmdline = {
+      keymap = { preset = 'inherit' },
+      completion = { menu = { auto_show = true } },
+    },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
     },
@@ -346,16 +374,14 @@ later(function()
 end)
 
 later(function()
-  add({ source = 'nvim-treesitter/nvim-treesitter', branch = 'main' })
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'lua', 'vim', 'vimdoc', 'markdown', 'markdown_inline', 'json', 'yaml', 'html', 'css' },
-    highlight = {
-      enable = true,
-      -- additional_vim_regex_highlighting = false,
-    },
-    indent = {
-      enable = true,
-      -- disable = { 'yaml' }, -- YAML indent is not good
-    },
-  }
+  add({ source = 'nvim-treesitter/nvim-treesitter', checkout = 'main' })
+  require 'nvim-treesitter'.install { 'go', 'lua', 'vim', 'vimdoc', 'markdown', 'markdown_inline', 'json', 'yaml', 'html', 'css' }
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'go', 'lua', 'markdown', 'json' },
+    callback = function()
+      vim.treesitter.start()
+      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+  })
 end)
