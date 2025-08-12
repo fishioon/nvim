@@ -333,7 +333,9 @@ end
 
 Config.luals_unique_definition = function() return vim.lsp.buf.definition({ on_list = on_list }) end
 
-Config.toggle_terminal_cmd = function(cmd)
+Config.toggle_terminal_cmd = function(cmd, split)
+  split = split or 'vsplit'
+  cmd = cmd or os.getenv('SHELL')
   local prefix = 'term://' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
   local suffix = ':' .. cmd
 
@@ -350,17 +352,57 @@ Config.toggle_terminal_cmd = function(cmd)
 
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     local name = vim.api.nvim_buf_get_name(buf)
-    vim.print('buf: ' .. name)
     if vim.startswith(name, prefix) and vim.endswith(name, ':' .. cmd) then
-      vim.cmd('vsplit #' .. buf)
+      vim.cmd(split .. ' #' .. buf)
+      vim.cmd('startinsert')
       return
     end
   end
 
   -- If not, open it in a vertical split
-  vim.cmd('vsplit | terminal ' .. cmd)
+  vim.cmd(split .. '| terminal ' .. cmd)
+  vim.cmd('startinsert')
 end
 
 Config.toggle_claude = function()
   Config.toggle_terminal_cmd('claude')
+end
+
+Config.send_to_terminal = function()
+  local text = ''
+  local mode = vim.fn.mode()
+  if mode == 'v' or mode == 'V' or mode == '' then
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+    local lines = vim.api.nvim_buf_get_text(0, start_pos[2] - 1, start_pos[3] - 1, end_pos[2] - 1, end_pos[3], {})
+    text = table.concat(lines, '\n')
+  else
+    text = vim.api.nvim_get_current_line()
+  end
+
+  if text == '' then
+    vim.notify("No text select", vim.log.levels.WARN)
+    return
+  end
+
+  local term_buf = nil
+  local winid = 0
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local name = vim.api.nvim_buf_get_name(buf)
+    if vim.startswith(name, 'term://') then
+      term_buf = buf
+      winid = win
+      break
+    end
+  end
+
+  if not term_buf then
+    vim.notify("No terminal buffer found", vim.log.levels.WARN)
+    return
+  end
+
+  vim.api.nvim_set_current_win(winid)
+  vim.fn.chansend(vim.b.terminal_job_id, text .. '\n')
+  vim.cmd('wincmd p')
 end

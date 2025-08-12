@@ -235,14 +235,16 @@ xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
 
 -- s is for 'send' (Send text to neoterm buffer)
 -- nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
-vim.keymap.set({ 'n', 't' }, '<c-.>', function() require('term').toggle() end, { desc = 'Toggle terminal' })
 vim.keymap.set('n', '<leader>ss', function()
   local command = require('cmd').cmd()
   require('term').send(command)
 end,
 { desc = 'Run command with terminal' })
 
-nmap_leader('cc', '<Cmd>lua Config.toggle_claude()<CR>', 'Toggle terminal command')
+vim.keymap.set({'n', 'x'}, '<leader>st', '<Cmd>lua Config.send_to_terminal()<CR>', { desc = 'Send selection to terminal' })
+
+vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.toggle_terminal_cmd() end, { desc = 'Toggle terminal' })
+nmap_leader('cc', function() Config.toggle_claude() end, 'Toggle terminal command')
 
 -- t is for 'terminal' (uses 'neoterm') and 'minitest'
 nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')
