@@ -61,10 +61,10 @@ vim.api.nvim_create_autocmd({ 'TabNew' }, {
 
 for i = 1, 9 do
   -- keymap_all('<leader>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
-  keymap_all('<A-' .. i .. '>', i .. 'gt', { desc = 'Go to tab ' .. i })
+  keymap_all('<D-' .. i .. '>', i .. 'gt', { desc = 'Go to tab ' .. i })
 end
 -- keymap_all('<leader>0', '<CMD>tablast<CR>')
-keymap_all('<A-0>', '<CMD>tablast<CR>')
+keymap_all('<D-0>', '<CMD>tablast<CR>')
 
 keymap_all('<C-j>', '<C-w>w')
 keymap_all('<C-k>', '<C-w>W')
@@ -130,7 +130,7 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
 -- f is for 'fuzzy find'
-nmap_leader(' ', '<Cmd>Pick buffers<CR>', 'Buffers')
+nmap_leader(' ', '<Cmd>Pick files<CR>', 'Files')
 nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>', '":" history')
