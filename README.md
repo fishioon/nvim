@@ -10,3 +10,7 @@ git clone https://github.com/fishioon/nvim.git ~/.config/nvim
 ```bash
 nvim
 ```
+
+```http
+GET https://api.example.com/data
+```

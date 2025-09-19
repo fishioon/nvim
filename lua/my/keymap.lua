@@ -218,33 +218,9 @@ nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>', 'Trim trailspace')
 nmap_leader('oT', trailspace_toggle_command, 'Trailspace hl toggle')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>', 'Zoom toggle')
 
--- r is for 'R'
--- - Mappings starting with `T` send commands to current neoterm buffer, so
---   some sort of R interpreter should already run there
-nmap_leader('rc', '<Cmd>T devtools::check()<CR>', 'Check')
-nmap_leader('rC', '<Cmd>T devtools::test_coverage()<CR>', 'Coverage')
-nmap_leader('rd', '<Cmd>T devtools::document()<CR>', 'Document')
-nmap_leader('ri', '<Cmd>T devtools::install(keep_source=TRUE)<CR>', 'Install')
-nmap_leader('rk', '<Cmd>T rmarkdown::render("%")<CR>', 'Knit file')
-nmap_leader('rl', '<Cmd>T devtools::load_all()<CR>', 'Load all')
-nmap_leader('rT', '<Cmd>T testthat::test_file("%")<CR>', 'Test file')
-nmap_leader('rt', '<Cmd>T devtools::test()<CR>', 'Test')
-
--- - Copy to clipboard and make reprex (which itself is loaded to clipboard)
-xmap_leader('rx', '"+y :T reprex::reprex()<CR>', 'Reprex selection')
-
--- s is for 'send' (Send text to neoterm buffer)
--- nmap_leader('s', '<Cmd>ToggleTermSendCurrentLine<CR>', 'Send to terminal')
-vim.keymap.set('n', '<leader>ss', function()
-  local command = require('cmd').cmd()
-  require('term').send(command)
-end,
-{ desc = 'Run command with terminal' })
-
-vim.keymap.set({'n', 'x'}, '<leader>st', '<Cmd>lua Config.send_to_terminal()<CR>', { desc = 'Send selection to terminal' })
-
-vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.toggle_terminal_cmd() end, { desc = 'Toggle terminal' })
-nmap_leader('cc', function() Config.toggle_claude() end, 'Toggle terminal command')
+vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.term_open(true) end, { desc = 'Toggle terminal' })
+nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle terminal command')
+nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
 
 -- t is for 'terminal' (uses 'neoterm') and 'minitest'
 nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')

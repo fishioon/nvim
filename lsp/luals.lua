@@ -4,6 +4,9 @@ return {
   root_markers = { '.luarc.json', '.luarc.jsonc' },
   settings = {
     Lua = {
+      diagnostics = {
+        disable = {"luadoc-miss-see-name"},
+      },
       runtime = {
         version = 'LuaJIT',
       },
