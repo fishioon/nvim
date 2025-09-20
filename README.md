@@ -12,5 +12,7 @@ nvim
 ```
 
 ```http
-GET https://api.example.com/data
+@host="localhost:8080"
+GET /data
+Host: ${host}
 ```

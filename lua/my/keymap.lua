@@ -73,9 +73,6 @@ vim.keymap.set('n', '<D-s>', '<Cmd>silent! write<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
--- nmap_leader('ss', ':wa | mksession! ~/.config/work/work.vim<cr>')
--- nmap_leader('so', ':so ~/.config/work/work.vim<cr>')
-
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
 nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
@@ -128,6 +125,10 @@ nmap_leader('ec', edit_config_file(''), 'neovim config')
 nmap_leader('ek', edit_config_file('keymap.lua'), 'neovim config')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
+vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.term_open(true) end, { desc = 'Toggle terminal' })
+nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle terminal command')
+nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
+
 
 -- f is for 'fuzzy find'
 nmap_leader(' ', '<Cmd>Pick files<CR>', 'Files')
@@ -217,10 +218,6 @@ nmap_leader('oS', '<Cmd>lua Config.insert_section()<CR>', 'Section insert')
 nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>', 'Trim trailspace')
 nmap_leader('oT', trailspace_toggle_command, 'Trailspace hl toggle')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>', 'Zoom toggle')
-
-vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.term_open(true) end, { desc = 'Toggle terminal' })
-nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle terminal command')
-nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
 
 -- t is for 'terminal' (uses 'neoterm') and 'minitest'
 nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')

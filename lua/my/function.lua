@@ -19,7 +19,8 @@ Config.open_lazygit = function()
   -- Unset vim environment variables to be able to call `vim` without errors
   -- Use custom `--git-dir` and `--work-tree` to be able to open inside
   -- symlinked submodules
-  vim.fn.termopen('VIMRUNTIME= VIM= lazygit --git-dir=$(git rev-parse --git-dir) --work-tree=$(realpath .)', {
+  vim.fn.jobstart('VIMRUNTIME= VIM= lazygit --git-dir=$(git rev-parse --git-dir) --work-tree=$(realpath .)', {
+    term = true,
     on_exit = function()
       vim.cmd('silent! :checktime')
       vim.cmd('silent! :bw')

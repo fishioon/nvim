@@ -41,11 +41,11 @@ local function trim_quotes(str)
     return str
 end
 
-local function handleExport(line)
-  if vim.startswith(line, 'export ') then
+local function handle_export(line)
+  if vim.startswith(line, '@') then
     local equalsPos = string.find(line, '=')
     if equalsPos then
-      local key = string.sub(line, 8, equalsPos - 1)
+      local key = string.sub(line, 1, equalsPos - 1)
       local val = trim_quotes(string.sub(line, equalsPos + 1))
       if key then
         local_env[key] = val
@@ -145,7 +145,7 @@ end
 
 local function handleEnv(lines)
   for i = 1, #lines do
-    lines[i] = handleExport(envsubst(lines[i]))
+    lines[i] = handle_export(envsubst(lines[i]))
   end
   return lines
 end
@@ -211,7 +211,7 @@ function M.cmd()
       return "go test -timeout 30s -run '^Test" .. funcName .. "$' " .. getGOPkg()
     end
   end
-  return handleExport(envsubst(line))
+  return handle_export(envsubst(line))
 end
 
 function M.setup()
