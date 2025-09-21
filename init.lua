@@ -10,12 +10,15 @@ vim.o.smartcase      = true
 vim.o.laststatus     = 3
 vim.o.splitbelow     = true
 vim.o.splitright     = true
-vim.o.foldlevel      = 99
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
-vim.o.completeopt = 'menu,menuone,noinsert,fuzzy,popup'
+vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
 
-require('vim._extui').enable({})
+require('vim._extui').enable({
+  enable = true,
+  timeout = 5000,
+})
+
 require('my.function')
 require('my.plugin')
 require('my.keymap')

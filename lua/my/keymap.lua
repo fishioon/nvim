@@ -1,3 +1,4 @@
+if _G.Config == nil then _G.Config = {} end
 local nmap_leader = function(suffix, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc
@@ -15,49 +16,6 @@ local function keymap_all(lhs, rhs, opt)
   vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
   vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
 end
-
-vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
-vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
-vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
-
-vim.api.nvim_create_user_command('SSH', function(opts)
-  local ssh_cmd = "ssh " .. opts.args
-  vim.cmd("tabnew | terminal " .. ssh_cmd)
-  vim.cmd([[startinsert]])
-end, {
-  nargs = '+',  -- 接受至少一个参数
-  complete = 'file',  -- 路径自动补全
-  desc = "在新标签页执行 SSH 连接"
-})
-
--- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
---   pattern = { "*/templates/*.yaml", "*/templates/*.tpl", "*.gotmpl", "helmfile*.yaml" },
---   callback = function()
---     vim.bo.filetype = "helm"
---   end,
--- })
-
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'lua', 'javascript', 'yaml', 'helm', 'json' },
-  callback = function()
-    vim.bo.tabstop = 2
-    vim.bo.shiftwidth = 2
-    vim.bo.softtabstop = 2
-    vim.bo.expandtab = true
-  end,
-})
-
-vim.api.nvim_create_autocmd({ 'TabNew' }, {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_create_autocmd("BufEnter", {
-      once = true, -- 只执行一次，避免影响其他 BufEnter 事件
-      callback = function()
-        vim.cmd("silent! Gcd")
-      end
-    })
-  end
-})
 
 for i = 1, 9 do
   -- keymap_all('<leader>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
@@ -127,8 +85,8 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.term_open(true) end, { desc = 'Toggle terminal' })
 nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle terminal command')
+nmap_leader('cx', function() Config.term_open(true, 'codex', 'vsplit') end, 'Toggle terminal command')
 nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
-
 
 -- f is for 'fuzzy find'
 nmap_leader(' ', '<Cmd>Pick files<CR>', 'Files')
@@ -178,19 +136,6 @@ nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 
--- l is for 'LSP' (Language Server Protocol)
--- local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
--- nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>', 'Actions')
--- nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', 'Diagnostics popup')
--- nmap_leader('lf', formatting_cmd, 'Format')
--- nmap_leader('li', '<Cmd>lua vim.lsp.buf.hover()<CR>', 'Information')
--- nmap_leader('lj', '<Cmd>lua vim.diagnostic.goto_next()<CR>', 'Next diagnostic')
--- nmap_leader('lk', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', 'Prev diagnostic')
--- nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>', 'References')
--- nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>', 'Rename')
--- nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>', 'Source definition')
--- xmap_leader('lf', formatting_cmd, 'Format selection')
-
 -- L is for 'Lua'
 nmap_leader('Lc', '<Cmd>lua Config.log_clear()<CR>', 'Clear log')
 nmap_leader('LL', '<Cmd>luafile %<CR><Cmd>echo "Sourced lua"<CR>', 'Source buffer')
@@ -204,42 +149,6 @@ nmap_leader('mo', '<Cmd>lua MiniMap.open()<CR>', 'Open')
 nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>', 'Refresh')
 nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>', 'Side (toggle)')
 nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>', 'Toggle')
-
--- o is for 'other'
-local trailspace_toggle_command = '<Cmd>lua vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable<CR>'
-nmap_leader('oC', '<Cmd>lua MiniCursorword.toggle()<CR>', 'Cursor word hl toggle')
-nmap_leader('od', '<Cmd>Neogen<CR>', 'Document')
-nmap_leader('oh', '<Cmd>normal gxiagxila<CR>', 'Move arg left')
-nmap_leader('oH', '<Cmd>TSBufToggle highlight<CR>', 'Highlight toggle')
-nmap_leader('og', '<Cmd>lua MiniDoc.generate()<CR>', 'Generate plugin doc')
-nmap_leader('ol', '<Cmd>normal gxiagxina<CR>', 'Move arg right')
-nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
-nmap_leader('oS', '<Cmd>lua Config.insert_section()<CR>', 'Section insert')
-nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>', 'Trim trailspace')
-nmap_leader('oT', trailspace_toggle_command, 'Trailspace hl toggle')
-nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>', 'Zoom toggle')
-
--- t is for 'terminal' (uses 'neoterm') and 'minitest'
-nmap_leader('ta', '<Cmd>lua MiniTest.run()<CR>', 'Test run all')
-nmap_leader('tf', '<Cmd>lua MiniTest.run_file()<CR>', 'Test run file')
-nmap_leader('tl', '<Cmd>lua MiniTest.run_at_location()<CR>', 'Test run location')
-nmap_leader('ts', '<Cmd>lua Config.minitest_screenshots.browse()<CR>', 'Test show screenshot')
-
--- T is for 'test'
-nmap_leader('TF', '<Cmd>TestFile -strategy=make | copen<CR>', 'File (quickfix)')
-nmap_leader('Tf', '<Cmd>TestFile<CR>', 'File')
-nmap_leader('TL', '<Cmd>TestLast -strategy=make | copen<CR>', 'Last (quickfix)')
-nmap_leader('Tl', '<Cmd>TestLast<CR>', 'Last')
-nmap_leader('TN', '<Cmd>TestNearest -strategy=make | copen<CR>', 'Nearest (quickfix)')
-nmap_leader('Tn', '<Cmd>TestNearest<CR>', 'Nearest')
-nmap_leader('TS', '<Cmd>TestSuite -strategy=make | copen<CR>', 'Suite (quickfix)')
-nmap_leader('Ts', '<Cmd>TestSuite<CR>', 'Suite')
-
--- v is for 'visits'
-nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>', 'Add "core" label')
-nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
-nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>', 'Add label')
-nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>', 'Remove label')
 
 vim.keymap.set('n', '<C-W>:', function()
   vim.ui.input({
