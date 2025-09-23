@@ -18,13 +18,13 @@ vim.schedule(function()
   -- pick
   require('mini.pick').setup()
   require('mini.extra').setup()
-  ---@diagnostic disable: undefined-global
+  -- -@diagnostic disable: undefined-global
   MiniPick.registry.projects = function()
     local cwd = vim.fn.expand('~/git')
     local choose = function(item)
       vim.schedule(function() MiniPick.builtin.files(nil, { source = { cwd = item.path } }) end)
     end
-    return MiniPick.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
+    return MiniExtra.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
   end
 
   require('copilot').setup({

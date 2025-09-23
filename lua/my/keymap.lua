@@ -54,11 +54,6 @@ vim.keymap.set('n', '<leader>=', 'gggqG')
 -- Shorter version of the most frequent way of going outside of terminal window
 vim.keymap.set('t', '<C-h>', [[<C-\><C-N><C-w>h]])
 
--- Paste before/after linewise
-local cmd = vim.fn.has('nvim-0.12') == 1 and 'iput' or 'put'
-vim.keymap.set({ 'n', 'x' }, '[p', '<Cmd>exe "' .. cmd .. '! " . v:register<CR>', { desc = 'Paste Above' })
-vim.keymap.set({ 'n', 'x' }, ']p', '<Cmd>exe "' .. cmd .. ' "  . v:register<CR>', { desc = 'Paste Below' })
-
 -- Leader mappings ============================================================
 -- stylua: ignore start
 
