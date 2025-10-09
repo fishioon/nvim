@@ -18,7 +18,7 @@ vim.schedule(function()
   -- pick
   require('mini.pick').setup()
   require('mini.extra').setup()
-  -- -@diagnostic disable: undefined-global
+
   MiniPick.registry.projects = function()
     local cwd = vim.fn.expand('~/git')
     local choose = function(item)
@@ -98,6 +98,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
+vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
+vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
+vim.api.nvim_create_user_command('SSH', function(opts)
+  local ssh_cmd = "ssh " .. opts.args
+  vim.cmd("tabnew | terminal " .. ssh_cmd)
+  vim.cmd([[startinsert]])
+end, {
+  nargs = '+',
+  complete = 'file',
+  desc = "ssh to host in new tab",
+})
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'c', 'lua', 'javascript', 'yaml', 'helm', 'json' },
   callback = function()
@@ -113,24 +126,14 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function() vim.treesitter.start() end,
 })
 
--- -@diagnostic disable-next-line: param-type-mismatch
-vim.api.nvim_create_autocmd('TabNewEntered', {
+vim.api.nvim_create_autocmd({ 'TabNew' }, {
   pattern = "*",
   callback = function()
-    vim.cmd("silent! Gcd")
+    vim.api.nvim_create_autocmd("BufEnter", {
+      once = true,
+      callback = function()
+        vim.cmd("silent! Gcd")
+      end
+    })
   end
-})
-
-vim.api.nvim_create_user_command('Gcd', 'silent tcd %:h | silent tcd `git root` | pwd', {})
-vim.api.nvim_create_user_command('CopyName', ':let @+ = expand("%:p")', {})
-vim.api.nvim_create_user_command('JJ', 'silent tabfirst | silent edit ~/Documents/note/tmp.md | silent tcd %:h', {})
-
-vim.api.nvim_create_user_command('SSH', function(opts)
-  local ssh_cmd = "ssh " .. opts.args
-  vim.cmd("tabnew | terminal " .. ssh_cmd)
-  vim.cmd([[startinsert]])
-end, {
-  nargs = '+',       -- 接受至少一个参数
-  complete = 'file', -- 路径自动补全
-  desc = "在新标签页执行 SSH 连接"
 })

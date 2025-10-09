@@ -12,7 +12,9 @@ vim.o.splitbelow     = true
 vim.o.splitright     = true
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
+vim.o.autocomplete   = true
 vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
+vim.o.acl = 300
 
 require('vim._extui').enable({
   enable = true,
