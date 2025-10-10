@@ -66,7 +66,7 @@ vim.schedule(function()
   vim.lsp.config('tsls',
     { cmd = { 'typescript-language-server', '--stdio' }, filetypes = { 'javascript', 'typescript' } })
   vim.lsp.config('yamls', { cmd = { 'yaml-language-server', '--stdio' }, filetypes = { 'yaml' } })
-  vim.lsp.enable({ 'luals', 'gopls', 'tsls' })
+  vim.lsp.enable({ 'luals', 'gopls', 'tsls', 'jsonls' })
 
   require('nvim-treesitter').install { 'go', 'markdown', 'markdown_inline', 'javascript', 'typescript', 'json', 'yaml', 'lua' }
   require('nvim-treesitter').setup({

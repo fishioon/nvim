@@ -1,4 +1,9 @@
 -- Define main config table to be able to use it in scripts
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 vim.g.mapleader      = ' '
 vim.o.mouse          = 'a'
 vim.o.cursorline     = true
