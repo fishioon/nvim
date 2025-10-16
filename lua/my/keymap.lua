@@ -79,8 +79,8 @@ nmap_leader('ek', edit_config_file('keymap.lua'), 'neovim config')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 vim.keymap.set({ 'n', 't' }, '<c-.>', function() Config.term_open(true) end, { desc = 'Toggle terminal' })
-nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle terminal command')
-nmap_leader('cx', function() Config.term_open(true, 'codex', 'vsplit') end, 'Toggle terminal command')
+nmap_leader('cc', function() Config.term_open(true, 'claude', 'vsplit') end, 'Toggle claude')
+nmap_leader('cx', function() Config.term_open(true, 'codex', 'vsplit') end, 'Toggle codex')
 nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
 
 -- f is for 'fuzzy find'

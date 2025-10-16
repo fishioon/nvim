@@ -1,8 +1,13 @@
 {
   "plugins": {
-    "copilot.lua": [],
-    "mini.nvim": [],
+    "copilot.lua": {
+      "rev": "92e08cd"
+    },
+    "mini.nvim": {
+      "rev": "5e1dd6e"
+    },
     "nvim-treesitter": {
+      "rev": "0606c7a9",
       "version": "'main'"
     }
   }

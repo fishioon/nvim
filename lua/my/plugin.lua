@@ -62,7 +62,7 @@ vim.schedule(function()
   vim.lsp.config('*', {
     root_markers = { '.git' },
   })
-  vim.lsp.config('jsonls', { cmd = { 'vscode-json-languageserver', '--stdio' }, filetypes = { 'json' } })
+  vim.lsp.config('jsonls', { cmd = { 'vscode-json-language-server', '--stdio' }, filetypes = { 'json' } })
   vim.lsp.config('tsls',
     { cmd = { 'typescript-language-server', '--stdio' }, filetypes = { 'javascript', 'typescript' } })
   vim.lsp.config('yamls', { cmd = { 'yaml-language-server', '--stdio' }, filetypes = { 'yaml' } })
