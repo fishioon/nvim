@@ -4,10 +4,10 @@
       "rev": "92e08cd"
     },
     "mini.nvim": {
-      "rev": "5e1dd6e"
+      "rev": "e04b5c6"
     },
     "nvim-treesitter": {
-      "rev": "0606c7a9",
+      "rev": "71bf1665",
       "version": "'main'"
     }
   }
