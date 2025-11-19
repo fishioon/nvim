@@ -1,13 +1,12 @@
 {
   "plugins": {
-    "copilot.lua": {
-      "rev": "92e08cd"
-    },
     "mini.nvim": {
-      "rev": "e04b5c6"
+      "rev": "ee4a4a4",
+      "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-treesitter": {
-      "rev": "71bf1665",
+      "rev": "64f4755b",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     }
   }
