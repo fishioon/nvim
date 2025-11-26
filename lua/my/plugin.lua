@@ -10,6 +10,7 @@ vim.schedule(function()
   require('mini.surround').setup()
   require('mini.pairs').setup()
   require('mini.icons').setup()
+  require('mini.statusline').setup()
 
   -- pick
   local pick = require('mini.pick')

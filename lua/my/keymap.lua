@@ -12,17 +12,16 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 local function keymap_all(lhs, rhs, opt)
-  vim.keymap.set('n', lhs, rhs, opt)
   vim.keymap.set('t', lhs, '<C-\\><C-N>' .. rhs, opt)
   vim.keymap.set('i', lhs, '<Esc>' .. rhs, opt)
+  vim.keymap.set('n', lhs, rhs, opt)
 end
 
 for i = 1, 9 do
-  -- keymap_all('<leader>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
-  keymap_all('<M-' .. i .. '>', i .. 'gt', { desc = 'Go to tab ' .. i })
+  vim.keymap.set('n', '<space>'..i, i .. 'gt', { desc = 'Go to tab ' .. i })
 end
 -- keymap_all('<leader>0', '<CMD>tablast<CR>')
-keymap_all('<M-0>', '<CMD>tablast<CR>')
+-- keymap_all('<M-0>', '<CMD>tablast<CR>')
 
 keymap_all('<C-j>', '<C-w>w')
 keymap_all('<C-k>', '<C-w>W')
