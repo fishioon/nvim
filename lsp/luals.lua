@@ -5,7 +5,8 @@ return {
   settings = {
     Lua = {
       diagnostics = {
-        disable = {"luadoc-miss-see-name"},
+        -- disable = {"luadoc-miss-see-name"},
+        globals = {'MiniPick', 'MiniExtra'},
       },
       runtime = {
         version = 'LuaJIT',
@@ -15,8 +16,6 @@ return {
         library = {
           vim.env.VIMRUNTIME,
           "${3rd}/luv/library",
-          vim.fn.stdpath('data') .. '/lazy/snacks.nvim',
-          vim.fn.stdpath('data') .. '/lazy/mini.nvim',
         }
       }
     }

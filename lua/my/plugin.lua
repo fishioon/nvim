@@ -12,18 +12,15 @@ vim.schedule(function()
   require('mini.icons').setup()
   require('mini.statusline').setup()
 
-  -- pick
-  local pick = require('mini.pick')
-  local extra = require('mini.extra')
-  pick.setup()
-  extra.setup()
+  require('mini.pick').setup()
+  require('mini.extra').setup()
 
-  pick.registry.projects = function()
+  MiniPick.registry.projects = function()
     local cwd = vim.fn.expand('~/git')
     local choose = function(item)
-      vim.schedule(function() pick.builtin.files(nil, { source = { cwd = item.path } }) end)
+      vim.schedule(function() MiniPick.builtin.files(nil, { source = { cwd = item.path } }) end)
     end
-    return extra.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
+    return MiniExtra.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
   end
 
   -- lsp config

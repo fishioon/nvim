@@ -17,7 +17,7 @@ vim.o.splitbelow     = true
 vim.o.splitright     = true
 vim.o.tabstop        = 4
 vim.o.cmdheight      = 0
-vim.o.autocomplete   = true
+vim.o.autocomplete   = false
 vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
 vim.o.acl = 300
 

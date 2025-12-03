@@ -18,7 +18,7 @@ local function keymap_all(lhs, rhs, opt)
 end
 
 for i = 1, 9 do
-  vim.keymap.set('n', '<space>'..i, i .. 'gt', { desc = 'Go to tab ' .. i })
+  vim.keymap.set('n', '<space>' .. i, i .. 'gt', { desc = 'Go to tab ' .. i })
 end
 -- keymap_all('<leader>0', '<CMD>tablast<CR>')
 -- keymap_all('<M-0>', '<CMD>tablast<CR>')
@@ -86,12 +86,22 @@ nmap_leader('cx', function() Config.term_open(true, 'codex', 'vsplit') end, 'Tog
 nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
 
 -- f is for 'fuzzy find'
-nmap_leader(' ', '<Cmd>Pick files<CR>', 'Files')
+-- nmap_leader(' ',  '<Cmd>Pick buffers<CR>', 'Buffers')
+nmap_leader(' ', function()
+  MiniPick.builtin.buffers(nil, {
+    mappings = {
+      wipeout = {
+        char = '<C-d>',
+        func = function() vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {}) end,
+      }
+    }
+  })
+end, 'Buffers')
 nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
+nmap_leader(';', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('f;', '<Cmd>Pick history scope=":"<CR>', '":" history')
-nmap_leader(';', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
 nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
 nmap_leader('fb', '<Cmd>Pick buffers<CR>', 'Buffers')
