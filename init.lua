@@ -21,11 +21,7 @@ vim.o.autocomplete   = false
 vim.o.completeopt    = 'menu,menuone,noinsert,fuzzy,popup'
 vim.o.acl = 300
 
-require('vim._extui').enable({
-  enable = true,
-  timeout = 5000,
-})
-
+require('vim._extui').enable({})
 require('my.function')
 require('my.plugin')
 require('my.keymap')

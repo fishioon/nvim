@@ -45,7 +45,7 @@ Config.term_open = function(toggle, cmd, split)
   local suffix = ':' .. cmd
 
   -- Check if 'claude' is already open
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     local buf = vim.api.nvim_win_get_buf(win)
     local name = vim.api.nvim_buf_get_name(buf)
     if vim.startswith(name, 'term://') and vim.endswith(name, suffix) then
