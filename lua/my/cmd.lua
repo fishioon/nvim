@@ -56,8 +56,13 @@ local function handle_export(line)
 end
 
 local function envsubst(str)
-  local s = str:gsub("%$(%b{})", function(var)
-    return get_env(var:sub(2, -2), '${' .. var .. '}')
+  local s = str:gsub("{{(.-)}}", function(var)
+    local name = var:match("^%s*(.-)%s*$")
+    return get_env(name, "{{" .. name .. "}}")
+  end)
+  s = s:gsub("%${(.-)}", function(var)
+    local name = var:match("^%s*(.-)%s*$")
+    return get_env(name, "${" .. name .. "}")
   end)
   return s
 end

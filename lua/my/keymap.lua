@@ -30,6 +30,9 @@ vim.keymap.set('n', '<D-s>', '<Cmd>silent! write<CR>')
 vim.keymap.set('i', '<D-s>', '<Esc><Cmd>silent! update<CR>')
 vim.keymap.set('t', '<D-s>', '<C-\\><C-N>')
 
+
+vim.keymap.set({'n', 't'}, '<D-l>', function() Config.term_open(true, 'claude', 'vsplit') end)
+
 -- nmap_leader('db', function() Snacks.bufdelete() end, "Delete buffer")
 nmap_leader('d', '<cmd>Gcd<cr>', "Change directory to git root")
 nmap_leader('D', '<cmd>silent tcd %:h<cr>', "Change directory to file dir")
