@@ -89,17 +89,7 @@ nmap_leader('cx', function() Config.term_open(true, 'codex', 'vsplit') end, 'Tog
 nmap_leader('ss', function() Config.term_exec() end, 'Toggle terminal command')
 
 -- f is for 'fuzzy find'
--- nmap_leader(' ',  '<Cmd>Pick buffers<CR>', 'Buffers')
-nmap_leader(' ', function()
-  MiniPick.builtin.buffers(nil, {
-    mappings = {
-      wipeout = {
-        char = '<C-d>',
-        func = function() vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {}) end,
-      }
-    }
-  })
-end, 'Buffers')
+nmap_leader(' ', '<Cmd>Pick smart_files<CR>', 'Smart Files')
 nmap_leader('/', '<Cmd>Pick grep_live<CR>', 'Grep live')
 nmap_leader(';', '<Cmd>Pick history scope=":"<CR>', '":" history')
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>', '"/" history')

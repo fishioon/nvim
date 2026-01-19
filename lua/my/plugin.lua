@@ -23,6 +23,15 @@ vim.schedule(function()
     return MiniExtra.pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
   end
 
+  MiniPick.registry.smart_files = function()
+    local show_with_icons = function(buf_id, items, query) MiniPick.default_show(buf_id, items, query,
+        { show_icons = true }) end
+    local cmd = { 'rg', '--files', '--color=never', '--sortr=modified' }
+    local cur_file = vim.fn.expand('%:t')
+    if cur_file ~= '' then table.insert(cmd, '--glob=!' .. cur_file) end
+    return MiniPick.builtin.cli({ command = cmd }, { source = { show = show_with_icons } })
+  end
+
   -- lsp config
   vim.diagnostic.config({ virtual_text = true })
 
